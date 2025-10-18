@@ -287,7 +287,6 @@ const ServicesSection = () => {
             whileTap={{ scale: 0.95 }}
             className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 shadow-lg"
           >
-            Get Started
           </motion.button> */}
         </motion.div>
       </div>
