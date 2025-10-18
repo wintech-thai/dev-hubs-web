@@ -98,7 +98,6 @@ const HeroSection = () => {
               whileTap={{ scale: 0.95 }}
               className="bg-transparent border-2 border-blue-500 hover:bg-blue-500 text-blue-400 hover:text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-full text-base sm:text-lg transition-all duration-300 w-full sm:w-auto"
             >
-              Contact Us
             </motion.button>
           </motion.div> */}
         </motion.div>
