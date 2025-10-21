@@ -86,7 +86,7 @@ const AboutSection = () => {
             viewport={{ once: true }}
             className="text-4xl md:text-5xl font-bold text-gray-800 mb-6"
           >
-            About <span className="text-blue-600">Dev Hub</span>
+            เกี่ยวกับ <span className="text-blue-600">Dev Hub</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
@@ -95,12 +95,11 @@ const AboutSection = () => {
             viewport={{ once: true }}
             className="text-xl text-gray-700 max-w-3xl mx-auto"
           >
-            At Dev Hub, we are a team of Programming and DevOps experts
-            passionate about building technology that solves real-world
-            problems. By leveraging our expertise in software development and
-            large-scale system operations, we&apos;ve created a solution that ensures
-            product authenticity, empowering consumers with confidence and
-            helping businesses protect their brand value.
+            ที่ Dev Hub เราเป็นทีมของผู้เชี่ยวชาญด้าน Programming และ DevOps
+            ที่มีความหลงใหลในการสร้างเทคโนโลยีที่แก้ไขปัญหาจริงในโลก
+            ด้วยการใช้ความเชี่ยวชาญของเราในการพัฒนาซอฟต์แวร์และการดำเนินงานระบบขนาดใหญ่
+            เราได้สร้างโซลูชันที่รับประกันความแท้ของผลิตภัณฑ์
+            ทำให้ผู้บริโภคมีความมั่นใจและช่วยธุรกิจปกป้องมูลค่าของแบรนด์
           </motion.p>
         </motion.div>
 
@@ -200,10 +199,9 @@ const AboutSection = () => {
             Our Mission
           </h3>
           <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
-            We leverage our expertise in Programming and DevOps to build secure,
-            user-friendly, and reliable product authenticity verification
-            technology — ensuring consumer confidence and protecting businesses
-            from counterfeits.
+            เราใช้ความเชี่ยวชาญในการพัฒนา Programming และ DevOps เพื่อสร้างเทคโนโลยีที่ปลอดภัย
+            เป็นมิตรกับผู้ใช้ และเชื่อถือได้ในการตรวจสอบความแท้ของผลิตภัณฑ์
+            เพื่อสร้างความมั่นใจให้กับผู้บริโภคและปกป้องธุรกิจจากการปลอมแปลง
           </p>
 
           {/* <motion.div

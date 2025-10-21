@@ -39,12 +39,11 @@ const Footer = () => {
   ];
 
   const services = [
-    "Customizable UI/UX",
-    "System Integration",
-    "QR Sticker Design for Products",
-    "Analytics & Insights",
-    "Scalability & Performance",
-    "Support & Maintenance"
+    "Container Orchestration",
+    "Custom Software Development",
+    "Enterprise Web Solutions",
+    "DevOps Engineering",
+    "Cloud Infrastructure"
   ]
 
   return (
@@ -174,7 +173,7 @@ const Footer = () => {
           className="mt-12 pt-8 border-t-2 border-gray-300 flex flex-col md:flex-row justify-between items-center"
         >
           <p className="text-gray-600 text-sm">
-            © {new Date().getFullYear()} Please Scan. All rights reserved.
+            © {new Date().getFullYear()} DevHub. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link href={AppRoute.privacy} className="text-gray-600 hover:text-blue-600 text-sm transition-colors font-medium">
