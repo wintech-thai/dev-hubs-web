@@ -52,9 +52,7 @@ const HeroSection = () => {
               animate={{ color: "#2563EB" }}
               transition={{ duration: 2, delay: 1.2 }}
               className="block"
-            >
-            
-            </motion.span>
+            ></motion.span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -64,8 +62,9 @@ const HeroSection = () => {
             transition={{ duration: 1, delay: 1.5 }}
             className="text-lg sm:text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed px-4"
           >
-            เราจะสร้างโลกที่ผู้บริโภคมั่นใจได้ในทุกการซื้อขาย
-            ด้วยเทคโนโลยีตรวจสอบความแท้ของสินค้าที่เชื่อถือได้และเข้าถึงง่าย
+            เราคือทีมผู้พัฒนาซอฟต์แวร์มืออาชีพของคนไทย
+            ที่มุ่งมั่นสร้างสรรค์เทคโนโลยีคุณภาพระดับสากล
+            เพื่อยกระดับมาตรฐานวงการซอฟต์แวร์ไทยให้ก้าวไกลอย่างยั่งยืน
           </motion.p>
 
           {/* Description */}
@@ -75,8 +74,9 @@ const HeroSection = () => {
             transition={{ duration: 1, delay: 3 }}
             className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4"
           >
-            To create a world where every purchase is trusted, through reliable
-            and accessible product authenticity verification technology
+            We are a team of Thai software professionals, dedicated to
+            delivering world-class technology solutions and elevating the Thai
+            software industry to global standards.
           </motion.p>
 
           {/* CTA Button */}

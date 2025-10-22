@@ -26,10 +26,7 @@ const Navbar = () => {
       name: "Privacy",
       link: AppRoute.privacy,
     },
-    {
-      name: "Status",
-      link: AppRoute.status,
-    },
+
   ];
 
   const handleMobileNavClick = (link: string) => {
@@ -96,15 +93,6 @@ const Navbar = () => {
                 </Link>
               ))}
 
-              <Link href={consoleUrl}>
-                <motion.span
-                  whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(59, 130, 246, 0.5)" }}
-                  whileTap={{ scale: 0.98 }}
-                  className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-2.5 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-200 inline-block ml-4"
-                >
-                  Login
-                </motion.span>
-              </Link>
             </div>
           </div>
 
