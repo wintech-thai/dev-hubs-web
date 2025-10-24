@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
+import Typewriter from "typewriter-effect";
 
 const HeroSection = () => {
   return (
@@ -46,7 +47,16 @@ const HeroSection = () => {
             transition={{ duration: 1, delay: 0.8 }}
             className="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-800 leading-tight"
           >
-            Dev<span className="text-blue-600">Hub</span>
+            <Typewriter
+              options={{
+                strings: ['Dev<span style="color:#2563EB;">Hub</span>'],
+                autoStart: true,
+                loop: true,
+                delay: 75,
+                deleteSpeed: 50,
+                wrapperClassName: "pl-2",
+              }}
+            />
             <motion.span
               initial={{ color: "#1F2937" }}
               animate={{ color: "#2563EB" }}

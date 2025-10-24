@@ -60,33 +60,33 @@ const ServicesSection = () => {
   const steps = [
     {
       icon: UserPlus,
-      title: "Get Started Instantly",
+      title: "Get in Touch / ติดต่อเรา",
       description:
-        "Sign up for your Please Scan account and access our intuitive dashboard within minutes.",
+        "เล่าให้ทีมเราเข้าใจความต้องการของคุณ: เป้าหมาย ธุรกิจ และปัญหาที่ต้องการแก้",
       color: "from-blue-500 to-cyan-500",
       step: "01",
     },
     {
       icon: Upload,
-      title: "Upload Your Products",
+      title: "Plan & Design / วางแผน & ออกแบบ",
       description:
-        "Simply upload your product information, images, and details to generate unique verification codes.",
+        "ทีมไทยผู้เชี่ยวชาญของเรา จะวิเคราะห์ UX/UI เทคโนโลยี และจัดโครงงานให้เหมาะกับคุณ",
       color: "from-purple-500 to-pink-500",
       step: "02",
     },
     {
       icon: QrCode,
-      title: "Generate Smart QR Codes",
+      title: "Develop & Test / พัฒนา & ทดสอบ",
       description:
-        "Our system automatically creates secure, tamper-proof QR codes tailored for each product.",
+        "เราเขียนโค้ดคุณภาพ พร้อมทำ QA, unit tests และตรวจสอบให้ระบบพร้อมใช้งานจริง",
       color: "from-green-500 to-emerald-500",
       step: "03",
     },
     {
       icon: Sparkles,
-      title: "Deploy & Protect",
+      title: "Launch & Support / ส่งมอบ & สนับสนุน",
       description:
-        "Apply the QR stickers to your products and watch your brand gain trust and authenticity instantly.",
+        "ส่งมอบโซลูชัน พร้อมการสนับสนุนหลังการขาย เพื่อให้ธุรกิจคุณเติบโตอย่างยั่งยืน",
       color: "from-orange-500 to-red-500",
       step: "04",
     },

@@ -26,10 +26,7 @@ const Footer = () => {
       name: "Privacy",
       link: AppRoute.privacy,
     },
-    {
-      name: "Status",
-      link: AppRoute.status,
-    },
+
   ];
 
   const contactInfo = [
