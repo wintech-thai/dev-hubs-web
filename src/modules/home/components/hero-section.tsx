@@ -3,15 +3,16 @@
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Image from "next/image";
+import Typewriter from "typewriter-effect";
 
 const HeroSection = () => {
   return (
     <section className="min-h-screen w-full flex items-center justify-center relative overflow-hidden pt-24 sm:pt-20 md:pt-0">
       {/* Background Animation */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute top-20 left-4 sm:left-10 w-60 sm:w-72 h-60 sm:h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        <div className="absolute top-40 right-4 sm:right-10 w-60 sm:w-72 h-60 sm:h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-8 sm:left-20 w-60 sm:w-72 h-60 sm:h-72 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-4000"></div>
+        <div className="absolute top-20 left-4 sm:left-10 w-60 sm:w-72 h-60 sm:h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
+        <div className="absolute top-40 right-4 sm:right-10 w-60 sm:w-72 h-60 sm:h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-8 sm:left-20 w-60 sm:w-72 h-60 sm:h-72 bg-cyan-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse animation-delay-4000"></div>
       </div>
 
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -31,8 +32,8 @@ const HeroSection = () => {
           >
             <div className="relative h-32 w-32 md:h-[200px] md:w-[200px]">
               <Image
-                src="/logo.png"
-                alt="Please Scan Logo"
+                src="/Devhub_logo.png"
+                alt="DevHub Logo"
                 fill
                 className="absolute object-cover"
               />
@@ -44,17 +45,24 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="text-4xl sm:text-5xl md:text-7xl font-bold text-white leading-tight"
+            className="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-800 leading-tight"
           >
-            Please
+            <Typewriter
+              options={{
+                strings: ['Dev<span style="color:#2563EB;">Hub</span>'],
+                autoStart: true,
+                loop: true,
+                delay: 75,
+                deleteSpeed: 50,
+                wrapperClassName: "pl-2",
+              }}
+            />
             <motion.span
-              initial={{ color: "#ffffff" }}
-              animate={{ color: "#60A5FA" }}
+              initial={{ color: "#1F2937" }}
+              animate={{ color: "#2563EB" }}
               transition={{ duration: 2, delay: 1.2 }}
               className="block"
-            >
-              Scan
-            </motion.span>
+            ></motion.span>
           </motion.h1>
 
           {/* Subtitle */}
@@ -62,10 +70,11 @@ const HeroSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 1.5 }}
-            className="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed px-4"
+            className="text-lg sm:text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed px-4"
           >
-            เราจะสร้างโลกที่ผู้บริโภคมั่นใจได้ในทุกการซื้อขาย
-            ด้วยเทคโนโลยีตรวจสอบความแท้ของสินค้าที่เชื่อถือได้และเข้าถึงง่าย
+            เราคือทีมผู้พัฒนาซอฟต์แวร์มืออาชีพของคนไทย
+            ที่มุ่งมั่นสร้างสรรค์เทคโนโลยีคุณภาพระดับสากล
+            เพื่อยกระดับมาตรฐานวงการซอฟต์แวร์ไทยให้ก้าวไกลอย่างยั่งยืน
           </motion.p>
 
           {/* Description */}
@@ -73,10 +82,11 @@ const HeroSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 3 }}
-            className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto px-4"
+            className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4"
           >
-            To create a world where every purchase is trusted, through reliable
-            and accessible product authenticity verification technology
+            We are a team of Thai software professionals, dedicated to
+            delivering world-class technology solutions and elevating the Thai
+            software industry to global standards.
           </motion.p>
 
           {/* CTA Button */}
@@ -96,9 +106,8 @@ const HeroSection = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-transparent border-2 border-blue-500 hover:bg-blue-500 text-blue-400 hover:text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-full text-base sm:text-lg transition-all duration-300 w-full sm:w-auto"
+              className="bg-transparent border-2 border-blue-500 hover:bg-blue-500 text-blue-600 hover:text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-full text-base sm:text-lg transition-all duration-300 w-full sm:w-auto"
             >
-              Contact Us
             </motion.button>
           </motion.div> */}
         </motion.div>
@@ -113,7 +122,7 @@ const HeroSection = () => {
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="text-gray-400"
+            className="text-gray-600"
           >
             <ChevronDown size={32} />
           </motion.div>

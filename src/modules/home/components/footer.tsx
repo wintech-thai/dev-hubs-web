@@ -26,10 +26,7 @@ const Footer = () => {
       name: "Privacy",
       link: AppRoute.privacy,
     },
-    {
-      name: "Status",
-      link: AppRoute.status,
-    },
+
   ];
 
   const contactInfo = [
@@ -39,16 +36,15 @@ const Footer = () => {
   ];
 
   const services = [
-    "Customizable UI/UX",
-    "System Integration",
-    "QR Sticker Design for Products",
-    "Analytics & Insights",
-    "Scalability & Performance",
-    "Support & Maintenance"
+    "Container Orchestration",
+    "Custom Software Development",
+    "Enterprise Web Solutions",
+    "DevOps Engineering",
+    "Cloud Infrastructure"
   ]
 
   return (
-    <footer className="relative bg-black/20 backdrop-blur-sm border-t border-white/10">
+    <footer className="relative bg-gradient-to-b from-gray-50 to-gray-100 border-t-2 border-blue-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
@@ -61,14 +57,14 @@ const Footer = () => {
           >
             <Link href="/">
               <Image
-                src="/logo.png"
-                alt="Please Scan Logo"
+                src="/Devhub_logo.png"
+                alt="Devhub Logo"
                 width={60}
                 height={40}
                 className="mr-2"
               />
             </Link>
-            <p className="text-gray-400 leading-relaxed">
+            <p className="text-gray-600 leading-relaxed">
               Your trusted partner for innovative technology solutions.
               We transform ideas into digital reality.
             </p>
@@ -81,7 +77,7 @@ const Footer = () => {
                     href={social.href}
                     whileHover={{ scale: 1.2, y: -2 }}
                     whileTap={{ scale: 0.9 }}
-                    className="w-10 h-10 bg-white/10 hover:bg-blue-600/20 rounded-lg flex items-center justify-center text-gray-400 hover:text-blue-400 transition-all duration-300"
+                    className="w-10 h-10 bg-white hover:bg-blue-600 rounded-lg flex items-center justify-center text-gray-600 hover:text-white transition-all duration-300 border border-gray-200 shadow-sm"
                     aria-label={social.label}
                   >
                     <IconComponent size={18} />
@@ -99,13 +95,13 @@ const Footer = () => {
             viewport={{ once: true }}
             className="space-y-4"
           >
-            <h3 className="text-lg font-semibold text-white">Services</h3>
+            <h3 className="text-lg font-semibold text-gray-800">Services</h3>
             <ul className="space-y-2">
               {services.map((service, index) => (
                 <motion.li
                   key={index}
                   whileHover={{ x: 5 }}
-                  className="text-gray-400 hover:text-blue-400 cursor-pointer transition-colors"
+                  className="text-gray-600 hover:text-blue-600 cursor-pointer transition-colors"
                 >
                   {service}
                 </motion.li>
@@ -121,13 +117,13 @@ const Footer = () => {
             viewport={{ once: true }}
             className="space-y-4"
           >
-            <h3 className="text-lg font-semibold text-white">Quick Links</h3>
+            <h3 className="text-lg font-semibold text-gray-800">Quick Links</h3>
             <ul className="space-y-2">
               {links.map((link, index) => (
                 <motion.li
                   key={index}
                   whileHover={{ x: 5 }}
-                  className="text-gray-400 hover:text-blue-400 cursor-pointer transition-colors"
+                  className="text-gray-600 hover:text-blue-600 cursor-pointer transition-colors"
                 >
                   <Link href={link.link}>
                     {link.name}
@@ -145,7 +141,7 @@ const Footer = () => {
             viewport={{ once: true }}
             className="space-y-4"
           >
-            <h3 className="text-lg font-semibold text-white">Contact</h3>
+            <h3 className="text-lg font-semibold text-gray-800">Contact</h3>
             <div className="space-y-3">
               {contactInfo.map((contact, index) => {
                 const IconComponent = contact.icon;
@@ -154,9 +150,9 @@ const Footer = () => {
                     key={index}
                     href={contact.href}
                     whileHover={{ x: 5 }}
-                    className="flex items-center space-x-3 text-gray-400 hover:text-blue-400 transition-colors group"
+                    className="flex items-center space-x-3 text-gray-600 hover:text-blue-600 transition-colors group"
                   >
-                    <IconComponent size={16} className="group-hover:text-blue-400 flex-shrink-0" />
+                    <IconComponent size={16} className="group-hover:text-blue-600 flex-shrink-0" />
                     <span className="text-sm">{contact.text}</span>
                   </motion.a>
                 );
@@ -171,16 +167,16 @@ const Footer = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
           viewport={{ once: true }}
-          className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center"
+          className="mt-12 pt-8 border-t-2 border-gray-300 flex flex-col md:flex-row justify-between items-center"
         >
-          <p className="text-gray-400 text-sm">
-            © {new Date().getFullYear()} Please Scan. All rights reserved.
+          <p className="text-gray-600 text-sm">
+            © {new Date().getFullYear()} DevHub. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link href={AppRoute.privacy} className="text-gray-400 hover:text-blue-400 text-sm transition-colors">
+            <Link href={AppRoute.privacy} className="text-gray-600 hover:text-blue-600 text-sm transition-colors font-medium">
               Privacy Policy
             </Link>
-            <Link href="#" className="text-gray-400 hover:text-blue-400 text-sm transition-colors">
+            <Link href="#" className="text-gray-600 hover:text-blue-600 text-sm transition-colors font-medium">
               Terms of Service
             </Link>
           </div>
@@ -189,7 +185,7 @@ const Footer = () => {
 
       {/* Background decoration */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-cyan-600"></div>
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500"></div>
       </div>
     </footer>
   );

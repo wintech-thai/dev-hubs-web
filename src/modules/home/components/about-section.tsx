@@ -69,7 +69,7 @@ const AboutSection = () => {
   };
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8" id="about">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-blue-50/50 to-white" id="about">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -84,23 +84,22 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold text-white mb-6"
+            className="text-4xl md:text-5xl font-bold text-gray-800 mb-6"
           >
-            About <span className="text-blue-400">Please Scan</span>
+            เกี่ยวกับ <span className="text-blue-600">Dev Hub</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
-            className="text-xl text-gray-300 max-w-3xl mx-auto"
+            className="text-xl text-gray-700 max-w-3xl mx-auto"
           >
-            At Please-Scan, we are a team of Programming and DevOps experts
-            passionate about building technology that solves real-world
-            problems. By leveraging our expertise in software development and
-            large-scale system operations, we&apos;ve created a solution that ensures
-            product authenticity, empowering consumers with confidence and
-            helping businesses protect their brand value.
+            ที่ Dev Hub เราเป็นทีมของผู้เชี่ยวชาญด้าน Programming และ DevOps
+            ที่มีความหลงใหลในการสร้างเทคโนโลยีที่แก้ไขปัญหาจริงในโลก
+            ด้วยการใช้ความเชี่ยวชาญของเราในการพัฒนาซอฟต์แวร์และการดำเนินงานระบบขนาดใหญ่
+            เราได้สร้างโซลูชันที่รับประกันความแท้ของผลิตภัณฑ์
+            ทำให้ผู้บริโภคมีความมั่นใจและช่วยธุรกิจปกป้องมูลค่าของแบรนด์
           </motion.p>
         </motion.div>
 
@@ -114,17 +113,17 @@ const AboutSection = () => {
             className="space-y-8"
           >
             <div>
-              <h3 className="text-3xl font-bold text-white mb-6">
+              <h3 className="text-3xl font-bold text-gray-800 mb-6">
                 เทคโนโลยีครบวงจร <br />
-                <span className="text-blue-400">ประสบการณ์ยาวนาน</span>
+                <span className="text-blue-600">ประสบการณ์ยาวนาน</span>
               </h3>
-              <p className="text-gray-300 text-lg leading-relaxed mb-6">
+              <p className="text-gray-700 text-lg leading-relaxed mb-6">
                 ด้วยประสบการณ์มากกว่า 10 ปีในวงการพัฒนาซอฟต์แวร์
                 เรามีความเชี่ยวชาญในการสร้างโซลูชันเทคโนโลยี ที่ครอบคลุมทุกด้าน
                 ตั้งแต่การพัฒนาเว็บไซต์ แอปพลิเคชัน API จนถึงการจัดการระบบ
                 DevOps
               </p>
-              <p className="text-gray-300 text-lg leading-relaxed">
+              <p className="text-gray-700 text-lg leading-relaxed">
                 เราเข้าใจความต้องการของธุรกิจสมัยใหม่ที่ต้องการการพัฒนาที่รวดเร็ว
                 มีคุณภาพ และสามารถปรับขนาดได้ตามการเติบโตของธุรกิจ
               </p>
@@ -147,7 +146,7 @@ const AboutSection = () => {
                   <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
                     <CheckCircle className="w-4 h-4 text-white" />
                   </div>
-                  <span className="text-gray-300">{feature}</span>
+                  <span className="text-gray-700 font-medium">{feature}</span>
                 </motion.div>
               ))}
             </motion.div>
@@ -167,18 +166,18 @@ const AboutSection = () => {
                 <motion.div
                   key={index}
                   whileHover={{ y: -10, scale: 1.02 }}
-                  className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-blue-400/30 transition-all duration-300 text-center"
+                  className="bg-white rounded-2xl p-6 border-2 border-blue-100 hover:border-blue-400 hover:shadow-xl transition-all duration-300 text-center"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                     <IconComponent className="w-6 h-6 text-white" />
                   </div>
-                  <div className="text-3xl font-bold text-white mb-2">
+                  <div className="text-3xl font-bold text-gray-800 mb-2">
                     {stat.number}
                   </div>
-                  <div className="text-blue-400 font-medium mb-1">
+                  <div className="text-blue-600 font-semibold mb-1">
                     {stat.label}
                   </div>
-                  <div className="text-gray-400 text-sm">
+                  <div className="text-gray-600 text-sm">
                     {stat.description}
                   </div>
                 </motion.div>
@@ -193,17 +192,16 @@ const AboutSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center bg-gradient-to-br from-blue-900/20 to-purple-900/20 rounded-3xl p-8 md:p-12 backdrop-blur-sm border border-white/10"
+          className="text-center bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-8 md:p-12 border-2 border-blue-200"
         >
-          <Target className="w-16 h-16 text-blue-400 mx-auto mb-6" />
-          <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">
+          <Target className="w-16 h-16 text-blue-600 mx-auto mb-6" />
+          <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
             Our Mission
           </h3>
-          <p className="text-lg text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            We leverage our expertise in Programming and DevOps to build secure,
-            user-friendly, and reliable product authenticity verification
-            technology — ensuring consumer confidence and protecting businesses
-            from counterfeits.
+          <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
+            เราใช้ความเชี่ยวชาญในการพัฒนา Programming และ DevOps เพื่อสร้างเทคโนโลยีที่ปลอดภัย
+            เป็นมิตรกับผู้ใช้ และเชื่อถือได้ในการตรวจสอบความแท้ของผลิตภัณฑ์
+            เพื่อสร้างความมั่นใจให้กับผู้บริโภคและปกป้องธุรกิจจากการปลอมแปลง
           </p>
 
           {/* <motion.div
@@ -216,7 +214,7 @@ const AboutSection = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 shadow-lg"
+              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 shadow-lg"
             >
               Learn More About Us
             </motion.button>

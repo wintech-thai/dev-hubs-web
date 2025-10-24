@@ -1,83 +1,95 @@
 "use client";
 
-import { motion } from 'framer-motion';
-import { Palette, Puzzle, QrCode, BarChart3, Zap, HeadphonesIcon, UserPlus, Upload, Sparkles } from 'lucide-react';
+import { motion } from "framer-motion";
+import {
+  Code,
+  Container,
+  Globe,
+  Settings,
+  Cloud,
+  UserPlus,
+  Upload,
+  QrCode,
+  Sparkles,
+} from "lucide-react";
 
 const ServicesSection = () => {
   const services = [
     {
-      icon: Palette,
-      title: 'Customizable UI/UX',
-      description: 'Tailored verification screens to match your brand and business needs.',
-      color: 'blue',
-      gradient: 'from-blue-500 to-cyan-500'
+      icon: Container,
+      title: "Container Orchestration",
+      description:
+        "จัดการและปรับขนาดคอนเทนเนอร์ด้วย Kubernetes ที่มีประสิทธิภาพสูง เพื่อความยืดหยุ่นและเสถียรภาพของระบบ",
+      color: "blue",
+      gradient: "from-blue-500 to-cyan-500",
     },
     {
-      icon: Puzzle,
-      title: 'System Integration',
-      description: 'Seamless integration with ERP, E-commerce, and backend systems.',
-      color: 'purple',
-      gradient: 'from-purple-500 to-pink-500'
+      icon: Code,
+      title: "Custom Software Development",
+      description:
+        "พัฒนาแอปพลิเคชันและซอฟต์แวร์ที่ตอบโจทย์ธุรกิจ ด้วยเทคโนโลยีที่ทันสมัยและโค้ดที่มีคุณภาพสูง",
+      color: "purple",
+      gradient: "from-purple-500 to-pink-500",
     },
     {
-      icon: QrCode,
-      title: 'QR Sticker Design for Products',
-      description: 'Custom QR code stickers made for your products and promotions.',
-      color: 'green',
-      gradient: 'from-green-500 to-emerald-500'
+      icon: Globe,
+      title: "Enterprise Web Solutions",
+      description:
+        "สร้างเว็บแอปพลิเคชันที่ตอบสนองและมีประสิทธิภาพ พร้อมประสบการณ์ผู้ใช้งานที่ยอดเยี่ยม",
+      color: "green",
+      gradient: "from-green-500 to-emerald-500",
     },
     {
-      icon: BarChart3,
-      title: 'Analytics & Insights',
-      description: 'Real-time reports and scan analytics to track authenticity and prevent counterfeits',
-      color: 'orange',
-      gradient: 'from-orange-500 to-red-500'
+      icon: Settings,
+      title: "DevOps Engineering",
+      description:
+        "บูรณาการกระบวนการพัฒนาและการให้บริการ เพื่อประสิทธิภาพสูงสุดและความต่อเนื่องของระบบ",
+      color: "orange",
+      gradient: "from-orange-500 to-red-500",
     },
     {
-      icon: Zap,
-      title: 'Scalability & Performance',
-      description: 'Built to scale with your business and handle high transaction volumes.',
-      color: 'yellow',
-      gradient: 'from-yellow-500 to-orange-500'
+      icon: Cloud,
+      title: "Cloud Infrastructure",
+      description:
+        "โซลูชันคลาวด์ที่ครบครัน ปลอดภัย และปรับขนาดได้ตามความต้องการ เพื่อความอยู่รอดในยุคดิจิทัล",
+      color: "teal",
+      gradient: "from-teal-500 to-cyan-500",
     },
-    {
-      icon: HeadphonesIcon,
-      title: 'Support & Maintenance',
-      description: 'Continuous system monitoring and expert DevOps support.',
-      color: 'teal',
-      gradient: 'from-teal-500 to-cyan-500'
-    }
   ];
 
   const steps = [
     {
       icon: UserPlus,
-      title: 'Get Started Instantly',
-      description: 'Sign up for your Please Scan account and access our intuitive dashboard within minutes.',
-      color: 'from-blue-500 to-cyan-500',
-      step: '01'
+      title: "Get in Touch / ติดต่อเรา",
+      description:
+        "เล่าให้ทีมเราเข้าใจความต้องการของคุณ: เป้าหมาย ธุรกิจ และปัญหาที่ต้องการแก้",
+      color: "from-blue-500 to-cyan-500",
+      step: "01",
     },
     {
       icon: Upload,
-      title: 'Upload Your Products',
-      description: 'Simply upload your product information, images, and details to generate unique verification codes.',
-      color: 'from-purple-500 to-pink-500',
-      step: '02'
+      title: "Plan & Design / วางแผน & ออกแบบ",
+      description:
+        "ทีมไทยผู้เชี่ยวชาญของเรา จะวิเคราะห์ UX/UI เทคโนโลยี และจัดโครงงานให้เหมาะกับคุณ",
+      color: "from-purple-500 to-pink-500",
+      step: "02",
     },
     {
       icon: QrCode,
-      title: 'Generate Smart QR Codes',
-      description: 'Our system automatically creates secure, tamper-proof QR codes tailored for each product.',
-      color: 'from-green-500 to-emerald-500',
-      step: '03'
+      title: "Develop & Test / พัฒนา & ทดสอบ",
+      description:
+        "เราเขียนโค้ดคุณภาพ พร้อมทำ QA, unit tests และตรวจสอบให้ระบบพร้อมใช้งานจริง",
+      color: "from-green-500 to-emerald-500",
+      step: "03",
     },
     {
       icon: Sparkles,
-      title: 'Deploy & Protect',
-      description: 'Apply the QR stickers to your products and watch your brand gain trust and authenticity instantly.',
-      color: 'from-orange-500 to-red-500',
-      step: '04'
-    }
+      title: "Launch & Support / ส่งมอบ & สนับสนุน",
+      description:
+        "ส่งมอบโซลูชัน พร้อมการสนับสนุนหลังการขาย เพื่อให้ธุรกิจคุณเติบโตอย่างยั่งยืน",
+      color: "from-orange-500 to-red-500",
+      step: "04",
+    },
   ];
 
   const containerVariants = {
@@ -85,9 +97,9 @@ const ServicesSection = () => {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3
-      }
-    }
+        staggerChildren: 0.3,
+      },
+    },
   };
 
   const itemVariants = {
@@ -96,13 +108,13 @@ const ServicesSection = () => {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8
-      }
-    }
+        duration: 0.8,
+      },
+    },
   };
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8" id="services">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-white" id="services">
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
         <motion.div
@@ -117,18 +129,18 @@ const ServicesSection = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold text-white mb-6"
+            className="text-4xl md:text-5xl font-bold text-gray-800 mb-6"
           >
-            Our <span className="text-blue-400">Services</span>
+            Our <span className="text-blue-600">Services</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
-            className="text-xl text-gray-300 max-w-3xl mx-auto"
+            className="text-xl text-gray-700 max-w-3xl mx-auto"
           >
-            We provide comprehensive technology solutions to help your business thrive in the digital world
+            เรามอบโซลูชันเทคโนโลยีที่ครอบคลุมเพื่อช่วยให้ธุรกิจของคุณเติบโตในโลกดิจิทัล
           </motion.p>
         </motion.div>
 
@@ -138,51 +150,167 @@ const ServicesSection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20"
+          className="mb-20"
         >
-          {services.map((service, index) => {
-            const IconComponent = service.icon;
-            return (
-              <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="group relative"
-              >
-                <div className="relative p-8 bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300 h-full">
-                  {/* Gradient Background on Hover */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-300`}></div>
+          {/* Desktop Layout - 2-3-2 arrangement */}
+          <div className="hidden lg:block">
+            <div className="max-w-7xl mx-auto">
+              {/* First Row - 2 services */}
+              <div className="grid grid-cols-2 gap-8 mb-8 max-w-4xl mx-auto">
+                {services.slice(0, 2).map((service, index) => {
+                  const IconComponent = service.icon;
+                  return (
+                    <motion.div
+                      key={index}
+                      variants={itemVariants}
+                      whileHover={{ y: -12, scale: 1.03 }}
+                      className="group relative"
+                    >
+                      <div className="relative p-10 bg-white rounded-3xl border-2 border-gray-200 hover:border-blue-400 hover:shadow-2xl transition-all duration-500 h-full flex flex-col">
+                        {/* Gradient Background on Hover */}
+                        <div
+                          className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-8 rounded-3xl transition-opacity duration-500`}
+                        ></div>
 
-                  {/* Icon */}
+                        {/* Icon */}
+                        <motion.div
+                          whileHover={{ scale: 1.15, rotate: 8 }}
+                          className="relative mb-8 self-start"
+                        >
+                          <div
+                            className={`w-20 h-20 bg-gradient-to-br ${service.gradient} rounded-2xl flex items-center justify-center shadow-xl`}
+                          >
+                            <IconComponent className="w-10 h-10 text-white" />
+                          </div>
+                        </motion.div>
+
+                        {/* Content */}
+                        <div className="relative flex-1 flex flex-col">
+                          <h3 className="text-2xl font-bold text-gray-800 mb-6 group-hover:text-blue-600 transition-colors">
+                            {service.title}
+                          </h3>
+                          <p className="text-gray-600 leading-relaxed text-lg flex-1">
+                            {service.description}
+                          </p>
+                        </div>
+
+                        {/* Hover Effect */}
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileHover={{ width: "100%" }}
+                          className={`absolute bottom-0 left-0 h-2 bg-gradient-to-r ${service.gradient} rounded-full`}
+                        />
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+
+              {/* Second Row - 3 services */}
+              <div className="grid grid-cols-3 gap-8 max-w-6xl mx-auto">
+                {services.slice(2, 5).map((service, index) => {
+                  const IconComponent = service.icon;
+                  return (
+                    <motion.div
+                      key={index + 2}
+                      variants={itemVariants}
+                      whileHover={{ y: -12, scale: 1.03 }}
+                      className="group relative"
+                    >
+                      <div className="relative p-8 bg-white rounded-3xl border-2 border-gray-200 hover:border-blue-400 hover:shadow-2xl transition-all duration-500 h-full flex flex-col">
+                        {/* Gradient Background on Hover */}
+                        <div
+                          className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-8 rounded-3xl transition-opacity duration-500`}
+                        ></div>
+
+                        {/* Icon */}
+                        <motion.div
+                          whileHover={{ scale: 1.15, rotate: 8 }}
+                          className="relative mb-6 self-start"
+                        >
+                          <div
+                            className={`w-16 h-16 bg-gradient-to-br ${service.gradient} rounded-xl flex items-center justify-center shadow-lg`}
+                          >
+                            <IconComponent className="w-8 h-8 text-white" />
+                          </div>
+                        </motion.div>
+
+                        {/* Content */}
+                        <div className="relative flex-1 flex flex-col">
+                          <h3 className="text-xl font-bold text-gray-800 mb-4 group-hover:text-blue-600 transition-colors">
+                            {service.title}
+                          </h3>
+                          <p className="text-gray-600 leading-relaxed flex-1">
+                            {service.description}
+                          </p>
+                        </div>
+
+                        {/* Hover Effect */}
+                        <motion.div
+                          initial={{ width: 0 }}
+                          whileHover={{ width: "100%" }}
+                          className={`absolute bottom-0 left-0 h-2 bg-gradient-to-r ${service.gradient} rounded-full`}
+                        />
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile/Tablet Layout */}
+          <div className="lg:hidden">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto px-4">
+              {services.map((service, index) => {
+                const IconComponent = service.icon;
+                return (
                   <motion.div
-                    whileHover={{ scale: 1.1, rotate: 5 }}
-                    className="relative mb-6"
+                    key={index}
+                    variants={itemVariants}
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    className="group relative"
                   >
-                    <div className={`w-16 h-16 bg-gradient-to-br ${service.gradient} rounded-xl flex items-center justify-center shadow-lg`}>
-                      <IconComponent className="w-8 h-8 text-white" />
+                    <div className="relative p-8 bg-white rounded-2xl border-2 border-gray-200 hover:border-blue-400 hover:shadow-2xl transition-all duration-300 h-full">
+                      {/* Gradient Background on Hover */}
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-300`}
+                      ></div>
+
+                      {/* Icon */}
+                      <motion.div
+                        whileHover={{ scale: 1.1, rotate: 5 }}
+                        className="relative mb-6"
+                      >
+                        <div
+                          className={`w-16 h-16 bg-gradient-to-br ${service.gradient} rounded-xl flex items-center justify-center shadow-lg`}
+                        >
+                          <IconComponent className="w-8 h-8 text-white" />
+                        </div>
+                      </motion.div>
+
+                      {/* Content */}
+                      <div className="relative">
+                        <h3 className="text-xl font-bold text-gray-800 mb-4 group-hover:text-blue-600 transition-colors">
+                          {service.title}
+                        </h3>
+                        <p className="text-gray-600 leading-relaxed">
+                          {service.description}
+                        </p>
+                      </div>
+
+                      {/* Hover Effect */}
+                      <motion.div
+                        initial={{ width: 0 }}
+                        whileHover={{ width: "100%" }}
+                        className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r ${service.gradient} rounded-full`}
+                      />
                     </div>
                   </motion.div>
-
-                  {/* Content */}
-                  <div className="relative">
-                    <h3 className="text-xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors">
-                      {service.title}
-                    </h3>
-                    <p className="text-gray-400 leading-relaxed">
-                      {service.description}
-                    </p>
-                  </div>
-
-                  {/* Hover Effect */}
-                  <motion.div
-                    initial={{ width: 0 }}
-                    whileHover={{ width: '100%' }}
-                    className={`absolute bottom-0 left-0 h-1 bg-gradient-to-r ${service.gradient} rounded-full`}
-                  />
-                </div>
-              </motion.div>
-            );
-          })}
+                );
+              })}
+            </div>
+          </div>
         </motion.div>
 
         {/* How It Works Section */}
@@ -191,7 +319,7 @@ const ServicesSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="mb-20"
+          className="mb-20 bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-8 md:p-12"
         >
           {/* Section Header */}
           <div className="text-center mb-16">
@@ -200,16 +328,16 @@ const ServicesSection = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-bold text-white mb-6"
+              className="text-4xl md:text-5xl font-bold text-gray-800 mb-6"
             >
-              How It <span className="text-blue-400">Works</span>
+              How It <span className="text-blue-600">Works</span>
             </motion.h2>
             <motion.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}
-              className="text-xl text-gray-300 max-w-3xl mx-auto"
+              className="text-xl text-gray-700 max-w-3xl mx-auto"
             >
               Get your products protected and verified in just four simple steps
             </motion.p>
@@ -232,7 +360,7 @@ const ServicesSection = () => {
                 >
                   {/* Timeline Line */}
                   {!isLast && (
-                    <div className="absolute left-8 top-20 w-0.5 h-24 bg-gradient-to-b from-white/20 to-transparent"></div>
+                    <div className="absolute left-8 top-20 w-0.5 h-24 bg-gradient-to-b from-blue-400 to-transparent"></div>
                   )}
 
                   {/* Step Number & Icon */}
@@ -243,8 +371,10 @@ const ServicesSection = () => {
                     >
                       <IconComponent className="w-8 h-8 text-white" />
                     </motion.div>
-                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center z-20 border border-white/30">
-                      <span className="text-xs font-bold text-white">{step.step}</span>
+                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center z-20 border-2 border-white shadow-md">
+                      <span className="text-xs font-bold text-white">
+                        {step.step}
+                      </span>
                     </div>
                   </div>
 
@@ -253,12 +383,12 @@ const ServicesSection = () => {
                     <motion.div
                       whileHover={{ x: 10 }}
                       transition={{ type: "spring", stiffness: 300 }}
-                      className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300"
+                      className="bg-white rounded-2xl p-6 border-2 border-blue-200 hover:border-blue-400 hover:shadow-xl transition-all duration-300"
                     >
-                      <h3 className="text-2xl font-bold text-white mb-3 hover:text-blue-400 transition-colors">
+                      <h3 className="text-2xl font-bold text-gray-800 mb-3 hover:text-blue-600 transition-colors">
                         {step.title}
                       </h3>
-                      <p className="text-gray-400 leading-relaxed text-lg">
+                      <p className="text-gray-600 leading-relaxed text-lg">
                         {step.description}
                       </p>
                     </motion.div>
@@ -277,17 +407,14 @@ const ServicesSection = () => {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <motion.p
-            className="text-lg text-gray-300 mb-8"
-          >
+          <motion.p className="text-lg text-gray-700 mb-8">
             Ready to bring your ideas to life?
           </motion.p>
           {/* <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 shadow-lg"
+            className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 shadow-lg"
           >
-            Get Started
           </motion.button> */}
         </motion.div>
       </div>
