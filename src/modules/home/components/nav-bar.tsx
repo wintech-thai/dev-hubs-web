@@ -26,7 +26,11 @@ const Navbar = () => {
       name: "Privacy",
       link: AppRoute.privacy,
     },
-
+    {
+      name: "Document",
+      link: AppRoute.document,
+    }
+    
   ];
 
   const handleMobileNavClick = (link: string) => {
