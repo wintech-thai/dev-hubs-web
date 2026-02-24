@@ -49,17 +49,15 @@ const DocumentPage = () => {
             </div>
 
             <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-20 relative z-10">
-              {/* ฝั่งปุ่ม Download */}
+              {/* ปุ่ม Download */}
               <div className="flex-1 flex flex-col items-center md:items-end text-center md:text-right w-full">
                 <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-6 border border-blue-100">
                   <FileText size={40} strokeWidth={1.5} />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-3">
+                <h3 className="text-2xl font-bold text-gray-800 mb-8">
                   Dev Hub Company Profile
                 </h3>
-                <p className="text-gray-600 mb-8 max-w-sm">
-                  เอกสารแนะนำบริษัท บริการของเรา และผลงานที่ผ่านมา (รูปแบบ PDF)
-                </p>
+                
                 <a
                   href="/documents/company-profile.pdf"
                   download="DevHub_Company_Profile.pdf" 

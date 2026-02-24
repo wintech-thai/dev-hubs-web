@@ -41,7 +41,6 @@ export const HomeView = () => {
       <Navbar />
       <main className="relative w-full overflow-x-hidden no-scroll-x">
         <HeroSection />
-        <ShowreelSection />
         <AboutSection />
         <ServicesSection />
       </main>

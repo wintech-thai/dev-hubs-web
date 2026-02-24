@@ -19,22 +19,8 @@ const ShowreelSection = () => {
   }, [isInView]);
 
   return (
-    <section className="w-full py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-        className="text-center mb-10"
-      >
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-          Our <span className="text-blue-600">Showreel</span>
-        </h2>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          ชมผลงานและบรรยากาศการทำงานของเราผ่านวิดีโอแนะนำบริษัท
-        </p>
-      </motion.div>
-
+    <section className="w-full px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10">
+      
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
