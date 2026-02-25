@@ -34,11 +34,10 @@ const DocumentPage = () => {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-              Company <span className="text-blue-600">Document</span>
+              Company <span className="text-blue-600">Profile</span>
             </h1>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              ดาวน์โหลดเอกสาร Company Profile เพื่อทำความรู้จักเราให้มากขึ้น
-              หรือสแกน QR Code เพื่อเปิดอ่านบนมือถือได้อย่างสะดวก
+              Download the Company Profile document to get to know us better, or scan the QR Code to easily view it on your mobile device.
             </p>
           </div>
 
@@ -67,7 +66,7 @@ const DocumentPage = () => {
                     size={20}
                     className="group-hover:-translate-y-1 transition-transform"
                   />
-                  ดาวน์โหลด PDF
+                  Download PDF
                 </a>
               </div>
 
@@ -84,7 +83,7 @@ const DocumentPage = () => {
                 <div className="p-3 bg-white rounded-2xl shadow-sm border border-gray-200 hover:border-blue-300 transition-colors duration-300">
                   <div className="relative w-48 h-48 sm:w-56 sm:h-56">
                     <Image
-                      src="/profile-company-qr.png" // รูป QR Code
+                      src="/profile-company-qrv2.png" // รูป QR Code
                       alt="Company Profile QR Code"
                       fill
                       className="object-contain p-2"
@@ -92,8 +91,7 @@ const DocumentPage = () => {
                   </div>
                 </div>
                 <p className="text-sm text-gray-500 mt-4 max-w-xs">
-                  ใช้แอปพลิเคชันกล้องหรือไลน์ในมือถือของคุณสแกนเพื่ออ่าน Company
-                  Profile ทันที
+                  Use your mobile camera app or LINE to scan and read the Company Profile immediately.
                 </p>
               </div>
             </div>
