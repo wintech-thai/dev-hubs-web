@@ -2,12 +2,11 @@
 
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import Image from "next/image";
-import Typewriter from "typewriter-effect";
+import ShowreelSection from "./showreel-section";
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen w-full flex items-center justify-center relative overflow-hidden pt-24 sm:pt-20 md:pt-0">
+    <section className="min-h-screen w-full flex flex-col items-center justify-center relative overflow-hidden pt-24 md:pt-28 pb-12">
       {/* Background Animation */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute top-20 left-4 sm:left-10 w-60 sm:w-72 h-60 sm:h-72 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
@@ -15,62 +14,24 @@ const HeroSection = () => {
         <div className="absolute -bottom-8 left-8 sm:left-20 w-60 sm:w-72 h-60 sm:h-72 bg-cyan-400 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse animation-delay-4000"></div>
       </div>
 
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center justify-center flex-grow">
+        
         {/* Main Content */}
         <motion.div
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="space-y-6 sm:space-y-8"
+          className="space-y-4 w-full flex flex-col items-center"
         >
-          {/* Logo */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 1.5 }}
-            className="flex justify-center"
-          >
-            <div className="relative h-32 w-32 md:h-[200px] md:w-[200px]">
-              <Image
-                src="/Devhub_logo.png"
-                alt="DevHub Logo"
-                fill
-                className="absolute object-cover"
-              />
-            </div>
-          </motion.div>
-
-          {/* Main Title */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="text-4xl sm:text-5xl md:text-7xl font-bold text-gray-800 leading-tight"
-          >
-            <Typewriter
-              options={{
-                strings: ['Dev<span style="color:#2563EB;">Hub</span>'],
-                autoStart: true,
-                loop: true,
-                delay: 75,
-                deleteSpeed: 50,
-                wrapperClassName: "pl-2",
-              }}
-            />
-            <motion.span
-              initial={{ color: "#1F2937" }}
-              animate={{ color: "#2563EB" }}
-              transition={{ duration: 2, delay: 1.2 }}
-              className="block"
-            ></motion.span>
-          </motion.h1>
+          {/* Showreel Video */}
+          <ShowreelSection />
 
           {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 1.5 }}
-            className="text-lg sm:text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed px-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="text-lg sm:text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto leading-relaxed px-4 font-medium pt-2"
           >
             เราคือทีมผู้พัฒนาซอฟต์แวร์มืออาชีพของคนไทย
             ที่มุ่งมั่นสร้างสรรค์เทคโนโลยีคุณภาพระดับสากล
@@ -79,52 +40,31 @@ const HeroSection = () => {
 
           {/* Description */}
           <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 3 }}
-            className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto px-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1 }}
+            className="text-base sm:text-lg text-gray-500 max-w-2xl mx-auto px-4"
           >
             We are a team of Thai software professionals, dedicated to
             delivering world-class technology solutions and elevating the Thai
             software industry to global standards.
           </motion.p>
 
-          {/* CTA Button */}
-          {/* <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 3.5 }}
-            className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-center gap-4 px-4"
-          >
-            <motion.button
-              whileHover={{ scale: 1.05, boxShadow: '0 25px 50px -12px rgba(59, 130, 246, 0.5)' }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-full text-base sm:text-lg transition-all duration-300 shadow-lg w-full sm:w-auto"
-            >
-              Learn More
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-transparent border-2 border-blue-500 hover:bg-blue-500 text-blue-600 hover:text-white font-bold py-3 sm:py-4 px-6 sm:px-8 rounded-full text-base sm:text-lg transition-all duration-300 w-full sm:w-auto"
-            >
-            </motion.button>
-          </motion.div> */}
         </motion.div>
 
         {/* Scroll Indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 4.5 }}
+          transition={{ duration: 1, delay: 1.5 }}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
         >
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="text-gray-600"
+            className="text-blue-500/50"
           >
-            <ChevronDown size={32} />
+            <ChevronDown size={36} />
           </motion.div>
         </motion.div>
       </div>

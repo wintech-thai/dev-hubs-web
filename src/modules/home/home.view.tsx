@@ -6,6 +6,7 @@ import HeroSection from "@/modules/home/components/hero-section";
 import Navbar from "@/modules/home/components/nav-bar";
 import ServicesSection from "@/modules/home/components/services-section";
 import ParticlesHero from "./components/ParticleBackground";
+import ShowreelSection from "./components/showreel-section";
 
 export const HomeView = () => {
   return (
