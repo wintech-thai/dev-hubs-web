@@ -103,9 +103,7 @@ const SupreechaPortfolioPage = () => {
               options={{
                 strings: [
                   "Software Developer",
-                  "Cyber Security Enthusiast",
                   "Full Stack Engineer",
-                  "Tech Lover",
                 ],
                 autoStart: true,
                 loop: true,
