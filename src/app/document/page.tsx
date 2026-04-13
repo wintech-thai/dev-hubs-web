@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-// เปลี่ยนจาก Download เป็น ExternalLink เพื่อให้เข้ากับการเปิดดูไฟล์
 import { ExternalLink, FileText, QrCode } from "lucide-react"; 
 import Navbar from "@/modules/home/components/nav-bar";
 import Footer from "@/modules/home/components/footer";
@@ -39,19 +38,16 @@ const DocumentPage = () => {
               Company <span className="text-blue-600">Profile</span>
             </h1>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              {/* ปรับคำอธิบายเล็กน้อยจาก Download เป็น View */}
               View the Company Profile document to get to know us better, or scan the QR Code to easily open it on your mobile device.
             </p>
           </div>
 
-          {/* การ์ดสีขาว */}
           <div className="bg-white rounded-3xl p-8 md:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100 relative overflow-hidden">
             <div className="absolute -right-10 -top-10 text-blue-50 opacity-50 pointer-events-none">
               <FileText size={300} />
             </div>
 
             <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-20 relative z-10">
-              {/* ฝั่งปุ่มเปิดไฟล์ */}
               <div className="flex-1 flex flex-col items-center md:items-end text-center md:text-right w-full">
                 <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-6 border border-blue-100">
                   <FileText size={40} strokeWidth={1.5} />
@@ -60,10 +56,6 @@ const DocumentPage = () => {
                   Dev Hub Company Profile
                 </h3>
                 
-                {/* ✅ ลบ download attribute ออก 
-                  ✅ ใส่ target="_blank" เพื่อให้เปิดในแท็บใหม่
-                  ✅ ใส่ rel="noopener noreferrer" เพื่อความปลอดภัยเวลาเปิดแท็บใหม่
-                */}
                 <a
                   href="/documents/company-profile.pdf"
                   target="_blank"
@@ -78,10 +70,8 @@ const DocumentPage = () => {
                 </a>
               </div>
 
-              {/* เส้นคั่นกลาง */}
               <div className="hidden md:block w-px h-64 bg-gray-200" />
 
-              {/* ฝั่ง QR Code */}
               <div className="flex-1 flex flex-col items-center md:items-start text-center md:text-left w-full">
                 <div className="flex items-center gap-2 text-gray-800 font-semibold mb-4 text-lg">
                   <QrCode className="text-blue-600" size={24} />
