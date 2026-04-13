@@ -57,7 +57,7 @@ const DocumentPage = () => {
                 </h3>
                 
                 <a
-                  href="/documents/company-profile.pdf"
+                  href="https://storage.googleapis.com/public-software-download/dev-hubs/DevHub_Company_Profile.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-xl font-semibold transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1 w-full md:w-auto justify-center"
@@ -81,7 +81,7 @@ const DocumentPage = () => {
                 <div className="p-3 bg-white rounded-2xl shadow-sm border border-gray-200 hover:border-blue-300 transition-colors duration-300">
                   <div className="relative w-48 h-48 sm:w-56 sm:h-56">
                     <Image
-                      src="/profile-company-qrv2.png" 
+                      src="/qrcode_storage.googleapis.com.png" 
                       alt="Company Profile QR Code"
                       fill
                       className="object-contain p-2"
