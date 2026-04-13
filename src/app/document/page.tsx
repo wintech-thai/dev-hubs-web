@@ -2,13 +2,15 @@
 
 import React from "react";
 import Image from "next/image";
-import { Download, FileText, QrCode } from "lucide-react";
+// เปลี่ยนจาก Download เป็น ExternalLink เพื่อให้เข้ากับการเปิดดูไฟล์
+import { ExternalLink, FileText, QrCode } from "lucide-react"; 
 import Navbar from "@/modules/home/components/nav-bar";
 import Footer from "@/modules/home/components/footer";
 
 const DocumentPage = () => {
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-gradient-to-b from-white via-blue-50 to-white no-scroll-x">
+      {/* Background Elements */}
       <div className="fixed top-0 left-0 w-full h-64 pointer-events-none opacity-40 z-0">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-bl from-[#4A90E2]/30 to-transparent rounded-bl-[100px]" />
       </div>
@@ -37,7 +39,8 @@ const DocumentPage = () => {
               Company <span className="text-blue-600">Profile</span>
             </h1>
             <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              Download the Company Profile document to get to know us better, or scan the QR Code to easily view it on your mobile device.
+              {/* ปรับคำอธิบายเล็กน้อยจาก Download เป็น View */}
+              View the Company Profile document to get to know us better, or scan the QR Code to easily open it on your mobile device.
             </p>
           </div>
 
@@ -48,7 +51,7 @@ const DocumentPage = () => {
             </div>
 
             <div className="flex flex-col md:flex-row items-center justify-center gap-12 md:gap-20 relative z-10">
-              {/* ปุ่ม Download */}
+              {/* ฝั่งปุ่มเปิดไฟล์ */}
               <div className="flex-1 flex flex-col items-center md:items-end text-center md:text-right w-full">
                 <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-6 border border-blue-100">
                   <FileText size={40} strokeWidth={1.5} />
@@ -57,16 +60,21 @@ const DocumentPage = () => {
                   Dev Hub Company Profile
                 </h3>
                 
+                {/* ✅ ลบ download attribute ออก 
+                  ✅ ใส่ target="_blank" เพื่อให้เปิดในแท็บใหม่
+                  ✅ ใส่ rel="noopener noreferrer" เพื่อความปลอดภัยเวลาเปิดแท็บใหม่
+                */}
                 <a
                   href="/documents/company-profile.pdf"
-                  download="DevHub_Company_Profile.pdf" 
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group inline-flex items-center gap-3 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-xl font-semibold transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1 w-full md:w-auto justify-center"
                 >
-                  <Download
+                  <ExternalLink
                     size={20}
                     className="group-hover:-translate-y-1 transition-transform"
                   />
-                  Download PDF
+                  Open PDF
                 </a>
               </div>
 
@@ -83,7 +91,7 @@ const DocumentPage = () => {
                 <div className="p-3 bg-white rounded-2xl shadow-sm border border-gray-200 hover:border-blue-300 transition-colors duration-300">
                   <div className="relative w-48 h-48 sm:w-56 sm:h-56">
                     <Image
-                      src="/profile-company-qrv2.png" // รูป QR Code
+                      src="/profile-company-qrv2.png" 
                       alt="Company Profile QR Code"
                       fill
                       className="object-contain p-2"
