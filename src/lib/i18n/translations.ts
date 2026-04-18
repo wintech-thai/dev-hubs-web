@@ -5,100 +5,161 @@ export const translations = {
     nav: {
       about: 'About',
       services: 'Services',
+      products: 'Products',
+      events: 'Events',
       privacy: 'Privacy',
       document: 'Document',
     },
     hero: {
-      subtitle:
-        'We are a team of Thai software professionals, dedicated to building world-class technology and elevating the Thai software industry to sustainable global standards.',
+      tagline: 'Cloud & Cybersecurity Consulting Partner',
+      headline: 'Designing Secure and Scalable',
+      headlineAccent: 'Digital Foundations',
+      headlineSuffix: 'for Enterprise',
       description:
-        'Delivering enterprise-grade Kubernetes solutions, CI/CD pipelines, and Cloud Native development for modern businesses in Thailand and globally.',
+        'Engineering-led consulting firm enabling secure and scalable digital transformation for enterprise organizations. We bridge business strategy and modern cloud engineering.',
+      ctaExplore: 'Explore Services',
+      ctaProfile: 'Company Profile',
     },
     about: {
-      heading: 'About',
-      headingAccent: 'Dev Hub',
-      intro:
-        'At Dev Hub, we are a team of Programming and DevOps experts passionate about building technology that solves real-world problems. Leveraging our expertise in software development and large-scale systems, we create solutions that guarantee product authenticity — giving consumers confidence and helping businesses protect their brand value.',
-      leftHeading: 'Full-Scale Technology,',
-      leftHeadingAccent: 'Years of Expertise',
-      p1: 'With over 10 years in software development, we specialize in building comprehensive technology solutions — from web and mobile applications, APIs, to full DevOps system management.',
-      p2: 'We understand the demands of modern businesses: rapid, high-quality development that scales with growth.',
-      features: [
-        'Full-Stack Development Expertise',
-        'Modern Technology Stack',
-        'Agile Development Process',
-        'Quality Assurance Testing',
-        'DevOps & Cloud Solutions',
-        '24/7 Technical Support',
+      whoHeading: 'Who We Are',
+      whoQuote:
+        'We don\'t just deliver projects — we design resilient digital foundations for long-term growth.',
+      whoIntro:
+        'Dev Hub is an engineering-led consulting firm combining highly experienced digital engineers with proven expertise in enterprise solutions.',
+      pillars: [
+        'Cloud Architecture Modernization',
+        'DevSecOps Enablement',
+        'Enterprise-Grade Security Design',
+        'Governance & Operational Resilience',
+        'Long-Term Technology Partnership Mindset',
+      ],
+      originTitle: 'Our Origin',
+      originText:
+        'A recently formed company combining highly experienced digital engineers with proven expertise in enterprise solutions across multiple sectors.',
+      approachTitle: 'Our Approach',
+      approachText:
+        "While not a large corporation, we are a focused and agile team driven by deep technical expertise and a digital-first mindset — delivering innovative and efficient solutions tailored to our clients' needs.",
+      challengesHeading: 'Enterprise Challenges',
+      challengesAccent: 'We Solve',
+      challenges: [
+        {
+          title: 'Legacy Infrastructure',
+          description:
+            'Outdated systems limit business agility, inflate costs, and block digital transformation.',
+        },
+        {
+          title: 'Security Exposure in Cloud Adoption',
+          description:
+            'Accelerated migrations without robust Zero Trust architectures leave critical business data vulnerable to sophisticated cyber threats.',
+        },
+        {
+          title: 'Deployment Inefficiency & Operational Risk',
+          description:
+            'Fragmented toolchains and manual legacy processes create bottlenecks, leading to frequent system downtime and unmitigated operational risks.',
+        },
+        {
+          title: 'Skills Gap in DevSecOps',
+          description:
+            'A severe scarcity of specialized cloud and security engineering talent delays secure product releases and overburdens existing IT teams.',
+        },
       ],
       stats: [
-        { label: 'Years Experience', description: 'In software development' },
-        { label: 'Projects Completed', description: 'Delivered successfully' },
-        { label: 'Happy Clients', description: 'Across industries' },
-        { label: 'Success Rate', description: 'Project completion rate' },
+        { value: '15+', label: 'Years of Expertise', description: 'Delivering enterprise & government solutions' },
+        { value: 'GOV', label: 'Gov-Level Trust', description: 'Trusted by enterprises & government agencies' },
+        { value: '100%', label: 'Security-First', description: 'Zero Trust principles at every architectural layer' },
+        { value: '24/7', label: 'Operational Resilience', description: 'Ensuring business continuity and reliability' },
       ],
-      missionTitle: 'Our Mission',
-      mission:
-        'We leverage our expertise in Programming and DevOps to build technology that is secure, user-friendly, and reliable for product authentication — creating confidence for consumers and protecting businesses from counterfeiting.',
     },
     services: {
-      heading: 'Our',
-      headingAccent: 'Services',
+      practiceHeading: 'Consulting Practice',
+      practiceAccent: 'Areas',
+      practiceSubtitle:
+        'Deep expertise across four core domains — cloud, security, DevSecOps, and data — to drive your enterprise transformation.',
+      practices: [
+        {
+          title: 'Cloud Architecture',
+          description:
+            'Enterprise cloud design, Kubernetes platforms, and scalable infrastructure engineered for mission-critical workloads.',
+        },
+        {
+          title: 'Cybersecurity',
+          description:
+            'Zero Trust frameworks, IAM, cloud security hardening, and governance to protect your most critical assets.',
+        },
+        {
+          title: 'DevSecOps',
+          description:
+            'Secure CI/CD pipelines, robust automation, and reliability engineering that embeds security into every release.',
+        },
+        {
+          title: 'Data Platform',
+          description:
+            'Scalable infrastructure, real-time processing, and secure data governance for your analytics and AI ambitions.',
+        },
+      ],
+      whyHeading: 'Why',
+      whyAccent: 'Dev Hub?',
+      whyList: [
+        {
+          title: 'Engineering-Led Consulting',
+          description:
+            'We are builders, not just slide-only advisors. We implement the robust solutions we design.',
+        },
+        {
+          title: 'Deep Cloud-Native Expertise',
+          description:
+            'Mastery in Kubernetes, modern microservices, and highly scalable cloud infrastructure.',
+        },
+        {
+          title: 'Security-First Mindset',
+          description:
+            'Zero Trust principles and automated security controls embedded at every architectural layer.',
+        },
+        {
+          title: 'Vendor-Neutral Approach',
+          description:
+            'Unbiased technological recommendations tailored strictly to your unique business environment.',
+        },
+        {
+          title: 'Agile Execution',
+          description:
+            'Rapid deployment cycles with an uncompromised focus on quality, reliability, and resilience.',
+        },
+      ],
+      methodHeading: 'Our Consulting',
+      methodAccent: 'Methodology',
+      methodSteps: [
+        {
+          step: '01',
+          title: 'Assessment & Discovery',
+          description:
+            'Comprehensive evaluation of current architecture, security posture, operational risks, and business objectives.',
+        },
+        {
+          step: '02',
+          title: 'Architecture & Strategy Design',
+          description:
+            'Development of a secure, scalable target architecture aligned with governance, compliance, and long-term goals.',
+        },
+        {
+          step: '03',
+          title: 'Implementation & Enablement',
+          description:
+            'Execution of cloud and security solutions with automation, best practices, and knowledge transfer to your team.',
+        },
+        {
+          step: '04',
+          title: 'Governance & Optimization',
+          description:
+            'Continuous refinement of access control, performance, cost efficiency, and ongoing security hardening.',
+        },
+      ],
+    },
+    partners: {
+      heading: 'Trusted',
+      headingAccent: 'Partners',
       subtitle:
-        'We deliver comprehensive technology solutions to help your business thrive in the digital world.',
-      list: [
-        {
-          title: 'Container Orchestration',
-          description:
-            'Manage and scale containers with high-performance Kubernetes for maximum system flexibility and stability.',
-        },
-        {
-          title: 'Custom Software Development',
-          description:
-            'Build applications and software tailored to your business using modern technology and high-quality code.',
-        },
-        {
-          title: 'Enterprise Web Solutions',
-          description:
-            'Create responsive, high-performance web applications with exceptional user experiences.',
-        },
-        {
-          title: 'DevOps Engineering',
-          description:
-            'Integrate development and operations processes for maximum efficiency and system continuity.',
-        },
-        {
-          title: 'Cloud Infrastructure',
-          description:
-            'Comprehensive, secure, and scalable cloud solutions built for the demands of the digital era.',
-        },
-      ],
-      howTitle: 'How It',
-      howTitleAccent: 'Works',
-      howSubtitle: 'Get your project delivered in just four simple steps.',
-      steps: [
-        {
-          title: 'Get in Touch',
-          description:
-            'Tell our team about your needs: goals, business context, and problems to solve.',
-        },
-        {
-          title: 'Plan & Design',
-          description:
-            'Our expert team analyzes UX/UI, technology stack, and structures the project to fit your needs.',
-        },
-        {
-          title: 'Develop & Test',
-          description:
-            'We write quality code, run QA and unit tests, and verify the system is production-ready.',
-        },
-        {
-          title: 'Launch & Support',
-          description:
-            'We deliver the solution with post-sales support to help your business grow sustainably.',
-        },
-      ],
-      ctaText: 'Ready to bring your ideas to life?',
+        'We collaborate with industry-leading organizations to deliver world-class technology solutions.',
     },
     footer: {
       description:
@@ -201,105 +262,245 @@ export const translations = {
       qrCaption:
         'Use your mobile camera app or LINE to scan and read the Company Profile immediately.',
     },
+    events: {
+      heading: 'Events &',
+      headingAccent: 'Exhibitions',
+      subtitle: "DevHubs on the global stage — connecting with the world's cloud and Kubernetes community.",
+      photosComingSoon: 'Photos coming soon',
+      viewPhotos: 'View Photos',
+    },
+    servicesPage: {
+      heading: 'What We',
+      headingAccent: 'Deliver',
+      subtitle:
+        'Enterprise-grade expertise across Kubernetes, cloud infrastructure, and software engineering — built to scale with your ambition.',
+      ctaHeading: 'Ready to Transform Your Infrastructure?',
+      ctaSubtitle: 'Tell us about your goals and let our engineers design the right solution.',
+      ctaButton: 'Get in Touch',
+      list: [
+        {
+          category: 'Edge Computing',
+          title: 'Edge & Kiosk K8s Deployment',
+          description:
+            "Deploy a hardened, standalone Kubernetes node purpose-built for edge environments and kiosk systems — resilient, offline-capable, and engineered for unattended operation at the network's edge.",
+        },
+        {
+          category: 'Infrastructure',
+          title: 'Appliance Server K8s',
+          description:
+            'Transform commodity appliance hardware into a production-grade Kubernetes node — streamlined deployment, optimized resource footprint, and built for long-term stability in embedded environments.',
+        },
+        {
+          category: 'On-Premise',
+          title: 'On-Premise Kubernetes Cluster',
+          description:
+            'Architect and deploy a fully production-ready Kubernetes cluster within your own data center — complete data sovereignty, zero vendor lock-in, and enterprise-grade high availability.',
+        },
+        {
+          category: 'Kubernetes',
+          title: 'Application Deployment on K8s',
+          description:
+            'Containerize, migrate, and deploy your applications onto Kubernetes with zero-downtime rollouts, auto-scaling, and GitOps-driven release pipelines — modern delivery at production velocity.',
+        },
+        {
+          category: 'Architecture',
+          title: 'Cloud Native Solution Design',
+          description:
+            'Reimagine your architecture from first principles — microservices, event-driven design, and cloud-native patterns that eliminate technical debt and scale without ceiling.',
+        },
+        {
+          category: 'Development',
+          title: 'Software Development',
+          description:
+            'From concept to production — bespoke software engineered with clean architecture, modern stacks, and an uncompromising standard of quality that outlasts the project.',
+        },
+        {
+          category: 'DevOps',
+          title: 'CI/CD Pipeline Automation',
+          description:
+            'Accelerate release velocity with automated end-to-end pipelines — from code commit to live Kubernetes deployment in minutes, with full rollback capability and observability built in.',
+        },
+        {
+          category: 'FinOps',
+          title: 'Cloud Cost Optimization',
+          description:
+            'Eliminate cloud waste and right-size your infrastructure — our engineers audit your spend, identify hidden inefficiencies, and architect leaner systems that deliver more for less.',
+        },
+        {
+          category: 'Data',
+          title: 'Data Platform',
+          description:
+            'Build a unified data foundation — from ingestion and transformation to real-time analytics and AI-ready pipelines, all on scalable, cloud-native infrastructure you actually own.',
+        },
+        {
+          category: 'Hospitality',
+          title: 'Hotel Management Solution',
+          description:
+            'End-to-end hospitality technology — an integrated, modern hotel management platform engineered to elevate guest experience, streamline operations, and unlock data-driven insight.',
+        },
+      ],
+    },
   },
 
   th: {
     nav: {
       about: 'เกี่ยวกับเรา',
       services: 'บริการ',
+      products: 'ผลิตภัณฑ์',
+      events: 'อีเวนต์',
       privacy: 'นโยบาย',
       document: 'เอกสาร',
     },
     hero: {
-      subtitle:
-        'เราคือทีมผู้พัฒนาซอฟต์แวร์มืออาชีพของคนไทย ที่มุ่งมั่นสร้างสรรค์เทคโนโลยีคุณภาพระดับสากล เพื่อยกระดับมาตรฐานวงการซอฟต์แวร์ไทยให้ก้าวไกลอย่างยั่งยืน',
+      tagline: 'Cloud & Cybersecurity Consulting Partner',
+      headline: 'ออกแบบรากฐานดิจิทัล',
+      headlineAccent: 'ที่ปลอดภัยและ Scalable',
+      headlineSuffix: 'สำหรับองค์กร',
       description:
-        'มอบโซลูชัน Kubernetes ระดับองค์กร CI/CD pipelines และการพัฒนา Cloud Native สำหรับธุรกิจสมัยใหม่ทั้งในไทยและทั่วโลก',
+        'บริษัทที่ปรึกษาด้านวิศวกรรมที่เชี่ยวชาญการเปลี่ยนแปลงสู่ดิจิทัลอย่างปลอดภัยและปรับขนาดได้สำหรับองค์กร เราเชื่อมต่อกลยุทธ์ทางธุรกิจเข้ากับวิศวกรรม Cloud สมัยใหม่',
+      ctaExplore: 'สำรวจบริการ',
+      ctaProfile: 'Company Profile',
     },
     about: {
-      heading: 'เกี่ยวกับ',
-      headingAccent: 'Dev Hub',
-      intro:
-        'ที่ Dev Hub เราเป็นทีมของผู้เชี่ยวชาญด้าน Programming และ DevOps ที่มีความหลงใหลในการสร้างเทคโนโลยีที่แก้ไขปัญหาจริงในโลก ด้วยการใช้ความเชี่ยวชาญของเราในการพัฒนาซอฟต์แวร์และการดำเนินงานระบบขนาดใหญ่ เราได้สร้างโซลูชันที่รับประกันความแท้ของผลิตภัณฑ์ ทำให้ผู้บริโภคมีความมั่นใจและช่วยธุรกิจปกป้องมูลค่าของแบรนด์',
-      leftHeading: 'เทคโนโลยีครบวงจร',
-      leftHeadingAccent: 'ประสบการณ์ยาวนาน',
-      p1: 'ด้วยประสบการณ์มากกว่า 10 ปีในวงการพัฒนาซอฟต์แวร์ เรามีความเชี่ยวชาญในการสร้างโซลูชันเทคโนโลยีที่ครอบคลุมทุกด้าน ตั้งแต่การพัฒนาเว็บไซต์ แอปพลิเคชัน API จนถึงการจัดการระบบ DevOps',
-      p2: 'เราเข้าใจความต้องการของธุรกิจสมัยใหม่ที่ต้องการการพัฒนาที่รวดเร็ว มีคุณภาพ และสามารถปรับขนาดได้ตามการเติบโตของธุรกิจ',
-      features: [
-        'Full-Stack Development Expertise',
-        'Modern Technology Stack',
-        'Agile Development Process',
-        'Quality Assurance Testing',
-        'DevOps & Cloud Solutions',
-        '24/7 Technical Support',
+      whoHeading: 'เกี่ยวกับเรา',
+      whoQuote:
+        'เราไม่ได้แค่ส่งมอบโปรเจกต์ — เราออกแบบรากฐานดิจิทัลที่ยืดหยุ่นเพื่อการเติบโตระยะยาว',
+      whoIntro:
+        'Dev Hub คือบริษัทที่ปรึกษาด้านวิศวกรรมที่รวบรวมวิศวกรดิจิทัลที่มีประสบการณ์สูงและความเชี่ยวชาญที่พิสูจน์แล้วในโซลูชันระดับองค์กร',
+      pillars: [
+        'Cloud Architecture Modernization',
+        'DevSecOps Enablement',
+        'Enterprise-Grade Security Design',
+        'Governance & Operational Resilience',
+        'Long-Term Technology Partnership Mindset',
+      ],
+      originTitle: 'จุดเริ่มต้นของเรา',
+      originText:
+        'บริษัทที่เพิ่งก่อตั้ง รวบรวมวิศวกรดิจิทัลที่มีประสบการณ์สูงและความเชี่ยวชาญที่พิสูจน์แล้วในโซลูชันระดับองค์กรจากหลากหลายภาคส่วน',
+      approachTitle: 'แนวทางของเรา',
+      approachText:
+        'แม้จะไม่ใช่องค์กรขนาดใหญ่ แต่เราเป็นทีมที่เน้นและคล่องตัว ขับเคลื่อนด้วยความเชี่ยวชาญทางเทคนิคเชิงลึกและ Digital-first Mindset — มอบโซลูชันที่เหมาะสมกับความต้องการของลูกค้า',
+      challengesHeading: 'ความท้าทายขององค์กร',
+      challengesAccent: 'ที่เราแก้ได้',
+      challenges: [
+        {
+          title: 'Legacy Infrastructure',
+          description:
+            'ระบบที่ล้าสมัยจำกัดความคล่องตัวทางธุรกิจ เพิ่มต้นทุน และขัดขวางการเปลี่ยนแปลงสู่ดิจิทัล',
+        },
+        {
+          title: 'Security Exposure in Cloud Adoption',
+          description:
+            'การ Migrate แบบเร่งด่วนโดยไม่มี Zero Trust Architecture ทำให้ข้อมูลสำคัญขององค์กรเสี่ยงต่อภัยคุกคามทางไซเบอร์ที่ซับซ้อน',
+        },
+        {
+          title: 'Deployment Inefficiency & Operational Risk',
+          description:
+            'Toolchain ที่กระจัดกระจายและกระบวนการ Manual ทำให้เกิด Bottleneck นำไปสู่ระบบล่มบ่อยและความเสี่ยงด้านปฏิบัติการที่ไม่ได้รับการจัดการ',
+        },
+        {
+          title: 'Skills Gap in DevSecOps',
+          description:
+            'การขาดแคลนผู้เชี่ยวชาญด้าน Cloud และ Security Engineering ทำให้การ Release ล่าช้าและทีม IT ที่มีอยู่รับภาระหนักเกินไป',
+        },
       ],
       stats: [
-        { label: 'ปีแห่งประสบการณ์', description: 'ในการพัฒนาเทคโนโลยี' },
-        { label: 'โปรเจกต์ที่สำเร็จ', description: 'ส่งมอบแล้วทั้งหมด' },
-        { label: 'ลูกค้าที่พึงพอใจ', description: 'หลากหลายอุตสาหกรรม' },
-        { label: 'อัตราความสำเร็จ', description: 'ของโปรเจกต์ทั้งหมด' },
+        { value: '15+', label: 'ปีแห่งประสบการณ์', description: 'ส่งมอบโซลูชันระดับองค์กรและภาครัฐ' },
+        { value: 'GOV', label: 'ความไว้วางใจระดับรัฐบาล', description: 'ได้รับความไว้วางใจจากองค์กรและภาครัฐ' },
+        { value: '100%', label: 'Security-First', description: 'หลักการ Zero Trust ทุก Architectural Layer' },
+        { value: '24/7', label: 'Operational Resilience', description: 'รับประกันความต่อเนื่องของธุรกิจ' },
       ],
-      missionTitle: 'Our Mission',
-      mission:
-        'เราใช้ความเชี่ยวชาญในการพัฒนา Programming และ DevOps เพื่อสร้างเทคโนโลยีที่ปลอดภัย เป็นมิตรกับผู้ใช้ และเชื่อถือได้ในการตรวจสอบความแท้ของผลิตภัณฑ์ เพื่อสร้างความมั่นใจให้กับผู้บริโภคและปกป้องธุรกิจจากการปลอมแปลง',
     },
     services: {
-      heading: 'Our',
-      headingAccent: 'Services',
-      subtitle: 'เรามอบโซลูชันเทคโนโลยีที่ครอบคลุมเพื่อช่วยให้ธุรกิจของคุณเติบโตในโลกดิจิทัล',
-      list: [
+      practiceHeading: 'Consulting Practice',
+      practiceAccent: 'Areas',
+      practiceSubtitle:
+        'ความเชี่ยวชาญเชิงลึกใน 4 โดเมนหลัก — Cloud, Security, DevSecOps และ Data — เพื่อขับเคลื่อนการเปลี่ยนแปลงขององค์กร',
+      practices: [
         {
-          title: 'Container Orchestration',
+          title: 'Cloud Architecture',
           description:
-            'จัดการและปรับขนาดคอนเทนเนอร์ด้วย Kubernetes ที่มีประสิทธิภาพสูง เพื่อความยืดหยุ่นและเสถียรภาพของระบบ',
+            'ออกแบบ Cloud ระดับองค์กร, Kubernetes Platform และ Infrastructure ที่ปรับขนาดได้สำหรับงาน Mission-Critical',
         },
         {
-          title: 'Custom Software Development',
+          title: 'Cybersecurity',
           description:
-            'พัฒนาแอปพลิเคชันและซอฟต์แวร์ที่ตอบโจทย์ธุรกิจ ด้วยเทคโนโลยีที่ทันสมัยและโค้ดที่มีคุณภาพสูง',
+            'Zero Trust Frameworks, IAM, Cloud Security Hardening และ Governance เพื่อปกป้องทรัพย์สินสำคัญขององค์กร',
         },
         {
-          title: 'Enterprise Web Solutions',
+          title: 'DevSecOps',
           description:
-            'สร้างเว็บแอปพลิเคชันที่ตอบสนองและมีประสิทธิภาพ พร้อมประสบการณ์ผู้ใช้งานที่ยอดเยี่ยม',
+            'CI/CD Pipeline ที่ปลอดภัย, Automation ที่แข็งแกร่ง และ Reliability Engineering ที่ฝัง Security ไว้ในทุก Release',
         },
         {
-          title: 'DevOps Engineering',
+          title: 'Data Platform',
           description:
-            'บูรณาการกระบวนการพัฒนาและการให้บริการ เพื่อประสิทธิภาพสูงสุดและความต่อเนื่องของระบบ',
-        },
-        {
-          title: 'Cloud Infrastructure',
-          description:
-            'โซลูชันคลาวด์ที่ครบครัน ปลอดภัย และปรับขนาดได้ตามความต้องการ เพื่อความอยู่รอดในยุคดิจิทัล',
+            'Infrastructure ที่ Scalable, Real-time Processing และ Data Governance ที่ปลอดภัยสำหรับ Analytics และ AI',
         },
       ],
-      howTitle: 'How It',
-      howTitleAccent: 'Works',
-      howSubtitle: 'รับโปรเจกต์ที่สมบูรณ์ใน 4 ขั้นตอนง่ายๆ',
-      steps: [
+      whyHeading: 'ทำไมต้อง',
+      whyAccent: 'Dev Hub?',
+      whyList: [
         {
-          title: 'Get in Touch / ติดต่อเรา',
+          title: 'Engineering-Led Consulting',
           description:
-            'เล่าให้ทีมเราเข้าใจความต้องการของคุณ: เป้าหมาย ธุรกิจ และปัญหาที่ต้องการแก้',
+            'เราคือผู้สร้าง ไม่ใช่แค่ที่ปรึกษาที่มีแต่ Slide เราลงมือ Implement โซลูชันที่เราออกแบบเอง',
         },
         {
-          title: 'Plan & Design / วางแผน & ออกแบบ',
+          title: 'Deep Cloud-Native Expertise',
           description:
-            'ทีมไทยผู้เชี่ยวชาญของเรา จะวิเคราะห์ UX/UI เทคโนโลยี และจัดโครงงานให้เหมาะกับคุณ',
+            'เชี่ยวชาญ Kubernetes, Microservices สมัยใหม่ และ Cloud Infrastructure ที่ Scalable สูง',
         },
         {
-          title: 'Develop & Test / พัฒนา & ทดสอบ',
+          title: 'Security-First Mindset',
           description:
-            'เราเขียนโค้ดคุณภาพ พร้อมทำ QA, unit tests และตรวจสอบให้ระบบพร้อมใช้งานจริง',
+            'หลักการ Zero Trust และ Security Controls แบบ Automated ฝังอยู่ทุก Architectural Layer',
         },
         {
-          title: 'Launch & Support / ส่งมอบ & สนับสนุน',
+          title: 'Vendor-Neutral Approach',
           description:
-            'ส่งมอบโซลูชัน พร้อมการสนับสนุนหลังการขาย เพื่อให้ธุรกิจคุณเติบโตอย่างยั่งยืน',
+            'คำแนะนำด้านเทคโนโลยีที่ไม่มีอคติ ปรับให้เหมาะกับสภาพแวดล้อมทางธุรกิจของคุณโดยเฉพาะ',
+        },
+        {
+          title: 'Agile Execution',
+          description:
+            'วงรอบ Deployment ที่รวดเร็วโดยไม่ลดทอนคุณภาพ ความน่าเชื่อถือ และความยืดหยุ่น',
         },
       ],
-      ctaText: 'พร้อมแล้วไหมที่จะเริ่มต้นโปรเจกต์ของคุณ?',
+      methodHeading: 'Consulting',
+      methodAccent: 'Methodology',
+      methodSteps: [
+        {
+          step: '01',
+          title: 'Assessment & Discovery',
+          description:
+            'ประเมิน Architecture ปัจจุบัน, Security Posture, ความเสี่ยงด้านปฏิบัติการ และเป้าหมายทางธุรกิจอย่างครบถ้วน',
+        },
+        {
+          step: '02',
+          title: 'Architecture & Strategy Design',
+          description:
+            'พัฒนา Target Architecture ที่ปลอดภัยและ Scalable สอดคล้องกับ Governance, Compliance และเป้าหมายระยะยาว',
+        },
+        {
+          step: '03',
+          title: 'Implementation & Enablement',
+          description:
+            'ดำเนินการ Cloud และ Security Solutions ด้วย Automation, Best Practices และถ่ายทอดความรู้ให้ทีมของคุณ',
+        },
+        {
+          step: '04',
+          title: 'Governance & Optimization',
+          description:
+            'ปรับปรุง Access Control, Performance, Cost Efficiency และ Security Hardening อย่างต่อเนื่อง',
+        },
+      ],
+    },
+    partners: {
+      heading: 'พันธมิตร',
+      headingAccent: 'ที่เราไว้วางใจ',
+      subtitle:
+        'เราร่วมมือกับองค์กรชั้นนำระดับอุตสาหกรรมเพื่อมอบโซลูชันเทคโนโลยีระดับโลก',
     },
     footer: {
       description:
@@ -400,6 +601,84 @@ export const translations = {
       openPdf: 'เปิด PDF',
       qrTitle: 'สแกนเพื่อดูบนมือถือ',
       qrCaption: 'ใช้กล้องมือถือหรือ LINE สแกน QR Code เพื่ออ่าน Company Profile ได้ทันที',
+    },
+    events: {
+      heading: 'Events &',
+      headingAccent: 'Exhibitions',
+      subtitle: 'DevHubs บนเวทีโลก — พบปะชุมชน Cloud และ Kubernetes ระดับนานาชาติ',
+      photosComingSoon: 'รูปภาพกำลังจะมา',
+      viewPhotos: 'ดูรูปภาพ',
+    },
+    servicesPage: {
+      heading: 'สิ่งที่เรา',
+      headingAccent: 'มอบให้คุณ',
+      subtitle:
+        'ความเชี่ยวชาญระดับ Enterprise ครอบคลุม Kubernetes, Cloud Infrastructure และ Software Engineering — พร้อมเติบโตไปกับความทะเยอทะยานของคุณ',
+      ctaHeading: 'พร้อมยกระดับ Infrastructure ของคุณแล้วหรือยัง?',
+      ctaSubtitle: 'เล่าให้เราฟังเรื่องเป้าหมายของคุณ แล้วทีม Engineer ของเราจะออกแบบโซลูชันที่เหมาะกับคุณ',
+      ctaButton: 'ติดต่อเรา',
+      list: [
+        {
+          category: 'Edge Computing',
+          title: 'ติดตั้ง K8s สำหรับ Edge & Kiosk',
+          description:
+            'ติดตั้ง Kubernetes แบบ Standalone สำหรับงาน Edge Computing และ Kiosk โดยเฉพาะ — ออกแบบให้ทำงานได้แม้ไม่มีอินเทอร์เน็ต เสถียร และดูแลรักษาง่าย',
+        },
+        {
+          category: 'Infrastructure',
+          title: 'ติดตั้ง K8s บน Appliance Server',
+          description:
+            'เปลี่ยน Appliance Server ทั่วไปให้เป็น Kubernetes Node ระดับ Production — ติดตั้งง่าย ใช้ทรัพยากรน้อย และเสถียรสำหรับการทำงานต่อเนื่องระยะยาว',
+        },
+        {
+          category: 'On-Premise',
+          title: 'Setup Kubernetes Cluster On-Premise',
+          description:
+            'ออกแบบและติดตั้ง Kubernetes Cluster บน Infrastructure ของคุณเอง — ควบคุมข้อมูลได้ 100%, ไม่ผูกติดกับ Vendor และพร้อมใช้งานระดับ Enterprise',
+        },
+        {
+          category: 'Kubernetes',
+          title: 'ติดตั้ง Applications บน Kubernetes',
+          description:
+            'Containerize และ Deploy Applications ของคุณบน Kubernetes ด้วย Zero-downtime Rollout, Auto-scaling และ GitOps Pipeline — เร็ว เสถียร พร้อม Production',
+        },
+        {
+          category: 'Architecture',
+          title: 'ออกแบบ Cloud Native Solution',
+          description:
+            'ออกแบบสถาปัตยกรรมใหม่ด้วยหลักการ Cloud Native — Microservices, Event-driven Design และ Patterns ที่ Scalable ไม่มีขีดจำกัด',
+        },
+        {
+          category: 'Development',
+          title: 'พัฒนาซอฟต์แวร์',
+          description:
+            'พัฒนาซอฟต์แวร์ตั้งแต่ Concept ถึง Production — Architecture ที่สะอาด, Tech Stack ที่ทันสมัย และมาตรฐานคุณภาพที่ยั่งยืน',
+        },
+        {
+          category: 'DevOps',
+          title: 'CI/CD Pipeline Automation',
+          description:
+            'เพิ่มความเร็วในการ Release ด้วย CI/CD Pipeline แบบ Automated ครบวงจร — ตั้งแต่ Commit Code จนถึง Deploy บน Kubernetes ภายในไม่กี่นาที',
+        },
+        {
+          category: 'FinOps',
+          title: 'Cloud Cost Optimization',
+          description:
+            'กำจัด Cloud Waste และปรับ Infrastructure ให้เหมาะสม — ทีมของเรา Audit การใช้จ่าย, ค้นหาความไม่มีประสิทธิภาพ และออกแบบระบบที่ประหยัดและทรงพลังกว่าเดิม',
+        },
+        {
+          category: 'Data',
+          title: 'Data Platform',
+          description:
+            'สร้าง Data Platform ที่ครบครัน — ตั้งแต่การรับข้อมูล, แปลงข้อมูล, Analytics แบบ Real-time จนถึง AI-ready Pipeline บน Infrastructure ที่คุณควบคุมได้',
+        },
+        {
+          category: 'Hospitality',
+          title: 'Hotel Management Solution',
+          description:
+            'โซลูชันการจัดการโรงแรมแบบครบวงจร — แพลตฟอร์มที่ทันสมัย ยกระดับประสบการณ์ผู้เข้าพัก, เพิ่มประสิทธิภาพการดำเนินงาน และสร้าง Insight จากข้อมูล',
+        },
+      ],
     },
   },
 };

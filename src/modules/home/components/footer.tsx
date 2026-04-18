@@ -36,7 +36,7 @@ const Footer = () => {
 
   const navLinks = [
     { name: t.nav.about, link: AppRoute.home + "#about" },
-    { name: t.nav.services, link: AppRoute.home + "#services" },
+    { name: t.nav.services, link: AppRoute.services },
     { name: t.nav.privacy, link: AppRoute.privacy },
   ];
 
@@ -54,8 +54,11 @@ const Footer = () => {
             viewport={{ once: true }}
             className="space-y-4"
           >
-            <Link href="/">
-              <Image src="/Devhub_logo.png" alt="Devhub Logo" width={60} height={40} className="mr-2" />
+            <Link href="/" className="flex items-center gap-3">
+              <Image src="/Devhub_logo.png" alt="Dev Hub Logo" width={44} height={44} />
+              <span className="text-xl font-bold text-white">
+                Dev<span className="text-blue-400">Hub</span>
+              </span>
             </Link>
             <p className="text-slate-400 leading-relaxed">{t.footer.description}</p>
             <div className="flex space-x-3">

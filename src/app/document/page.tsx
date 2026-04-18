@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
 import { ExternalLink, FileText, QrCode } from "lucide-react";
 import Navbar from "@/modules/home/components/nav-bar";
@@ -11,7 +10,7 @@ const DocumentPage = () => {
   const { t } = useLanguage();
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-slate-950">
+    <div className="min-h-screen w-full overflow-x-clip bg-slate-950">
       <div className="fixed top-20 right-10 w-96 h-96 bg-blue-600/8 rounded-full blur-3xl pointer-events-none z-0" />
       <div className="fixed bottom-20 left-10 w-96 h-96 bg-cyan-600/8 rounded-full blur-3xl pointer-events-none z-0" />
 
