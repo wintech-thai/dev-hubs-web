@@ -1,77 +1,35 @@
 "use client";
 
 import { motion } from "framer-motion";
-import {
-  Award,
-  Users,
-  Clock,
-  Target,
-  CheckCircle,
-  TrendingUp,
-} from "lucide-react";
+import { Award, Users, Clock, Target, CheckCircle, TrendingUp } from "lucide-react";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
+const statIcons = [Clock, Users, Award, TrendingUp];
+const statNumbers = ["10+", "100+", "50+", "99%"];
 
 const AboutSection = () => {
-  const stats = [
-    {
-      icon: Clock,
-      number: "10+",
-      label: "Years Experience",
-      description: "ประสบการณ์ในการพัฒนาเทคโนโลยี",
-    },
-    {
-      icon: Users,
-      number: "100+",
-      label: "Projects Completed",
-      description: "โปรเจคที่สำเร็จแล้ว",
-    },
-    {
-      icon: Award,
-      number: "50+",
-      label: "Happy Clients",
-      description: "ลูกค้าที่พึงพอใจ",
-    },
-    {
-      icon: TrendingUp,
-      number: "99%",
-      label: "Success Rate",
-      description: "อัตราความสำเร็จ",
-    },
-  ];
-
-  const features = [
-    "Full-Stack Development Expertise",
-    "Modern Technology Stack",
-    "Agile Development Process",
-    "Quality Assurance Testing",
-    "DevOps & Cloud Solutions",
-    "24/7 Technical Support",
-  ];
+  const { t } = useLanguage();
 
   const containerVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.6,
-      },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-blue-50/50 to-white" id="about">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 relative bg-slate-950" id="about">
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-blue-600 rounded-full filter blur-3xl opacity-5"></div>
+        <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-cyan-500 rounded-full filter blur-3xl opacity-5"></div>
+        <div className="absolute inset-0 bg-mesh opacity-30"></div>
+      </div>
+
       <div className="max-w-7xl mx-auto">
-        {/* Section Header */}
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -84,27 +42,23 @@ const AboutSection = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold text-gray-800 mb-6"
+            className="text-4xl md:text-5xl font-bold text-white mb-6"
           >
-            เกี่ยวกับ <span className="text-blue-600">Dev Hub</span>
+            {t.about.heading} <span className="text-blue-400">{t.about.headingAccent}</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
-            className="text-xl text-gray-700 max-w-3xl mx-auto"
+            className="text-xl text-slate-300 max-w-3xl mx-auto"
           >
-            ที่ Dev Hub เราเป็นทีมของผู้เชี่ยวชาญด้าน Programming และ DevOps
-            ที่มีความหลงใหลในการสร้างเทคโนโลยีที่แก้ไขปัญหาจริงในโลก
-            ด้วยการใช้ความเชี่ยวชาญของเราในการพัฒนาซอฟต์แวร์และการดำเนินงานระบบขนาดใหญ่
-            เราได้สร้างโซลูชันที่รับประกันความแท้ของผลิตภัณฑ์
-            ทำให้ผู้บริโภคมีความมั่นใจและช่วยธุรกิจปกป้องมูลค่าของแบรนด์
+            {t.about.intro}
           </motion.p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
-          {/* Left Content */}
+          {/* Left */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -113,23 +67,14 @@ const AboutSection = () => {
             className="space-y-8"
           >
             <div>
-              <h3 className="text-3xl font-bold text-gray-800 mb-6">
-                เทคโนโลยีครบวงจร <br />
-                <span className="text-blue-600">ประสบการณ์ยาวนาน</span>
+              <h3 className="text-3xl font-bold text-white mb-6">
+                {t.about.leftHeading} <br />
+                <span className="text-blue-400">{t.about.leftHeadingAccent}</span>
               </h3>
-              <p className="text-gray-700 text-lg leading-relaxed mb-6">
-                ด้วยประสบการณ์มากกว่า 10 ปีในวงการพัฒนาซอฟต์แวร์
-                เรามีความเชี่ยวชาญในการสร้างโซลูชันเทคโนโลยี ที่ครอบคลุมทุกด้าน
-                ตั้งแต่การพัฒนาเว็บไซต์ แอปพลิเคชัน API จนถึงการจัดการระบบ
-                DevOps
-              </p>
-              <p className="text-gray-700 text-lg leading-relaxed">
-                เราเข้าใจความต้องการของธุรกิจสมัยใหม่ที่ต้องการการพัฒนาที่รวดเร็ว
-                มีคุณภาพ และสามารถปรับขนาดได้ตามการเติบโตของธุรกิจ
-              </p>
+              <p className="text-slate-300 text-lg leading-relaxed mb-6">{t.about.p1}</p>
+              <p className="text-slate-300 text-lg leading-relaxed">{t.about.p2}</p>
             </div>
 
-            {/* Features List */}
             <motion.div
               variants={containerVariants}
               initial="hidden"
@@ -137,22 +82,18 @@ const AboutSection = () => {
               viewport={{ once: true }}
               className="space-y-4"
             >
-              {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  variants={itemVariants}
-                  className="flex items-center space-x-3"
-                >
-                  <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
+              {t.about.features.map((feature, index) => (
+                <motion.div key={index} variants={itemVariants} className="flex items-center space-x-3">
+                  <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center shrink-0">
                     <CheckCircle className="w-4 h-4 text-white" />
                   </div>
-                  <span className="text-gray-700 font-medium">{feature}</span>
+                  <span className="text-slate-200 font-medium">{feature}</span>
                 </motion.div>
               ))}
             </motion.div>
           </motion.div>
 
-          {/* Right Content - Stats */}
+          {/* Right — Stats */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -160,65 +101,39 @@ const AboutSection = () => {
             viewport={{ once: true }}
             className="grid grid-cols-2 gap-6"
           >
-            {stats.map((stat, index) => {
-              const IconComponent = stat.icon;
+            {t.about.stats.map((stat, index) => {
+              const IconComponent = statIcons[index];
               return (
                 <motion.div
                   key={index}
                   whileHover={{ y: -10, scale: 1.02 }}
-                  className="bg-white rounded-2xl p-6 border-2 border-blue-100 hover:border-blue-400 hover:shadow-xl transition-all duration-300 text-center"
+                  className="bg-slate-800/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/10 transition-all duration-300 text-center"
                 >
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <div className="w-12 h-12 bg-linear-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/20">
                     <IconComponent className="w-6 h-6 text-white" />
                   </div>
-                  <div className="text-3xl font-bold text-gray-800 mb-2">
-                    {stat.number}
-                  </div>
-                  <div className="text-blue-600 font-semibold mb-1">
-                    {stat.label}
-                  </div>
-                  <div className="text-gray-600 text-sm">
-                    {stat.description}
-                  </div>
+                  <div className="text-3xl font-bold text-white mb-2">{statNumbers[index]}</div>
+                  <div className="text-blue-400 font-semibold mb-1">{stat.label}</div>
+                  <div className="text-slate-400 text-sm">{stat.description}</div>
                 </motion.div>
               );
             })}
           </motion.div>
         </div>
 
-        {/* Mission Statement */}
+        {/* Mission */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-center bg-gradient-to-br from-blue-50 to-blue-100 rounded-3xl p-8 md:p-12 border-2 border-blue-200"
+          className="text-center bg-slate-800/40 backdrop-blur-sm rounded-3xl p-8 md:p-12 border border-slate-700/50"
         >
-          <Target className="w-16 h-16 text-blue-600 mx-auto mb-6" />
-          <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">
-            Our Mission
-          </h3>
-          <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
-            เราใช้ความเชี่ยวชาญในการพัฒนา Programming และ DevOps เพื่อสร้างเทคโนโลยีที่ปลอดภัย
-            เป็นมิตรกับผู้ใช้ และเชื่อถือได้ในการตรวจสอบความแท้ของผลิตภัณฑ์
-            เพื่อสร้างความมั่นใจให้กับผู้บริโภคและปกป้องธุรกิจจากการปลอมแปลง
-          </p>
-
-          {/* <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            viewport={{ once: true }}
-            className="mt-8"
-          >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-3 px-8 rounded-full text-lg transition-all duration-300 shadow-lg"
-            >
-              Learn More About Us
-            </motion.button>
-          </motion.div> */}
+          <div className="w-16 h-16 bg-linear-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-blue-500/20">
+            <Target className="w-8 h-8 text-white" />
+          </div>
+          <h3 className="text-2xl md:text-3xl font-bold text-white mb-6">{t.about.missionTitle}</h3>
+          <p className="text-lg text-slate-300 max-w-4xl mx-auto leading-relaxed">{t.about.mission}</p>
         </motion.div>
       </div>
     </section>
