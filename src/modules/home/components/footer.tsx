@@ -1,50 +1,49 @@
 "use client";
 
-import { AppRoute } from '@/config/app.route';
-import { motion } from 'framer-motion';
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { AppRoute } from "@/config/app.route";
+import { motion } from "framer-motion";
+import { Mail, Phone, MapPin, Code2, Briefcase, MessageCircle } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useLanguage } from "@/lib/i18n/LanguageContext";
+
+const socialLinks = [
+  { icon: Code2, href: "#", label: "GitHub" },
+  { icon: Briefcase, href: "#", label: "LinkedIn" },
+  { icon: MessageCircle, href: "#", label: "Twitter" },
+];
+
+const contactInfo = [
+  { icon: Mail, text: "seubpong.mon@dev-hubs.com", href: "mailto:seubpong.mon@dev-hubs.com" },
+  { icon: Phone, text: "66(0) 94-249-4880", href: "tel:+66942494880" },
+  {
+    icon: MapPin,
+    text: "Dev Hub Co., Ltd. 55 Sutthisan Winitchai Road, Din Daeng, Bangkok 10400, Thailand",
+    href: "#",
+  },
+];
+
+const services = [
+  "Container Orchestration",
+  "Custom Software Development",
+  "Enterprise Web Solutions",
+  "DevOps Engineering",
+  "Cloud Infrastructure",
+];
 
 const Footer = () => {
-  const socialLinks = [
-    { icon: Github, href: '#', label: 'GitHub' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
+  const { t } = useLanguage();
+
+  const navLinks = [
+    { name: t.nav.about, link: AppRoute.home + "#about" },
+    { name: t.nav.services, link: AppRoute.services },
+    { name: t.nav.privacy, link: AppRoute.privacy },
   ];
-
-  const links = [
-    {
-      name: "About",
-      link: AppRoute.home + '#about',
-    },
-    {
-      name: "Services",
-      link: AppRoute.home + '#services',
-    },
-    {
-      name: "Privacy",
-      link: AppRoute.privacy,
-    },
-
-  ];
-
-  const contactInfo = [
-    { icon: Mail, text: 'seubpong.mon@dev-hubs.com', href: 'mailto:seubpong.mon@dev-hubs.com' },
-    { icon: Phone, text: '66(0) 94-249-4880', href: 'tel:+66942494880' },
-    { icon: MapPin, text: 'Dev Hub Co., Ltd. 55 Sutthisan Winitchai Road, Din Daeng Subdistrict, Din Daeng District, Bangkok 10400, Thailand', href: '#' },
-  ];
-
-  const services = [
-    "Container Orchestration",
-    "Custom Software Development",
-    "Enterprise Web Solutions",
-    "DevOps Engineering",
-    "Cloud Infrastructure"
-  ]
 
   return (
-    <footer className="relative bg-gradient-to-b from-gray-50 to-gray-100 border-t-2 border-blue-200">
+    <footer className="relative bg-slate-950 border-t border-slate-800">
+      <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-blue-500/50 to-transparent" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
@@ -55,20 +54,14 @@ const Footer = () => {
             viewport={{ once: true }}
             className="space-y-4"
           >
-            <Link href="/">
-              <Image
-                src="/Devhub_logo.png"
-                alt="Devhub Logo"
-                width={60}
-                height={40}
-                className="mr-2"
-              />
+            <Link href="/" className="flex items-center gap-3">
+              <Image src="/Devhub_logo.png" alt="Dev Hub Logo" width={44} height={44} />
+              <span className="text-xl font-bold text-white">
+                Dev<span className="text-blue-400">Hub</span>
+              </span>
             </Link>
-            <p className="text-gray-600 leading-relaxed">
-              Your trusted partner for innovative technology solutions.
-              We transform ideas into digital reality.
-            </p>
-            <div className="flex space-x-4">
+            <p className="text-slate-400 leading-relaxed">{t.footer.description}</p>
+            <div className="flex space-x-3">
               {socialLinks.map((social, index) => {
                 const IconComponent = social.icon;
                 return (
@@ -77,7 +70,7 @@ const Footer = () => {
                     href={social.href}
                     whileHover={{ scale: 1.2, y: -2 }}
                     whileTap={{ scale: 0.9 }}
-                    className="w-10 h-10 bg-white hover:bg-blue-600 rounded-lg flex items-center justify-center text-gray-600 hover:text-white transition-all duration-300 border border-gray-200 shadow-sm"
+                    className="w-10 h-10 bg-slate-800 hover:bg-blue-600 rounded-lg flex items-center justify-center text-slate-400 hover:text-white transition-all duration-300 border border-slate-700/50 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20"
                     aria-label={social.label}
                   >
                     <IconComponent size={18} />
@@ -95,13 +88,13 @@ const Footer = () => {
             viewport={{ once: true }}
             className="space-y-4"
           >
-            <h3 className="text-lg font-semibold text-gray-800">Services</h3>
+            <h3 className="text-base font-semibold text-white">{t.footer.servicesTitle}</h3>
             <ul className="space-y-2">
               {services.map((service, index) => (
                 <motion.li
                   key={index}
                   whileHover={{ x: 5 }}
-                  className="text-gray-600 hover:text-blue-600 cursor-pointer transition-colors"
+                  className="text-slate-400 hover:text-blue-400 cursor-pointer transition-colors text-sm"
                 >
                   {service}
                 </motion.li>
@@ -117,23 +110,21 @@ const Footer = () => {
             viewport={{ once: true }}
             className="space-y-4"
           >
-            <h3 className="text-lg font-semibold text-gray-800">Quick Links</h3>
+            <h3 className="text-base font-semibold text-white">{t.footer.linksTitle}</h3>
             <ul className="space-y-2">
-              {links.map((link, index) => (
+              {navLinks.map((link, index) => (
                 <motion.li
                   key={index}
                   whileHover={{ x: 5 }}
-                  className="text-gray-600 hover:text-blue-600 cursor-pointer transition-colors"
+                  className="text-slate-400 hover:text-blue-400 cursor-pointer transition-colors text-sm"
                 >
-                  <Link href={link.link}>
-                    {link.name}
-                  </Link>
+                  <Link href={link.link}>{link.name}</Link>
                 </motion.li>
               ))}
             </ul>
           </motion.div>
 
-          {/* Contact Info */}
+          {/* Contact */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -141,7 +132,7 @@ const Footer = () => {
             viewport={{ once: true }}
             className="space-y-4"
           >
-            <h3 className="text-lg font-semibold text-gray-800">Contact</h3>
+            <h3 className="text-base font-semibold text-white">{t.footer.contactTitle}</h3>
             <div className="space-y-3">
               {contactInfo.map((contact, index) => {
                 const IconComponent = contact.icon;
@@ -150,9 +141,9 @@ const Footer = () => {
                     key={index}
                     href={contact.href}
                     whileHover={{ x: 5 }}
-                    className="flex items-center space-x-3 text-gray-600 hover:text-blue-600 transition-colors group"
+                    className="flex items-start space-x-3 text-slate-400 hover:text-blue-400 transition-colors group"
                   >
-                    <IconComponent size={16} className="group-hover:text-blue-600 flex-shrink-0" />
+                    <IconComponent size={16} className="group-hover:text-blue-400 shrink-0 mt-0.5" />
                     <span className="text-sm">{contact.text}</span>
                   </motion.a>
                 );
@@ -167,26 +158,23 @@ const Footer = () => {
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.5 }}
           viewport={{ once: true }}
-          className="mt-12 pt-8 border-t-2 border-gray-300 flex flex-col md:flex-row justify-between items-center"
+          className="mt-12 pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center"
         >
-          <p className="text-gray-600 text-sm">
+          <p className="text-slate-500 text-sm">
             © {new Date().getFullYear()} DevHub. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link href={AppRoute.privacy} className="text-gray-600 hover:text-blue-600 text-sm transition-colors font-medium">
-              Privacy Policy
+            <Link href={AppRoute.privacy} className="text-slate-500 hover:text-blue-400 text-sm transition-colors font-medium">
+              {t.footer.privacy}
             </Link>
-            <Link href="#" className="text-gray-600 hover:text-blue-600 text-sm transition-colors font-medium">
-              Terms of Service
+            <Link href="#" className="text-slate-500 hover:text-blue-400 text-sm transition-colors font-medium">
+              {t.footer.terms}
             </Link>
           </div>
         </motion.div>
       </div>
 
-      {/* Background decoration */}
-      <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-blue-600 via-blue-500 to-cyan-500"></div>
-      </div>
+      <div className="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-blue-600 via-cyan-500 to-blue-600" />
     </footer>
   );
 };
