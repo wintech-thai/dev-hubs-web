@@ -57,7 +57,7 @@ const Footer = () => {
             <Link href="/" className="flex items-center gap-3">
               <Image src="/Devhub_logo.png" alt="Dev Hub Logo" width={44} height={44} />
               <span className="text-xl font-bold text-white">
-                Dev<span className="text-blue-400">Hub</span>
+                Dev<span className="text-blue-400"> Hub</span>
               </span>
             </Link>
             <p className="text-slate-400 leading-relaxed">{t.footer.description}</p>

@@ -96,7 +96,7 @@ const Navbar = () => {
             <Link href={AppRoute.home} className="flex items-center gap-3">
               <Image src="/Devhub_logo.png" alt="Dev Hub Logo" width={50} height={50} />
               <span className="text-2xl font-bold text-white">
-                Dev<span className="text-blue-400">Hub</span>
+                Dev<span className="text-blue-400"> Hub</span>
               </span>
             </Link>
           </motion.div>

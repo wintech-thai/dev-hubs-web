@@ -245,7 +245,7 @@ export const translations = {
           contact: {
             company: 'Dev Hub Co., Ltd.',
             address: '55 Sutthisan Winitchai Road, Din Daeng, Bangkok 10400, Thailand',
-            email: 'contact@please-scan.com',
+            email: 'contact@dev-hubs.com',
             phone: '66(0) 94-249-4880',
           },
         },
