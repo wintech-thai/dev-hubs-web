@@ -12,6 +12,12 @@ const partners = [
     href: "https://techentcorp.com/",
     logo: "https://techentcorp.com/wp-content/uploads/2023/06/TEC-logo-1.png",
   },
+  {
+    name: "Triple-T Innovation",
+    description: "Digital Excellence & Web Solutions",
+    href: "https://triple-t.co.th/",
+    logo: "https://triple-t.co.th/wp-content/webp-express/webp-images/uploads/elementor/thumbs/Logo-r8jjr8i0dht230h92ff6dmn2xmdpo1viertgvyiz28.png.webp",
+  },
 ];
 
 const PartnersSection = () => {

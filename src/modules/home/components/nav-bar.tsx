@@ -53,6 +53,8 @@ const Navbar = () => {
   const linksEnd = [
     { name: t.nav.events, link: AppRoute.events },
     { name: t.nav.document, link: AppRoute.document },
+  ];
+  const linksRight = [
     { name: t.nav.privacy, link: AppRoute.privacy },
   ];
 
@@ -108,105 +110,119 @@ const Navbar = () => {
           </motion.div>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-0.5 ml-8">
+          <div className="hidden md:flex items-center justify-between flex-1 ml-8">
 
-            {/* Links before Products */}
-            {linksStart.map((link) => (
-              <Link key={link.name} href={link.link}>
-                <motion.span
-                  whileTap={{ scale: 0.97 }}
-                  className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer inline-block ${
-                    isActive(link.link)
-                      ? "text-blue-400 bg-blue-500/10"
-                      : "text-slate-300 hover:text-white hover:bg-slate-700/60"
-                  }`}
-                >
-                  {link.name}
-                </motion.span>
-              </Link>
-            ))}
-
-            {/* ── Products dropdown ── */}
-            <div ref={productsRef} className="relative">
-              <motion.button
-                whileTap={{ scale: 0.97 }}
-                onClick={() => setProductsOpen((v) => !v)}
-                className="flex items-center gap-1.5 text-slate-300 hover:text-white hover:bg-slate-700/60 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200"
-              >
-                {t.nav.products}
-                <motion.span
-                  animate={{ rotate: productsOpen ? 180 : 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="flex items-center"
-                >
-                  <ChevronDown size={13} />
-                </motion.span>
-              </motion.button>
-
-              <AnimatePresence>
-                {productsOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 6 }}
-                    transition={{ duration: 0.15, ease: "easeOut" }}
-                    className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-56"
+            {/* Left group: main nav links */}
+            <div className="flex items-center gap-0.5">
+              {linksStart.map((link) => (
+                <Link key={link.name} href={link.link}>
+                  <motion.span
+                    whileTap={{ scale: 0.97 }}
+                    className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer inline-block ${
+                      isActive(link.link)
+                        ? "text-blue-400 bg-blue-500/10"
+                        : "text-slate-300 hover:text-white hover:bg-slate-700/60"
+                    }`}
                   >
-                    {/* Arrow */}
-                    <div className="flex justify-center mb-1">
-                      <div className="w-2.5 h-2.5 bg-slate-800 border-l border-t border-slate-700/60 rotate-45" />
-                    </div>
+                    {link.name}
+                  </motion.span>
+                </Link>
+              ))}
 
-                    {/* Panel */}
-                    <div className="bg-slate-800/95 backdrop-blur-xl border border-slate-700/60 rounded-2xl shadow-2xl shadow-slate-950/60 overflow-hidden">
-                      <div className="p-2">
-                        {products.map((p) => (
-                          <a
-                            key={p.name}
-                            href={p.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-700/60 transition-all duration-200"
-                          >
-                            <div className={`w-9 h-9 rounded-lg bg-linear-to-br ${p.gradient} flex items-center justify-center shrink-0 shadow-md`}>
-                              <span className="text-white text-xs font-bold">{p.name.split(" ")[1][0]}</span>
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <div className="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors">
-                                {p.name}
-                              </div>
-                              <div className="text-xs text-slate-400 truncate">
-                                {lang === "th" ? p.descriptionTh : p.description}
-                              </div>
-                            </div>
-                            <ExternalLink size={13} className="text-slate-500 group-hover:text-blue-400 transition-colors shrink-0" />
-                          </a>
-                        ))}
+              {/* ── Products dropdown ── */}
+              <div ref={productsRef} className="relative">
+                <motion.button
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => setProductsOpen((v) => !v)}
+                  className="flex items-center gap-1.5 text-slate-300 hover:text-white hover:bg-slate-700/60 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200"
+                >
+                  {t.nav.products}
+                  <motion.span
+                    animate={{ rotate: productsOpen ? 180 : 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="flex items-center"
+                  >
+                    <ChevronDown size={13} />
+                  </motion.span>
+                </motion.button>
+
+                <AnimatePresence>
+                  {productsOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 6 }}
+                      transition={{ duration: 0.15, ease: "easeOut" }}
+                      className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-56"
+                    >
+                      <div className="flex justify-center mb-1">
+                        <div className="w-2.5 h-2.5 bg-slate-800 border-l border-t border-slate-700/60 rotate-45" />
                       </div>
-                      <div className="h-px bg-linear-to-r from-blue-600/50 via-cyan-500/50 to-transparent" />
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                      <div className="bg-slate-800/95 backdrop-blur-xl border border-slate-700/60 rounded-2xl shadow-2xl shadow-slate-950/60 overflow-hidden">
+                        <div className="p-2">
+                          {products.map((p) => (
+                            <a
+                              key={p.name}
+                              href={p.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-700/60 transition-all duration-200"
+                            >
+                              <div className={`w-9 h-9 rounded-lg bg-linear-to-br ${p.gradient} flex items-center justify-center shrink-0 shadow-md`}>
+                                <span className="text-white text-xs font-bold">{p.name.split(" ")[1][0]}</span>
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div className="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors">
+                                  {p.name}
+                                </div>
+                                <div className="text-xs text-slate-400 truncate">
+                                  {lang === "th" ? p.descriptionTh : p.description}
+                                </div>
+                              </div>
+                              <ExternalLink size={13} className="text-slate-500 group-hover:text-blue-400 transition-colors shrink-0" />
+                            </a>
+                          ))}
+                        </div>
+                        <div className="h-px bg-linear-to-r from-blue-600/50 via-cyan-500/50 to-transparent" />
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              {linksEnd.map((link) => (
+                <Link key={link.name} href={link.link}>
+                  <motion.span
+                    whileTap={{ scale: 0.97 }}
+                    className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer inline-block ${
+                      isActive(link.link)
+                        ? "text-blue-400 bg-blue-500/10"
+                        : "text-slate-300 hover:text-white hover:bg-slate-700/60"
+                    }`}
+                  >
+                    {link.name}
+                  </motion.span>
+                </Link>
+              ))}
             </div>
 
-            {/* Links after Products */}
-            {linksEnd.map((link) => (
-              <Link key={link.name} href={link.link}>
-                <motion.span
-                  whileTap={{ scale: 0.97 }}
-                  className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer inline-block ${
-                    isActive(link.link)
-                      ? "text-blue-400 bg-blue-500/10"
-                      : "text-slate-300 hover:text-white hover:bg-slate-700/60"
-                  }`}
-                >
-                  {link.name}
-                </motion.span>
-              </Link>
-            ))}
-
-            <div className="ml-2">
+            {/* Right group: Privacy + LangToggle */}
+            <div className="flex items-center gap-2">
+              <div className="w-px h-5 bg-slate-700 mx-2" />
+              {linksRight.map((link) => (
+                <Link key={link.name} href={link.link}>
+                  <motion.span
+                    whileTap={{ scale: 0.97 }}
+                    className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer inline-block ${
+                      isActive(link.link)
+                        ? "text-blue-400 bg-blue-500/10"
+                        : "text-slate-300 hover:text-white hover:bg-slate-700/60"
+                    }`}
+                  >
+                    {link.name}
+                  </motion.span>
+                </Link>
+              ))}
               <LangToggle />
             </div>
           </div>

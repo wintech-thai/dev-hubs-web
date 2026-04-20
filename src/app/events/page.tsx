@@ -3,9 +3,10 @@
 import Navbar from "@/modules/home/components/nav-bar";
 import Footer from "@/modules/home/components/footer";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
-import { motion } from "framer-motion";
-import { MapPin, Calendar, ImageOff } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { MapPin, Calendar, ImageOff, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 
 type Event = {
   id: string;
@@ -43,8 +44,8 @@ const events: Event[] = [
   },
   {
     id: "kenya-2026",
-    name: "Kenya Tech & Innovation Expo",
-    nameTh: "Kenya Tech & Innovation Expo",
+    name: "Thailand – Kenya Business Matching and Digital Partnership 2026",
+    nameTh: "Thailand – Kenya Business Matching and Digital Partnership 2026",
     location: "Nairobi, Kenya",
     country: "Kenya",
     flag: "🇰🇪",
@@ -82,6 +83,16 @@ const events: Event[] = [
 const EventCard = ({ event, index }: { event: Event; index: number }) => {
   const { lang, t } = useLanguage();
   const hasImages = event.images.length > 0;
+  const [current, setCurrent] = useState(0);
+
+  const prev = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrent((c) => (c - 1 + event.images.length) % event.images.length);
+  };
+  const next = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setCurrent((c) => (c + 1) % event.images.length);
+  };
 
   return (
     <motion.article
@@ -94,17 +105,53 @@ const EventCard = ({ event, index }: { event: Event; index: number }) => {
       {/* Image area */}
       <div className="relative h-64 md:h-72 bg-slate-900/60 overflow-hidden">
         {hasImages ? (
-          <div className="w-full h-full grid grid-cols-2 gap-0.5">
-            {event.images.map((src, i) => (
-              <div key={i} className="relative w-full h-full">
+          <div className="relative w-full h-full">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={current}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="absolute inset-0"
+              >
                 <Image
-                  src={src}
-                  alt={`${event.name} photo ${i + 1}`}
+                  src={event.images[current]}
+                  alt={`${event.name} photo ${current + 1}`}
                   fill
-                  className="object-cover hover:scale-105 transition-transform duration-500"
+                  className="object-cover"
                 />
-              </div>
-            ))}
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Prev / Next buttons */}
+            {event.images.length > 1 && (
+              <>
+                <button
+                  onClick={prev}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 z-10 bg-slate-900/60 hover:bg-slate-900/90 text-white rounded-full p-1.5 backdrop-blur-sm transition-all duration-200"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  onClick={next}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 z-10 bg-slate-900/60 hover:bg-slate-900/90 text-white rounded-full p-1.5 backdrop-blur-sm transition-all duration-200"
+                >
+                  <ChevronRight size={18} />
+                </button>
+
+                {/* Dot indicators */}
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10 flex gap-1.5">
+                  {event.images.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={(e) => { e.stopPropagation(); setCurrent(i); }}
+                      className={`w-1.5 h-1.5 rounded-full transition-all duration-200 ${i === current ? "bg-white w-4" : "bg-white/40"}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center gap-4">
