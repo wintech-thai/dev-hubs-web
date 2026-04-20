@@ -169,7 +169,6 @@ const Navbar = () => {
                               className="group flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-700/60 transition-all duration-200"
                             >
                               <div className="w-9 h-9 rounded-lg bg-slate-700/60 flex items-center justify-center shrink-0 overflow-hidden p-1">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img src={p.logo} alt={p.name} className="w-full h-full object-contain" />
                               </div>
                               <div className="flex-1 min-w-0">
@@ -242,7 +241,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu — rendered outside the max-w container but still inside nav */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -317,7 +316,6 @@ const Navbar = () => {
                               className="group flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700/40 transition-colors"
                             >
                               <div className="w-8 h-8 rounded-lg bg-slate-700/60 flex items-center justify-center shrink-0 overflow-hidden p-1">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img src={p.logo} alt={p.name} className="w-full h-full object-contain" />
                               </div>
                               <div className="flex-1 min-w-0">
