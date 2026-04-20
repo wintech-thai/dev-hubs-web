@@ -18,7 +18,7 @@ type Event = {
   descriptionEn: string;
   descriptionTh: string;
   tags: string[];
-  images: string[]; // empty = placeholder
+  images: string[];
 };
 
 // Newest first
@@ -36,7 +36,10 @@ const events: Event[] = [
     descriptionTh:
       "DevHubs เป็นตัวแทน ecosystem Cloud Native ของไทยในงาน GITEX Africa หนึ่งในงานเทคโนโลยีที่ใหญ่ที่สุดของแอฟริกา เราได้นำเสนอบริการ Kubernetes Consulting และโซลูชันคลาวด์ On-premise ให้แก่ลูกค้าองค์กรทั่วแอฟริกาและตะวันออกกลาง",
     tags: ["Kubernetes", "Cloud Native", "AI", "Enterprise"],
-    images: ["/Gitex-Africa-1.jpg", "/Gitex-Africa-2.jpg"],
+    images: [
+      "https://storage.googleapis.com/public-software-download/dev-hubs/gitex-africa-1.jpg",
+      "https://storage.googleapis.com/public-software-download/dev-hubs/gitex-africa-2.jpg",
+    ],
   },
   {
     id: "kenya-2026",
@@ -51,8 +54,28 @@ const events: Event[] = [
     descriptionTh:
       "DevHubs เข้าร่วมเป็นตัวแทนภาคเทคโนโลยีของไทยในงาน Thailand – Kenya Business Matching and Digital Partnership 2026 จัดโดยกรมส่งเสริมการค้าระหว่างประเทศ (DITP) ณ กรุงไนโรบี งานนี้เปิดโอกาสให้บริษัทเทคโนโลยีไทยได้พบปะกับองค์กรธุรกิจและหน่วยงานภาครัฐของเคนยา สร้างความร่วมมือด้าน Cloud Native และการเปลี่ยนผ่านดิจิทัลในแอฟริกาตะวันออก",
     tags: ["Cloud Infrastructure", "East Africa", "DevOps"],
-    images: ["/Kenya-1-Devhub.jpg", "/Kenya-2-Devhub.jpg"],
-
+    images: [
+      "https://storage.googleapis.com/public-software-download/dev-hubs/kenya-business-match-1.jpg",
+      "https://storage.googleapis.com/public-software-download/dev-hubs/kenya-business-match-2.jpg",
+    ],
+  },
+  {
+    id: "docker-ai-bangkok-2025",
+    name: "AI & Docker in Real-World Use Cases",
+    nameTh: "AI & Docker in Real-World Use Cases",
+    location: "Bangkok, Thailand",
+    country: "Thailand",
+    flag: "🇹🇭",
+    date: "April 2025",
+    descriptionEn:
+      "DevHubs took the stage as a featured speaker at the AI & Docker in Real-World Use Cases event, held at Siam Kempinski Hotel Bangkok. We shared hands-on expertise in containerization, AI workload orchestration, and deploying production-grade Docker environments — bridging the gap between cutting-edge AI and real-world engineering.",
+    descriptionTh:
+      "DevHubs ได้รับเกียรติเป็นวิทยากรในงาน AI & Docker in Real-World Use Cases ณ โรงแรม Siam Kempinski กรุงเทพฯ เราแบ่งปันประสบการณ์จริงด้านการใช้ Containerization, การจัดการ AI Workload และการ Deploy Docker ในระดับ Production — เชื่อมโยงเทคโนโลยี AI สมัยใหม่สู่การใช้งานจริงในองค์กร",
+    tags: ["AI", "Docker", "Speaker", "Containerization"],
+    images: [
+      "https://storage.googleapis.com/public-software-download/dev-hubs/docker-ai1.jpg",
+      "https://storage.googleapis.com/public-software-download/dev-hubs/docker-ai2.jpg",
+    ],
   },
 ];
 
@@ -85,11 +108,8 @@ const EventCard = ({ event, index }: { event: Event; index: number }) => {
           </div>
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center gap-4">
-            {/* Gradient placeholder */}
             <div className="absolute inset-0 bg-linear-to-br from-blue-900/40 via-slate-900/60 to-cyan-900/30" />
             <div className="absolute inset-0 bg-mesh opacity-20" />
-
-            {/* Country flag + icon */}
             <div className="relative z-10 flex flex-col items-center gap-3">
               <span className="text-7xl">{event.flag}</span>
               <div className="flex items-center gap-2 text-slate-400">
