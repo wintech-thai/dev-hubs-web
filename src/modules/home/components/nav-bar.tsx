@@ -16,7 +16,7 @@ const products = [
     description: "Product authentication via QR",
     descriptionTh: "ตรวจสอบความแท้ผ่าน QR Code",
     href: "https://please-scan.com/",
-    gradient: "from-blue-500 to-cyan-500",
+    logo: "https://please-scan.com/logo.png",
   },
   {
     name: "Please Protect",
@@ -24,7 +24,7 @@ const products = [
     description: "Brand protection platform",
     descriptionTh: "แพลตฟอร์มปกป้องแบรนด์",
     href: "https://please-protect.com/",
-    gradient: "from-purple-500 to-pink-500",
+    logo: "https://please-protect.com/please-protect.svg",
   },
 ];
 
@@ -168,8 +168,8 @@ const Navbar = () => {
                               rel="noopener noreferrer"
                               className="group flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-700/60 transition-all duration-200"
                             >
-                              <div className={`w-9 h-9 rounded-lg bg-linear-to-br ${p.gradient} flex items-center justify-center shrink-0 shadow-md`}>
-                                <span className="text-white text-xs font-bold">{p.name.split(" ")[1][0]}</span>
+                              <div className="w-9 h-9 rounded-lg bg-slate-700/60 flex items-center justify-center shrink-0 overflow-hidden p-1">
+                                <img src={p.logo} alt={p.name} className="w-full h-full object-contain" />
                               </div>
                               <div className="flex-1 min-w-0">
                                 <div className="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors">
@@ -241,7 +241,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu — rendered outside the max-w container but still inside nav */}
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -315,8 +315,8 @@ const Navbar = () => {
                               onClick={() => setIsOpen(false)}
                               className="group flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700/40 transition-colors"
                             >
-                              <div className={`w-8 h-8 rounded-lg bg-linear-to-br ${p.gradient} flex items-center justify-center shrink-0 shadow-sm`}>
-                                <span className="text-white text-xs font-bold">{p.name.split(" ")[1][0]}</span>
+                              <div className="w-8 h-8 rounded-lg bg-slate-700/60 flex items-center justify-center shrink-0 overflow-hidden p-1">
+                                <img src={p.logo} alt={p.name} className="w-full h-full object-contain" />
                               </div>
                               <div className="flex-1 min-w-0">
                                 <div className="text-sm font-semibold text-white">{p.name}</div>
