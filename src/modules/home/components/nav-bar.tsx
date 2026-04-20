@@ -46,12 +46,14 @@ const Navbar = () => {
   const pathname = usePathname();
   const { lang, setLang, t } = useLanguage();
 
-  const links = [
+  const linksStart = [
     { name: t.nav.about, link: AppRoute.home + "#about" },
     { name: t.nav.services, link: AppRoute.services },
+  ];
+  const linksEnd = [
     { name: t.nav.events, link: AppRoute.events },
-    { name: t.nav.privacy, link: AppRoute.privacy },
     { name: t.nav.document, link: AppRoute.document },
+    { name: t.nav.privacy, link: AppRoute.privacy },
   ];
 
   const handleMobileNavClick = (link: string) => {
@@ -96,7 +98,7 @@ const Navbar = () => {
             <Link href={AppRoute.home} className="flex items-center gap-3">
               <Image src="/Devhub_logo.png" alt="Dev Hub Logo" width={50} height={50} />
               <span className="text-2xl font-bold text-white">
-                Dev<span className="text-blue-400">Hub</span>
+                Dev<span className="text-blue-400"> Hub</span>
               </span>
             </Link>
           </motion.div>
@@ -104,8 +106,8 @@ const Navbar = () => {
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-0.5 ml-8">
 
-            {/* Regular links */}
-            {links.map((link) => (
+            {/* Links before Products */}
+            {linksStart.map((link) => (
               <Link key={link.name} href={link.link}>
                 <motion.span
                   whileTap={{ scale: 0.97 }}
@@ -180,6 +182,18 @@ const Navbar = () => {
               </AnimatePresence>
             </div>
 
+            {/* Links after Products */}
+            {linksEnd.map((link) => (
+              <Link key={link.name} href={link.link}>
+                <motion.span
+                  whileTap={{ scale: 0.97 }}
+                  className="text-slate-300 hover:text-white hover:bg-slate-700/60 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer inline-block"
+                >
+                  {link.name}
+                </motion.span>
+              </Link>
+            ))}
+
             <div className="ml-2">
               <LangToggle />
             </div>
@@ -210,8 +224,8 @@ const Navbar = () => {
             className="md:hidden overflow-hidden border-t border-slate-700/50"
           >
             <div className="px-4 py-3 space-y-1 bg-slate-900">
-              {/* Regular links */}
-              {links.map((link) => {
+              {/* Links before Products */}
+              {linksStart.map((link) => {
                 const isAnchor = link.link.includes("#") && pathname === AppRoute.home;
                 if (isAnchor) {
                   return (
@@ -233,7 +247,7 @@ const Navbar = () => {
                 );
               })}
 
-              {/* Products expandable */}
+              {/* Products expandable — between Services and Events */}
               <div>
                 <button
                   onClick={() => setMobileProductsOpen((v) => !v)}
@@ -285,6 +299,15 @@ const Navbar = () => {
                   )}
                 </AnimatePresence>
               </div>
+
+              {/* Links after Products */}
+              {linksEnd.map((link) => (
+                <Link key={link.name} href={link.link} onClick={() => setIsOpen(false)}>
+                  <span className="text-slate-300 hover:text-white hover:bg-slate-700/60 block px-4 py-3 rounded-lg text-sm font-medium transition-all">
+                    {link.name}
+                  </span>
+                </Link>
+              ))}
             </div>
           </motion.div>
         )}

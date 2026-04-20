@@ -5,6 +5,7 @@ import Footer from "@/modules/home/components/footer";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { motion } from "framer-motion";
 import { MapPin, Calendar, ImageOff } from "lucide-react";
+import Image from "next/image";
 
 type Event = {
   id: string;
@@ -29,28 +30,29 @@ const events: Event[] = [
     location: "Marrakech, Morocco",
     country: "Morocco",
     flag: "🇲🇦",
-    date: "April 2025",
+    date: "April 2026",
     descriptionEn:
       "DevHubs represented Thailand's cloud-native ecosystem at GITEX Africa, one of Africa's largest technology exhibitions. We showcased our Kubernetes consulting services and on-premise cloud solutions to enterprise clients across Africa and the Middle East.",
     descriptionTh:
       "DevHubs เป็นตัวแทน ecosystem Cloud Native ของไทยในงาน GITEX Africa หนึ่งในงานเทคโนโลยีที่ใหญ่ที่สุดของแอฟริกา เราได้นำเสนอบริการ Kubernetes Consulting และโซลูชันคลาวด์ On-premise ให้แก่ลูกค้าองค์กรทั่วแอฟริกาและตะวันออกกลาง",
     tags: ["Kubernetes", "Cloud Native", "AI", "Enterprise"],
-    images: [],
+    images: ["/Gitex-Africa-1.jpg", "/Gitex-Africa-2.jpg"],
   },
   {
-    id: "kenya-2024",
+    id: "kenya-2026",
     name: "Kenya Tech & Innovation Expo",
     nameTh: "Kenya Tech & Innovation Expo",
     location: "Nairobi, Kenya",
     country: "Kenya",
     flag: "🇰🇪",
-    date: "2024",
+    date: "2026",
     descriptionEn:
-      "DevHubs joined the Kenya Tech & Innovation Expo to explore cloud infrastructure opportunities across East Africa. We connected with local enterprises and government bodies interested in adopting Kubernetes and cloud-native architectures.",
+      "DevHubs represented Thailand's tech sector at the Thailand – Kenya Business Matching and Digital Partnership 2026, organized by DITP in Nairobi. The event united Thai technology companies with Kenyan enterprises and government agencies, forging new partnerships in cloud-native solutions and digital transformation across East Africa.",
     descriptionTh:
-      "DevHubs เข้าร่วมงาน Kenya Tech & Innovation Expo เพื่อสำรวจโอกาสด้าน Cloud Infrastructure ในแอฟริกาตะวันออก เราได้พบปะกับองค์กรธุรกิจและหน่วยงานภาครัฐที่สนใจนำ Kubernetes และสถาปัตยกรรม Cloud Native มาใช้",
+      "DevHubs เข้าร่วมเป็นตัวแทนภาคเทคโนโลยีของไทยในงาน Thailand – Kenya Business Matching and Digital Partnership 2026 จัดโดยกรมส่งเสริมการค้าระหว่างประเทศ (DITP) ณ กรุงไนโรบี งานนี้เปิดโอกาสให้บริษัทเทคโนโลยีไทยได้พบปะกับองค์กรธุรกิจและหน่วยงานภาครัฐของเคนยา สร้างความร่วมมือด้าน Cloud Native และการเปลี่ยนผ่านดิจิทัลในแอฟริกาตะวันออก",
     tags: ["Cloud Infrastructure", "East Africa", "DevOps"],
-    images: [],
+    images: ["/Kenya-1-Devhub.jpg", "/Kenya-2-Devhub.jpg"],
+
   },
 ];
 
@@ -69,8 +71,18 @@ const EventCard = ({ event, index }: { event: Event; index: number }) => {
       {/* Image area */}
       <div className="relative h-64 md:h-72 bg-slate-900/60 overflow-hidden">
         {hasImages ? (
-          // Future: render actual images here
-          <div className="w-full h-full" />
+          <div className="w-full h-full grid grid-cols-2 gap-0.5">
+            {event.images.map((src, i) => (
+              <div key={i} className="relative w-full h-full">
+                <Image
+                  src={src}
+                  alt={`${event.name} photo ${i + 1}`}
+                  fill
+                  className="object-cover hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+            ))}
+          </div>
         ) : (
           <div className="w-full h-full flex flex-col items-center justify-center gap-4">
             {/* Gradient placeholder */}
