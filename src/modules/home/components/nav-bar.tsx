@@ -56,6 +56,11 @@ const Navbar = () => {
     { name: t.nav.privacy, link: AppRoute.privacy },
   ];
 
+  const isActive = (link: string) => {
+    if (link.includes("#")) return pathname === AppRoute.home;
+    return pathname === link;
+  };
+
   const handleMobileNavClick = (link: string) => {
     if (link.includes("#") && pathname === AppRoute.home) {
       setIsOpen(false);
@@ -87,7 +92,6 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      /* ไม่ใส่ overflow-hidden ที่นี่ — จะทำให้ dropdown ถูกตัด */
       className="fixed top-0 left-0 right-0 w-full z-50 bg-slate-900/80 backdrop-blur-lg border-b border-slate-700/50 shadow-lg shadow-slate-950/50"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -111,7 +115,11 @@ const Navbar = () => {
               <Link key={link.name} href={link.link}>
                 <motion.span
                   whileTap={{ scale: 0.97 }}
-                  className="text-slate-300 hover:text-white hover:bg-slate-700/60 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer inline-block"
+                  className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer inline-block ${
+                    isActive(link.link)
+                      ? "text-blue-400 bg-blue-500/10"
+                      : "text-slate-300 hover:text-white hover:bg-slate-700/60"
+                  }`}
                 >
                   {link.name}
                 </motion.span>
@@ -187,7 +195,11 @@ const Navbar = () => {
               <Link key={link.name} href={link.link}>
                 <motion.span
                   whileTap={{ scale: 0.97 }}
-                  className="text-slate-300 hover:text-white hover:bg-slate-700/60 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer inline-block"
+                  className={`px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer inline-block ${
+                    isActive(link.link)
+                      ? "text-blue-400 bg-blue-500/10"
+                      : "text-slate-300 hover:text-white hover:bg-slate-700/60"
+                  }`}
                 >
                   {link.name}
                 </motion.span>
@@ -232,7 +244,9 @@ const Navbar = () => {
                     <button
                       key={link.name}
                       onClick={() => handleMobileNavClick(link.link)}
-                      className="w-full text-left text-slate-300 hover:text-white hover:bg-slate-700/60 block px-4 py-3 rounded-lg text-sm font-medium transition-all"
+                      className={`w-full text-left block px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                        isActive(link.link) ? "text-blue-400 bg-blue-500/10" : "text-slate-300 hover:text-white hover:bg-slate-700/60"
+                      }`}
                     >
                       {link.name}
                     </button>
@@ -240,7 +254,9 @@ const Navbar = () => {
                 }
                 return (
                   <Link key={link.name} href={link.link} onClick={() => setIsOpen(false)}>
-                    <span className="text-slate-300 hover:text-white hover:bg-slate-700/60 block px-4 py-3 rounded-lg text-sm font-medium transition-all">
+                    <span className={`block px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                      isActive(link.link) ? "text-blue-400 bg-blue-500/10" : "text-slate-300 hover:text-white hover:bg-slate-700/60"
+                    }`}>
                       {link.name}
                     </span>
                   </Link>
@@ -303,7 +319,9 @@ const Navbar = () => {
               {/* Links after Products */}
               {linksEnd.map((link) => (
                 <Link key={link.name} href={link.link} onClick={() => setIsOpen(false)}>
-                  <span className="text-slate-300 hover:text-white hover:bg-slate-700/60 block px-4 py-3 rounded-lg text-sm font-medium transition-all">
+                  <span className={`block px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                    isActive(link.link) ? "text-blue-400 bg-blue-500/10" : "text-slate-300 hover:text-white hover:bg-slate-700/60"
+                  }`}>
                     {link.name}
                   </span>
                 </Link>
