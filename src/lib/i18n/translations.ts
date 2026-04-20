@@ -280,13 +280,13 @@ export const translations = {
       list: [
         {
           category: 'Edge Computing',
-          title: 'Edge & Kiosk K8s Deployment',
+          title: 'Edge & Kiosk Kubernetes Deployment',
           description:
             "Deploy a hardened, standalone Kubernetes node purpose-built for edge environments and kiosk systems — resilient, offline-capable, and engineered for unattended operation at the network's edge.",
         },
         {
           category: 'Infrastructure',
-          title: 'Appliance Server K8s',
+          title: 'Appliance Server Kubernetes',
           description:
             'Transform commodity appliance hardware into a production-grade Kubernetes node — streamlined deployment, optimized resource footprint, and built for long-term stability in embedded environments.',
         },
@@ -298,7 +298,7 @@ export const translations = {
         },
         {
           category: 'Kubernetes',
-          title: 'Application Deployment on K8s',
+          title: 'Application Deployment on Kubernetes',
           description:
             'Containerize, migrate, and deploy your applications onto Kubernetes with zero-downtime rollouts, auto-scaling, and GitOps-driven release pipelines — modern delivery at production velocity.',
         },
@@ -620,13 +620,13 @@ export const translations = {
       list: [
         {
           category: 'Edge Computing',
-          title: 'ติดตั้ง K8s สำหรับ Edge & Kiosk',
+          title: 'ติดตั้ง Kubernetes สำหรับ Edge & Kiosk',
           description:
             'ติดตั้ง Kubernetes แบบ Standalone สำหรับงาน Edge Computing และ Kiosk โดยเฉพาะ — ออกแบบให้ทำงานได้แม้ไม่มีอินเทอร์เน็ต เสถียร และดูแลรักษาง่าย',
         },
         {
           category: 'Infrastructure',
-          title: 'ติดตั้ง K8s บน Appliance Server',
+          title: 'ติดตั้ง Kubernetes บน Appliance Server',
           description:
             'เปลี่ยน Appliance Server ทั่วไปให้เป็น Kubernetes Node ระดับ Production — ติดตั้งง่าย ใช้ทรัพยากรน้อย และเสถียรสำหรับการทำงานต่อเนื่องระยะยาว',
         },

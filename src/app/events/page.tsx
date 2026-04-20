@@ -29,7 +29,7 @@ const events: Event[] = [
     location: "Marrakech, Morocco",
     country: "Morocco",
     flag: "🇲🇦",
-    date: "April 2025",
+    date: "April 2026",
     descriptionEn:
       "DevHubs represented Thailand's cloud-native ecosystem at GITEX Africa, one of Africa's largest technology exhibitions. We showcased our Kubernetes consulting services and on-premise cloud solutions to enterprise clients across Africa and the Middle East.",
     descriptionTh:
@@ -44,7 +44,7 @@ const events: Event[] = [
     location: "Nairobi, Kenya",
     country: "Kenya",
     flag: "🇰🇪",
-    date: "2024",
+    date: "2026",
     descriptionEn:
       "DevHubs joined the Kenya Tech & Innovation Expo to explore cloud infrastructure opportunities across East Africa. We connected with local enterprises and government bodies interested in adopting Kubernetes and cloud-native architectures.",
     descriptionTh:

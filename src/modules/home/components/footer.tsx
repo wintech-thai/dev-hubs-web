@@ -14,7 +14,7 @@ const socialLinks = [
 ];
 
 const contactInfo = [
-  { icon: Mail, text: "seubpong.mon@dev-hubs.com", href: "mailto:seubpong.mon@dev-hubs.com" },
+  { icon: Mail, text: "contact@dev-hubs.com", href: "mailto:contact@dev-hubs.com" },
   { icon: Phone, text: "66(0) 94-249-4880", href: "tel:+66942494880" },
   {
     icon: MapPin,
