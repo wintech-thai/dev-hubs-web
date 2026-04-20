@@ -119,6 +119,7 @@ const EventCard = ({ event, index }: { event: Event; index: number }) => {
                   src={event.images[current]}
                   alt={`${event.name} photo ${current + 1}`}
                   fill
+                  unoptimized
                   className="object-cover"
                 />
               </motion.div>
