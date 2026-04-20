@@ -5,7 +5,7 @@ import Footer from "@/modules/home/components/footer";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { MapPin, Calendar, ImageOff, ChevronLeft, ChevronRight } from "lucide-react";
-import Image from "next/image";
+
 import { useState } from "react";
 
 type Event = {
@@ -115,11 +115,10 @@ const EventCard = ({ event, index }: { event: Event; index: number }) => {
                 transition={{ duration: 0.3 }}
                 className="absolute inset-0"
               >
-                <Image
+                <img
                   src={event.images[current]}
                   alt={`${event.name} photo ${current + 1}`}
-                  fill
-                  className="object-cover"
+                  className="w-full h-full object-cover"
                 />
               </motion.div>
             </AnimatePresence>
