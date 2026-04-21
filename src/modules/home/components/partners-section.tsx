@@ -18,6 +18,12 @@ const partners = [
     href: "https://triple-t.co.th/",
     logo: "https://triple-t.co.th/wp-content/webp-express/webp-images/uploads/elementor/thumbs/Logo-r8jjr8i0dht230h92ff6dmn2xmdpo1viertgvyiz28.png.webp",
   },
+  {
+    name: "Tunable Project",
+    description: "Next-Gen Cyber Security & Research",
+    href: "https://web.tunableproject.com/",
+    logo: "https://w2.tunableproject.com/wp-content/uploads/2025/09/tunable_logo1.png",
+  },
 ];
 
 const PartnersSection = () => {
