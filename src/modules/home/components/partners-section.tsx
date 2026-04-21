@@ -24,6 +24,12 @@ const partners = [
     href: "https://web.tunableproject.com/",
     logo: "https://w2.tunableproject.com/wp-content/uploads/2025/09/tunable_logo1.png",
   },
+  {
+    name: "Orange Cap Innovative",
+    description: "Business Development Through Technology",
+    href: "https://www.orangecapinnovative.com/",
+    logo: "/orange-cap-logo.png",
+  },
 ];
 
 const PartnersSection = () => {
