@@ -18,7 +18,8 @@ const contactInfo = [
   { icon: Phone, text: "66(0) 94-249-4880", href: "tel:+66942494880" },
   {
     icon: MapPin,
-    text: "Dev Hub Co., Ltd. 55 Sutthisan Winitchai Road, Din Daeng, Bangkok 10400, Thailand",
+    text: "Dev Hub Co., Ltd.",
+    text2: "55 Sutthisan Winitchai Road, Din Daeng, Bangkok 10400, Thailand",
     href: "#",
   },
 ];
@@ -144,7 +145,12 @@ const Footer = () => {
                     className="flex items-start space-x-3 text-slate-400 hover:text-blue-400 transition-colors group"
                   >
                     <IconComponent size={16} className="group-hover:text-blue-400 shrink-0 mt-0.5" />
-                    <span className="text-sm">{contact.text}</span>
+                    <span className="text-sm">
+                      {contact.text}
+                      {"text2" in contact && contact.text2 && (
+                        <><br />{contact.text2}</>
+                      )}
+                    </span>
                   </motion.a>
                 );
               })}
