@@ -21,8 +21,8 @@ const products = [
   {
     name: "Please Protect",
     domain: "please-protect.com",
-    description: "Brand protection platform",
-    descriptionTh: "แพลตฟอร์มปกป้องแบรนด์",
+    description: "Product protection platform",
+    descriptionTh: "แพลตฟอร์มปกป้องผลิตภัณฑ์",
     href: "https://please-protect.com/",
     logo: "https://please-protect.com/please-protect.svg",
   },
