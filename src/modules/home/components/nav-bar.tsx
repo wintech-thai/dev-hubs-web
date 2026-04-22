@@ -21,8 +21,8 @@ const products = [
   {
     name: "Please Protect",
     domain: "please-protect.com",
-    description: "Brand protection platform",
-    descriptionTh: "แพลตฟอร์มปกป้องแบรนด์",
+    description: "Network security product",
+    descriptionTh: "ผลิตภัณฑ์ความปลอดภัยเครือข่าย",
     href: "https://please-protect.com/",
     logo: "https://please-protect.com/please-protect.svg",
   },
@@ -175,7 +175,7 @@ const Navbar = () => {
                                 <div className="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors">
                                   {p.name}
                                 </div>
-                                <div className="text-xs text-slate-400 truncate">
+                                <div className="text-xs text-slate-300 line-clamp-2">
                                   {lang === "th" ? p.descriptionTh : p.description}
                                 </div>
                               </div>
