@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
-import Image from "next/image";
 import { useLanguage } from "@/lib/i18n/LanguageContext";
 
 const partners = [
@@ -41,7 +40,7 @@ const PartnersSection = () => {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-64 bg-blue-700 rounded-full blur-3xl opacity-5" />
       </div>
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -61,45 +60,40 @@ const PartnersSection = () => {
           </p>
         </motion.div>
 
-        {/* Partner cards */}
-        <div className="flex flex-wrap justify-center gap-6">
+        {/* Partner grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {partners.map((partner, i) => (
             <motion.a
               key={i}
               href={partner.href}
               target="_blank"
               rel="noopener noreferrer"
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
+              transition={{ duration: 0.5, delay: i * 0.08 }}
               viewport={{ once: true }}
-              whileHover={{ y: -6, scale: 1.02 }}
-              className="group flex items-center gap-5 bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 hover:border-blue-500/40 hover:shadow-2xl hover:shadow-blue-500/10 rounded-2xl px-8 py-6 transition-all duration-400 min-w-72"
+              whileHover={{ y: -4 }}
+              className="group flex flex-col items-center text-center bg-slate-800/40 backdrop-blur-sm border border-slate-700/50 hover:border-blue-500/40 hover:shadow-xl hover:shadow-blue-500/10 rounded-2xl px-5 py-7 transition-all duration-300"
             >
               {/* Logo */}
-              <div className="w-24 h-14 relative shrink-0 flex items-center justify-center">
-                <Image
+              <div className="w-full h-16 flex items-center justify-center mb-4">
+                <img
                   src={partner.logo}
                   alt={partner.name}
-                  fill
-                  className="object-contain"
-                  unoptimized
+                  className="max-h-full max-w-full object-contain"
                 />
               </div>
 
-              {/* Info */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 className="text-white font-bold text-lg group-hover:text-blue-400 transition-colors">
-                    {partner.name}
-                  </h3>
-                  <ExternalLink
-                    size={14}
-                    className="text-slate-600 group-hover:text-blue-400 transition-colors shrink-0"
-                  />
-                </div>
-                <p className="text-slate-400 text-sm">{partner.description}</p>
+              {/* Name + icon */}
+              <div className="flex items-center gap-1.5 mb-1">
+                <h3 className="text-white font-semibold text-sm group-hover:text-blue-400 transition-colors leading-snug">
+                  {partner.name}
+                </h3>
+                <ExternalLink size={12} className="text-slate-600 group-hover:text-blue-400 transition-colors shrink-0" />
               </div>
+
+              {/* Description */}
+              <p className="text-slate-500 text-xs leading-relaxed">{partner.description}</p>
             </motion.a>
           ))}
         </div>
