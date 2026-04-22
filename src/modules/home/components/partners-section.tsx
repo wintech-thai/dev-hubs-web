@@ -28,6 +28,7 @@ const partners = [
     description: "Business Development Through Technology",
     href: "https://www.orangecapinnovative.com/",
     logo: "/orange-cap-logo.png",
+    logoClass: "scale-150",
   },
 ];
 
@@ -76,11 +77,11 @@ const PartnersSection = () => {
               className="group flex flex-col items-center text-center bg-slate-800/40 backdrop-blur-sm border border-slate-700/50 hover:border-blue-500/40 hover:shadow-xl hover:shadow-blue-500/10 rounded-2xl px-5 py-7 transition-all duration-300"
             >
               {/* Logo */}
-              <div className="w-full h-16 flex items-center justify-center mb-4">
+              <div className="w-full h-16 flex items-center justify-center mb-4 bg-white rounded-xl px-3 py-2">
                 <img
                   src={partner.logo}
                   alt={partner.name}
-                  className="max-h-full max-w-full object-contain"
+                  className={`max-h-full max-w-full object-contain ${"logoClass" in partner ? partner.logoClass : ""}`}
                 />
               </div>
 
