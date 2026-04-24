@@ -32,12 +32,17 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
-  // close dropdown when clicking outside
+  const [documentOpen, setDocumentOpen] = useState(false);
+  const [mobileDocumentOpen, setMobileDocumentOpen] = useState(false);
   const productsRef = useRef<HTMLDivElement>(null);
+  const documentRef = useRef<HTMLDivElement>(null);
   React.useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (productsRef.current && !productsRef.current.contains(e.target as Node)) {
         setProductsOpen(false);
+      }
+      if (documentRef.current && !documentRef.current.contains(e.target as Node)) {
+        setDocumentOpen(false);
       }
     };
     document.addEventListener("mousedown", handler);
@@ -52,7 +57,6 @@ const Navbar = () => {
   ];
   const linksEnd = [
     { name: t.nav.events, link: AppRoute.events },
-    { name: t.nav.document, link: AppRoute.document },
   ];
   const linksRight = [
     { name: t.nav.privacy, link: AppRoute.privacy },
@@ -204,6 +208,67 @@ const Navbar = () => {
                   </motion.span>
                 </Link>
               ))}
+
+              {/* ── Document dropdown ── */}
+              <div ref={documentRef} className="relative">
+                <motion.button
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => setDocumentOpen((v) => !v)}
+                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    pathname.startsWith("/blogs") || pathname === AppRoute.document
+                      ? "text-blue-400 bg-blue-500/10"
+                      : "text-slate-300 hover:text-white hover:bg-slate-700/60"
+                  }`}
+                >
+                  {t.nav.document}
+                  <motion.span animate={{ rotate: documentOpen ? 180 : 0 }} transition={{ duration: 0.2 }} className="flex items-center">
+                    <ChevronDown size={13} />
+                  </motion.span>
+                </motion.button>
+
+                <AnimatePresence>
+                  {documentOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 6 }}
+                      transition={{ duration: 0.15, ease: "easeOut" }}
+                      className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-52"
+                    >
+                      <div className="flex justify-center mb-1">
+                        <div className="w-2.5 h-2.5 bg-slate-800 border-l border-t border-slate-700/60 rotate-45" />
+                      </div>
+                      <div className="bg-slate-800/95 backdrop-blur-xl border border-slate-700/60 rounded-2xl shadow-2xl shadow-slate-950/60 overflow-hidden">
+                        <div className="p-2">
+                          <Link href={AppRoute.document} onClick={() => setDocumentOpen(false)}
+                            className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-700/60 transition-all duration-200 group"
+                          >
+                            <div className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center shrink-0">
+                              <span className="text-white text-xs font-bold">CP</span>
+                            </div>
+                            <div>
+                              <div className="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors">Company Profile</div>
+                              <div className="text-xs text-slate-300">Download our profile</div>
+                            </div>
+                          </Link>
+                          <Link href="/blogs/page/1" onClick={() => setDocumentOpen(false)}
+                            className="flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-slate-700/60 transition-all duration-200 group"
+                          >
+                            <div className="w-8 h-8 rounded-lg bg-linear-to-br from-purple-500 to-pink-500 flex items-center justify-center shrink-0">
+                              <span className="text-white text-xs font-bold">BL</span>
+                            </div>
+                            <div>
+                              <div className="text-sm font-semibold text-white group-hover:text-blue-400 transition-colors">Blogs</div>
+                              <div className="text-xs text-slate-300">DevSecOps articles</div>
+                            </div>
+                          </Link>
+                        </div>
+                        <div className="h-px bg-linear-to-r from-blue-600/50 via-cyan-500/50 to-transparent" />
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
 
             {/* Right group: Privacy + LangToggle */}
@@ -332,7 +397,7 @@ const Navbar = () => {
                 </AnimatePresence>
               </div>
 
-              {/* Links after Products */}
+              {/* Links after Products (Events) */}
               {linksEnd.map((link) => (
                 <Link key={link.name} href={link.link} onClick={() => setIsOpen(false)}>
                   <span className={`block px-4 py-3 rounded-lg text-sm font-medium transition-all ${
@@ -342,6 +407,57 @@ const Navbar = () => {
                   </span>
                 </Link>
               ))}
+
+              {/* Document expandable */}
+              <div>
+                <button
+                  onClick={() => setMobileDocumentOpen((v) => !v)}
+                  className="w-full flex items-center justify-between text-slate-300 hover:text-white hover:bg-slate-700/60 px-4 py-3 rounded-lg text-sm font-medium transition-all"
+                >
+                  {t.nav.document}
+                  <motion.span animate={{ rotate: mobileDocumentOpen ? 180 : 0 }} transition={{ duration: 0.2 }} className="flex items-center">
+                    <ChevronDown size={15} />
+                  </motion.span>
+                </button>
+                <AnimatePresence>
+                  {mobileDocumentOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="mt-1 mx-2 bg-slate-800/60 rounded-xl border border-slate-700/40 overflow-hidden">
+                        <div className="p-1.5">
+                          <Link href={AppRoute.document} onClick={() => setIsOpen(false)}
+                            className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700/40 transition-colors"
+                          >
+                            <div className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-500 to-cyan-500 flex items-center justify-center shrink-0">
+                              <span className="text-white text-xs font-bold">CP</span>
+                            </div>
+                            <div>
+                              <div className="text-sm font-semibold text-white">Company Profile</div>
+                              <div className="text-xs text-slate-500">Download our profile</div>
+                            </div>
+                          </Link>
+                          <Link href="/blogs/page/1" onClick={() => setIsOpen(false)}
+                            className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-slate-700/40 transition-colors"
+                          >
+                            <div className="w-8 h-8 rounded-lg bg-linear-to-br from-purple-500 to-pink-500 flex items-center justify-center shrink-0">
+                              <span className="text-white text-xs font-bold">BL</span>
+                            </div>
+                            <div>
+                              <div className="text-sm font-semibold text-white">Blogs</div>
+                              <div className="text-xs text-slate-500">DevSecOps articles</div>
+                            </div>
+                          </Link>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
             </div>
           </motion.div>
         )}
