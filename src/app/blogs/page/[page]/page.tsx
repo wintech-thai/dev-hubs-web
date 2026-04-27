@@ -42,7 +42,9 @@ export default async function BlogListPage({ params }: Props) {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Dev<span className="text-blue-400">Hub</span> Blog
+            Dev<span className="text-blue-400"> Hub</span>
+            <br />
+            Blog
           </h1>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
             Insights on DevSecOps, Kubernetes, Cloud Native, and enterprise infrastructure
