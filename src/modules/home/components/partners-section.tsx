@@ -30,6 +30,12 @@ const partners = [
     logo: "/orange-cap-logo.png",
     logoClass: "scale-150",
   },
+  {
+    name: "Alfa-01",
+    description: "Lead Acquisition - AI Solutions",
+    href: "https://www.alfa-01.com/",
+    logo: "https://www.alfa-01.com/logo-alfa01.png",
+  },
 ];
 
 const PartnersSection = () => {

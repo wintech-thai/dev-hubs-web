@@ -5,6 +5,7 @@ export const AppRoute = {
   status: "/status",
   document: "/document",
   events: "/events",
+  blogs: "/blogs",
   portfolio: {
     supreecha: "/develop/supreecha"
   }
