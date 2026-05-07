@@ -7,7 +7,9 @@ import { Calendar, ArrowLeft, Tag } from "lucide-react";
 import type { Metadata } from "next";
 import { remark } from "remark";
 import remarkGfm from "remark-gfm";
-import remarkHtml from "remark-html";
+import remarkRehype from "remark-rehype";
+import rehypeExternalLinks from "rehype-external-links";
+import rehypeStringify from "rehype-stringify";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -33,7 +35,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 async function markdownToHtml(markdown: string): Promise<string> {
   const result = await remark()
     .use(remarkGfm)
-    .use(remarkHtml, { sanitize: false })
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeExternalLinks, { target: "_blank", rel: ["noopener", "noreferrer"] })
+    .use(rehypeStringify, { allowDangerousHtml: true })
     .process(markdown);
   return result.toString();
 }
@@ -107,6 +111,7 @@ export default async function BlogPostPage({ params }: Props) {
             prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
             prose-code:text-cyan-300 prose-code:bg-slate-800/60 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
             prose-pre:bg-slate-800/80 prose-pre:border prose-pre:border-slate-700/50 prose-pre:rounded-xl
+            [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:rounded-none [&_pre_code]:text-inherit
             prose-blockquote:border-blue-500 prose-blockquote:text-slate-400
             prose-strong:text-white prose-li:text-slate-300
             prose-img:rounded-lg prose-img:shadow-lg prose-img:mx-auto"
