@@ -1,7 +1,7 @@
 ---
 title: "Deep Dive into Edge Deployment with Please Deploy Framework"
 titleTh: "เจาะลึกการทำ Edge Deployment แบบไม่ปวดหัวด้วย Please Deploy Framework"
-date: "2025-01-15"
+date: "2026-06-01"
 author: "DevHubs Team"
 coverImage: ""
 tags: ["DevOps", "GitOps", "Kubernetes", "K3s", "Edge Computing"]
@@ -9,136 +9,136 @@ excerpt: "Learn how Please Deploy Framework automates K3s cluster bootstrapping 
 excerptTh: "Please Deploy Framework คือชุดสคริปต์สำหรับ bootstrap K3s cluster บน Edge Server แบบอัตโนมัติ พร้อมเชื่อม GitOps ผ่าน ArgoCD ช่วยลดงาน Manual และไม่ต้อง SSH เข้าไปตั้งค่าทีละเครื่อง"
 ---
 
-# เจาะลึกการทำ Edge Deployment แบบไม่ปวดหัวด้วย Please Deploy Framework
+# Deep Dive into Edge Deployment with Please Deploy Framework
 
-> **บทความนี้เหมาะสำหรับ:** DevOps Engineer, Platform Engineer หรือทีม Infrastructure ที่ต้องดูแล Edge Server หลายเครื่องพร้อมกัน และต้องการทำให้กระบวนการติดตั้งเป็นระบบอัตโนมัติ ผู้อ่านควรคุ้นเคยกับ Linux, Kubernetes พื้นฐาน และแนวคิด GitOps มาบ้างแล้ว
+> **This article is intended for:** DevOps Engineers, Platform Engineers, and Infrastructure teams responsible for managing multiple Edge Servers simultaneously, who want to automate and systematize the provisioning process. Readers should have a foundational understanding of Linux, Kubernetes, and GitOps concepts.
 
-**TL;DR:** Please Deploy Framework คือชุดสคริปต์สำหรับ bootstrap K3s cluster บน Edge Server แบบอัตโนมัติ พร้อมเชื่อม GitOps ผ่าน ArgoCD ช่วยลดงาน Manual และไม่ต้อง SSH เข้าไปตั้งค่าทีละเครื่อง
+**TL;DR:** Please Deploy Framework is a set of scripts for automatically bootstrapping K3s clusters on Edge Servers and integrating GitOps via ArgoCD — reducing manual operations and eliminating the need to SSH into each machine individually for configuration.
 
 ---
 
-## ความท้าทายของ Edge Deployment ใน Scale จริง
+## The Challenges of Edge Deployment at Real Scale
 
-Edge Deployment ฟังดูเหมือนเป็นแค่การเอา application ไป deploy บน server ที่อยู่ปลายทาง แต่ในความเป็นจริงมันมีรายละเอียดที่ซับซ้อนกว่าที่หลายคนคิด
+Edge Deployment sounds like a straightforward task of deploying an application to a remote server, but in practice it involves significantly more complexity than most people anticipate.
 
-ตอนที่มี Edge Server แค่ไม่กี่เครื่อง การติดตั้งแบบ Manual อาจยังพอรับมือได้ เราสามารถ SSH เข้าไปทีละเครื่อง รัน command ติดตั้ง K3s ตั้งค่า network ปรับ config และ deploy workload ได้โดยใช้เวลาไม่นาน
+When you only have a handful of Edge Servers, manual installation is still manageable. You can SSH into each machine, run the K3s installation commands, configure the network, tune settings, and deploy workloads without spending too much time.
 
-แต่เมื่อจำนวน Edge Server เพิ่มขึ้นจากหลักหน่วยเป็นหลักสิบหรือหลักร้อย ปัญหาเดิม ๆ ก็เริ่มปรากฏขึ้น
+However, as the number of Edge Servers grows from single digits to tens or hundreds, familiar problems start to surface:
 
-* Server แต่ละเครื่องมี config ไม่เหมือนกัน
-* เวอร์ชันของ component เริ่มแตกต่างกัน
-* Config Drift เริ่มสะสมขึ้นเรื่อย ๆ
-* การ upgrade ต้องทำซ้ำหลายรอบ
-* การแก้ไขปัญหาต้อง SSH เข้าไปตรวจสอบทีละเครื่อง
+* Each server ends up with a slightly different configuration
+* Component versions begin to diverge across machines
+* Config drift accumulates over time
+* Upgrades need to be repeated manually on every node
+* Troubleshooting requires SSH-ing into each individual machine
 
-หลายครั้งความผิดพลาดไม่ได้เกิดจาก platform แต่เกิดจาก Human Error เช่น ลืมเปิด port, ใช้ config คนละเวอร์ชัน, deploy ไฟล์ผิด environment หรือรัน command ไม่ครบตามขั้นตอน
+In many cases, failures are not caused by the platform itself, but by Human Error — forgetting to open a port, using a config from the wrong version, deploying files to the wrong environment, or skipping steps in a runbook.
 
-ยิ่งมี Edge Server กระจายอยู่หลาย location การจัดการก็ยิ่งซับซ้อนขึ้น เพราะการเปลี่ยนแปลงเล็ก ๆ อาจต้องทำซ้ำกับทุก cluster
+The more Edge Servers are spread across multiple locations, the more complex management becomes, since even a small change may need to be replicated across every cluster.
 
-สิ่งที่ดูเหมือนเป็นงาน deploy ธรรมดา กลับกลายเป็นภาระด้าน operations ที่กินเวลามากกว่าที่หลายทีมคาดไว้ ทั้งการ deployment, upgrade และการรักษา config consistency ของทุก environment
+What appears to be a routine deployment task can quickly turn into a heavy operational burden — one that consumes far more time than most teams anticipated — across deployments, upgrades, and maintaining config consistency across all environments.
 
-นี่จึงเป็นเหตุผลที่หลายทีมหันมาใช้ Automation และ GitOps มากขึ้น เพื่อเปลี่ยน Edge Deployment จากงานที่ต้องทำด้วยมือ มาเป็นกระบวนการที่สามารถทำซ้ำได้ ตรวจสอบได้ และจัดการได้จากศูนย์กลาง
+This is precisely why many teams are turning to Automation and GitOps: to transform Edge Deployment from a hands-on, error-prone process into one that is repeatable, auditable, and centrally managed.
 
 
 ---
 
 ## Overview of Please Deploy Framework
 
-เครื่องมือที่เข้ามาตอบโจทย์ปัญหานี้คือ Please Deploy Framework ซึ่งเป็น Framework ที่ออกแบบมาเพื่อติดตั้ง K3s cluster แบบอัตโนมัติและจัดการ Kubernetes platform ผ่านแนวคิด GitOps อย่างสมบูรณ์
+The tool designed to address these challenges is Please Deploy Framework — a framework built specifically to automate K3s cluster installation and manage the entire Kubernetes platform through a full GitOps approach.
 
-> **GitOps** คือแนวทางการจัดการระบบที่ใช้ Git เป็นแหล่งความจริงหนึ่งเดียว (Single Source of Truth) ทุกการเปลี่ยนแปลงค่า config ต้องผ่าน Git ก่อน จากนั้นระบบอย่าง ArgoCD จะดึงการเปลี่ยนแปลงนั้นไปใช้งานใน cluster โดยอัตโนมัติ
+> **GitOps** is a system management methodology that uses Git as the Single Source of Truth. Every configuration change must go through Git first, after which a tool like ArgoCD automatically pulls and applies those changes to the cluster.
 
-Framework นี้ครอบคลุมตั้งแต่ bootstrap cluster ไปจนถึงการส่งมอบ workload จริง โดยเปลี่ยนทุกขั้นตอนให้กลายเป็น workflow ที่รันซ้ำได้ ตรวจสอบย้อนหลังได้ และดูแลรักษาได้ง่ายผ่าน Git
+This framework covers everything from cluster bootstrapping through to the delivery of production workloads, transforming every step into a workflow that is repeatable, auditable, and maintainable through Git.
 
-แกนหลักของ workflow แบ่งเป็น sequential phases ที่แต่ละขั้นตอนมี clear boundary และ fail-fast เมื่อมีปัญหา แทนที่จะเป็น monolithic script ที่ debug ยาก การออกแบบแบบนี้ทำให้ระบบสามารถ recover จากความผิดพลาดได้ง่าย และทีมสามารถเข้าใจ dependency ระหว่าง component ได้ชัดเจน
+The core workflow is organized into sequential phases, each with clear boundaries and fail-fast behavior when issues arise. Rather than being a monolithic script that is difficult to debug, this design makes it easy to recover from failures and allows teams to clearly understand the dependencies between components.
 
 ---
 
-## ทำไมต้อง Please Deploy Framework?
+## Why Please Deploy Framework?
 
-Please Deploy Framework ออกแบบมาเพื่อแก้ปัญหา Edge Deployment ทุกระดับ ไม่ว่าจะเป็น startup ที่มี server ไม่กี่เครื่อง หรือองค์กรขนาดใหญ่ที่มี Edge Server หลายสิบหลายร้อยเครื่อง
+Please Deploy Framework is designed to address Edge Deployment challenges at every scale — from a startup with just a few servers to a large enterprise managing tens or hundreds of Edge Servers.
 
-### ข้อดีที่โดดเด่น
+### Key Advantages
 
-**🚀 Automation ตั้งแต่วันแรก**
-- ลด Human Error จากการติดตั้งด้วยมือ
-- รันซ้ำได้ทุกครั้ง (Reproducible)
-- ประหยัดเวลาในการ setup server ใหม่
+**🚀 Automation from Day One**
+- Reduces Human Error from manual installation
+- Fully Reproducible on every run
+- Saves time when provisioning new servers
 
 **🔒 Security by Design**
-- ใช้ DNS Challenge ไม่ต้องเปิดพอร์ต 80 สู่สาธารณะ
-- Centralized Secret Management ด้วย External Secrets
-- Audit trail ครบถ้วนผ่าน Git history
-- RBAC และ Network Isolation ตั้งแต่ต้น
+- Uses DNS Challenge — no need to expose port 80 to the public internet
+- Centralized Secret Management via External Secrets
+- Complete audit trail through Git history
+- RBAC and Network Isolation from the start
 
 **📦 GitOps-Native**
-- Git เป็น Single Source of Truth
-- Rollback ง่ายด้วย Git revert
-- ตรวจสอบการเปลี่ยนแปลงย้อนหลังได้ทั้งหมด
-- Declarative configuration ที่อ่านและเข้าใจง่าย
+- Git as the Single Source of Truth
+- Easy rollback via `git revert`
+- Full history of every configuration change
+- Declarative configuration that is easy to read and understand
 
 **🌐 Air-gapped Ready**
-- รัน Gitea ภายในเครื่องทำให้ทำงานได้แม้ internet ขาด
-- ลดการพึ่งพา external services
-- เหมาะกับ environment ที่มีข้อจำกัดด้านเครือข่าย
+- Running Gitea in-cluster enables operation even without internet connectivity
+- Reduces dependency on external services
+- Suitable for network-restricted environments
 
-**⚡ Lightweight และ Efficient**
-- ใช้ K3s ที่เบากว่า Kubernetes เต็มรูปแบบ
-- Resource footprint ต่ำ เหมาะกับ Edge devices
-- Bootstrap เร็ว ใช้เวลาไม่ถึง 30 นาที
+**⚡ Lightweight and Efficient**
+- Uses K3s, which is lighter than full Kubernetes
+- Low resource footprint, ideal for Edge devices
+- Fast bootstrap — completed in under 30 minutes
 
-**🔄 Easy Upgrade และ Maintenance**
-- อัปเกรด component ผ่าน Git commit เดียว
-- ArgoCD sync อัตโนมัติ
-- Staged rollout ทดสอบใน staging ก่อน production
+**🔄 Easy Upgrades and Maintenance**
+- Upgrade components with a single Git commit
+- Automatic ArgoCD sync
+- Staged rollout — test in staging before promoting to production
 
 **📊 Built-in Observability**
-- Prometheus + Grafana สำหรับ metrics
-- Loki สำหรับ log aggregation
-- Alert manager เชื่อมกับ Discord/Slack
+- Prometheus + Grafana for metrics
+- Loki for log aggregation
+- Alert Manager integrated with Discord/Slack
 
-### เหมาะกับทุกขนาดองค์กร
+### Suitable for Organizations of Any Size
 
-**Startup (1-10 servers):**
-- เริ่มต้นด้วย automation ที่ถูกต้องตั้งแต่แรก
-- ไม่ต้องมา refactor ทีหลังเมื่อ scale
-- ประหยัดเวลาในการ manual configuration
+**Startup (1–10 servers):**
+- Start with proper automation from the very beginning
+- No need to refactor later when you scale
+- Saves time on manual configuration
 
-**Growing Company (10-50 servers):**
-- Scale ได้ง่ายโดยไม่ต้องเปลี่ยน architecture
-- Config consistency ข้ามทุก environment
-- ทีมทำงานร่วมกันได้ง่ายผ่าน Git workflow
+**Growing Company (10–50 servers):**
+- Scale easily without changing the architecture
+- Config consistency across all environments
+- Easy team collaboration through Git workflow
 
 **Enterprise (50+ servers):**
-- จัดการ Edge Server หลายสิบหลายร้อยเครื่องได้อย่างมีประสิทธิภาพ
+- Efficiently manage tens or hundreds of Edge Servers
 - Multi-environment support (dev, staging, production)
-- Compliance-ready ด้วย audit trail ที่ครบถ้วน
+- Compliance-ready with a complete audit trail
 
 ---
 
-## Evolution Path: จาก Manual สู่ GitOps
+## Evolution Path: From Manual to GitOps
 
-Please Deploy Framework เหมาะกับองค์กรที่กำลัง evolve จาก manual operations ไปสู่ automation ในระดับ GitOps
+Please Deploy Framework is ideal for organizations evolving from manual operations toward GitOps-level automation.
 
 ```
 Stage 1: Manual Operations (1-5 servers)
   └─ SSH + bash scripts + documentation
-  └─ เหมาะกับ: Startup, PoC, Small teams
+  └─ Suitable for: Startup, PoC, Small teams
   
 Stage 2: Configuration Management (5-20 servers)
   └─ Ansible/Chef + Git + CI/CD
-  └─ เหมาะกับ: Growing teams, Multiple environments
+  └─ Suitable for: Growing teams, Multiple environments
   
-Stage 3: GitOps-Driven (20-100 servers) ← Please Deploy อยู่ตรงนี้
+Stage 3: GitOps-Driven (20-100 servers) ← Please Deploy sits here
   └─ K3s + ArgoCD + Gitea + Declarative config
-  └─ เหมาะกับ: Edge deployment, IoT platforms, Multi-site
+  └─ Suitable for: Edge deployment, IoT platforms, Multi-site
   
 Stage 4: Enterprise Platform (100+ servers)
   └─ Rancher/Fleet + Multi-region + Service mesh
-  └─ เหมาะกับ: Large enterprises, Global infrastructure
+  └─ Suitable for: Large enterprises, Global infrastructure
 ```
 
-Framework นี้ออกแบบมาสำหรับทีมที่อยู่ใน **Stage 2-3** และต้องการก้าวไปสู่ GitOps โดยไม่ต้องลงทุนกับ enterprise platform ที่ซับซ้อนและมีค่าใช้จ่ายสูง
+This framework is designed for teams at **Stage 2–3** who want to move to GitOps without investing in a complex and costly enterprise platform.
 
 ---
 
@@ -146,76 +146,76 @@ Framework นี้ออกแบบมาสำหรับทีมที่�
 
 ![PLSdeFW GCS Architecture](/blogs/please-deploy-framwork/architecture-diagram.png)
 
-โครงสร้างของ Please Deploy Framework แบ่งออกเป็น 4 Layer หลัก เพื่อแยกความรับผิดชอบของแต่ละ component และทำให้ platform ขยายตัวได้ง่ายขึ้น
+The architecture of Please Deploy Framework is divided into 4 main layers, separating the responsibilities of each component and making the platform easier to scale.
 
 ### Layer 1 - Bootstrap Layer
-Bootstrap Layer ทำงานผ่านสคริปต์ `00-install-k3s.bash` โดยดาวน์โหลดและติดตั้ง K3s ด้วยค่าปรับแต่งมาตรฐานสำหรับ cluster ขนาดเล็กที่รัน embedded etcd ซึ่งเป็น datastore สำหรับ Kubernetes เพื่อรองรับการทำ High Availability ในอนาคต พร้อมปิด service Traefik ที่ติดมากับ K3s เพื่อให้ Ingress NGINX เข้ามาจัดการ traffic แทน
+The Bootstrap Layer operates via the `00-install-k3s.bash` script. It downloads and installs K3s with standard settings for a small cluster running embedded etcd — the datastore for Kubernetes — to support future High Availability, while also disabling the Traefik service that ships with K3s so that Ingress NGINX can take over traffic management instead.
 
 ### Layer 2 - Secret Management Layer
-Secret Layer ติดตั้งและจัดเตรียม secret management (Secrets) ผ่านสคริปต์ `01-initial-secrets.bash` โดยสร้าง Encryption Key เบื้องต้นจากไฟล์ `.env` แล้วแปลงค่าเหล่านี้ลงสู่ Kubernetes Secrets ก่อนที่ component ใดๆ จะเข้ามาเรียกใช้งาน เป็นการวางด่านแรกด้านความปลอดภัยของ environment
+The Secret Layer installs and prepares secret management via the `01-initial-secrets.bash` script. It generates initial Encryption Keys from the `.env` file and converts those values into Kubernetes Secrets before any other component attempts to consume them — establishing the first security checkpoint of the environment.
 
 ### Layer 3 - GitOps Layer
-GitOps Layer จะติดตั้ง GitOps stack ซึ่งประกอบด้วย ArgoCD และ Gitea โดยรัน ArgoCD ควบคู่กับ Gitea ภายใน cluster เพื่อทำเป็น Git server ส่วนตัวโดยไม่ต้องพึ่งพา service ภายนอก
+The GitOps Layer installs the GitOps stack, which consists of ArgoCD and Gitea. Both run inside the cluster, with Gitea serving as a private Git server that eliminates any dependency on external services.
 
-> **ArgoCD** คือเครื่องมือที่คอยตรวจสอบ Git Repository และนำการเปลี่ยนแปลงไปใช้กับ Kubernetes cluster โดยอัตโนมัติ
+> **ArgoCD** is a tool that continuously monitors a Git Repository and automatically applies any changes to the Kubernetes cluster.
 >
-> **Gitea** คือ Git server แบบ self-hosted ที่รันได้ภายในเครื่อง ใช้เก็บ config โดยไม่ต้องส่งข้อมูลออกสู่ภายนอก
+> **Gitea** is a self-hosted Git server that runs on-premises, storing configuration locally without sending any data outside the cluster.
 
 ### Layer 4 - Addon Management Layer
-Addon Layer จัดการการ platform component ผ่านไฟล์ `ApplicationSet` ซึ่งเป็น Custom Resource ของ ArgoCD ที่ช่วยสร้าง Application หลายชุดจาก template เดียว ArgoCD จะ discover clusters ที่มี label `custom: "true"` แล้วส่ง service เสริมไปรันตาม cluster เป้าหมายได้อย่างแม่นยำ
+The Addon Layer manages platform components through `ApplicationSet` files — a Custom Resource in ArgoCD that generates multiple Applications from a single template. ArgoCD discovers clusters labeled `custom: "true"` and precisely delivers the appropriate add-on services to each target cluster.
 
 ---
 
-## Design Philosophy: Sequential Phases และ Clear Boundaries
+## Design Philosophy: Sequential Phases and Clear Boundaries
 
-Framework นี้ออกแบบให้แต่ละ phase มี clear boundary และ fail-fast เมื่อมีปัญหา แทนที่จะเป็น monolithic script ที่ debug ยาก
+This framework is designed so that each phase has clear boundaries and fails fast when issues occur, rather than being a monolithic script that is hard to debug.
 
 ### Phase 1: Bootstrap Layer
-**แนวคิด:** สร้างฐาน Kubernetes cluster ที่เตรียมพร้อมสำหรับ High Availability และ Monitoring ตั้งแต่วันแรก
+**Concept:** Establish a Kubernetes cluster foundation that is ready for High Availability and Monitoring from day one.
 
 **Design Decisions:**
-- ใช้ embedded etcd แทน external datastore เพื่อลด dependency และเตรียมพร้อมสำหรับ multi-node HA
-- ปิด Traefik (default ingress ของ K3s) เพื่อให้ NGINX เข้ามาจัดการ routing ที่ซับซ้อนกว่า โดยเฉพาะการทำงานร่วมกับ Cloudflare
-- เปิด etcd metrics ตั้งแต่ต้นเพื่อให้ Prometheus สามารถเก็บข้อมูลสุขภาพของ datastore ได้ทันที
-- กำหนด storage path ไปที่ `/data` เพื่อรองรับ production server ที่มักมี dedicated disk สำหรับ persistent data
+- Use embedded etcd instead of an external datastore to reduce dependencies and prepare for multi-node HA
+- Disable Traefik (K3s's default ingress) to let NGINX handle more complex routing, especially for integration with Cloudflare
+- Enable etcd metrics from the start so Prometheus can immediately collect datastore health data
+- Set the storage path to `/data` to accommodate production servers that typically have a dedicated disk for persistent data
 
 ### Phase 2: Secret Management Layer
-**แนวคิด:** สร้าง Secret และ Credential ทั้งหมดก่อนที่ component อื่นจะเริ่มทำงาน เพื่อป้องกัน Race Condition
+**Concept:** Create all Secrets and Credentials before any other component starts, to prevent Race Conditions.
 
 **Design Decisions:**
-- ใช้ Idempotency pattern ทำให้สคริปต์รันซ้ำได้โดยไม่สร้างค่าซ้ำ
-- ใช้ polling loop รอจนกว่า Secret จะถูกสร้างสำเร็จ แทนการ assume ว่าทุกอย่างเสร็จทันที (เพราะ Kubernetes Job ทำงานแบบ asynchronous)
-- แยก Secret เป็น 2 ชั้น: `initial-secret` (generated) และ `initial-secret-preset` (from .env file) เพื่อแยก auto-generated values กับ user-provided values
+- Apply the Idempotency pattern so scripts can be re-run without generating duplicate values
+- Use polling loops to wait until Secrets are successfully created, rather than assuming everything completes immediately (since Kubernetes Jobs execute asynchronously)
+- Separate Secrets into 2 tiers: `initial-secret` (auto-generated) and `initial-secret-preset` (from the `.env` file) to clearly distinguish auto-generated values from user-provided values
 
-**ข้อดี:** ความปลอดภัยสูง และป้องกัน Race Condition ได้อย่างมีประสิทธิภาพ
+**Advantage:** High security and effective prevention of Race Conditions.
 
 ### Phase 3: Core Addons Layer
-**แนวคิด:** ติดตั้ง 5 core components ที่จำเป็นสำหรับ GitOps platform โดยใช้ K3s HelmChart CRD แทน Helm CLI
+**Concept:** Install 5 core components required for a GitOps platform using K3s HelmChart CRDs instead of the Helm CLI.
 
 **Design Decisions:**
-- **ArgoCD:** GitOps controller ที่เป็นหัวใจของ automation
-- **NGINX Ingress:** ใช้ hostPort แทน LoadBalancer เพื่อลด complexity บน Edge environment
-- **External Secrets:** ดึง Secret จาก central store แทนการ hardcode ในแต่ละ cluster
-- **Cert-Manager:** ใช้ DNS Challenge แทน HTTP Challenge เพราะ Edge Server มักอยู่หลัง NAT
-- **Gitea:** Local Git server เพื่อรองรับ air-gapped deployment
+- **ArgoCD:** The GitOps controller that is the heart of automation
+- **NGINX Ingress:** Uses `hostPort` instead of a LoadBalancer to reduce complexity in Edge environments
+- **External Secrets:** Pulls Secrets from a central store instead of hardcoding them in each cluster
+- **Cert-Manager:** Uses DNS Challenge instead of HTTP Challenge because Edge Servers are often behind NAT
+- **Gitea:** Local Git server to support air-gapped deployments
 
-**ข้อดี:** ได้ความสามารถในการทำงานโดยไม่ต้องพึ่ง internet ตลอดเวลา และมี flexibility สูง
+**Advantage:** Achieves internet-independent operation with high flexibility.
 
 ### Phase 4: GitOps Bootstrap Layer
-**แนวคิด:** เชื่อม ArgoCD กับ Git repository และเริ่มต้น continuous sync workflow
+**Concept:** Connect ArgoCD to the Git repository and initiate the continuous sync workflow.
 
 **Design Decisions:**
-- รองรับทั้งการดึงจาก GitHub โดยตรง และการดึงจาก Gitea ภายในเครื่อง
-- ใช้ cluster label `custom: "true"` เพื่อให้ ApplicationSet คัดเลือก target cluster ได้อย่างยืดหยุ่น
-- ใช้ git-sync-job ดึงโค้ดจาก remote มาเก็บใน local Gitea เพื่อรองรับ air-gapped scenario
+- Supports both pulling directly from GitHub and pulling from the local Gitea instance
+- Uses the cluster label `custom: "true"` to allow ApplicationSet to flexibly select target clusters
+- Uses a git-sync-job to pull code from the remote and store it in local Gitea, supporting air-gapped scenarios
 
-**ข้อดี:** Flexibility สูง สามารถเลือกได้ว่าจะดึง config จากไหน และรองรับทั้ง online และ offline deployment
+**Advantage:** High flexibility — you can choose where to pull configs from, and the setup supports both online and offline deployments.
 
 ---
 
-## โครงสร้าง Repository และ GitOps Pattern
+## Repository Structure and GitOps Pattern
 
-โครงสร้างโฟลเดอร์ของโปรเจกต์สะท้อนแนวคิด separation of concerns และ progressive deployment:
+The project folder structure reflects the principles of separation of concerns and progressive deployment:
 
 ```
 please-deploy/
@@ -231,83 +231,83 @@ please-deploy/
     └── manifests/       # Helm values per service
 ```
 
-### GitOps Pattern: Declarative และ Auditable
+### GitOps Pattern: Declarative and Auditable
 
-แนวคิดหลักของ GitOps คือการใช้ Git เป็น Single Source of Truth ทำให้ทุกการเปลี่ยนแปลงมี audit trail และ rollback ได้ง่าย
+The core principle of GitOps is using Git as the Single Source of Truth, ensuring every change has an audit trail and can be easily rolled back.
 
-**ข้อดีของ GitOps Pattern:**
-- **Single Source of Truth:** ทุกการเปลี่ยนแปลงผ่าน Git เท่านั้น
-- **Audit Trail:** ดูประวัติการเปลี่ยนแปลงได้ทั้งหมดผ่าน Git history
-- **Rollback ง่าย:** Git revert แล้ว ArgoCD sync ให้อัตโนมัติ
-- **Declarative:** บอกว่าต้องการอะไร ไม่ใช่ทำอย่างไร
-- **Collaboration:** ทีมทำงานร่วมกันได้ง่ายผ่าน Git workflow
-- **Version Control:** ทุก config มี version history ครบถ้วน
+**Advantages of the GitOps Pattern:**
+- **Single Source of Truth:** All changes flow exclusively through Git
+- **Audit Trail:** Full change history is visible through Git history
+- **Easy Rollback:** Git revert followed by automatic ArgoCD sync
+- **Declarative:** Defines the desired state — not the steps to get there
+- **Collaboration:** Teams can work together easily through Git workflow
+- **Version Control:** Every config has a complete version history
 
 ---
 
-## Key Components และ Design Rationale
+## Key Components and Design Rationale
 
-หลังจาก GitOps เริ่มทำงานสมบูรณ์แล้ว ArgoCD จะ sync และ deploy services เหล่านี้เข้าสู่ cluster โดยอัตโนมัติ มาดูแนวคิดเบื้องหลังการเลือกใช้แต่ละ component:
+Once GitOps is fully operational, ArgoCD automatically syncs and deploys these services into the cluster. Here is the reasoning behind each component selection:
 
 ### Cert-Manager + DNS Challenge Pattern
 
-**ปัญหา:** Edge Server มักอยู่หลัง NAT หรือ firewall ทำให้ Let's Encrypt ไม่สามารถเข้าถึงพอร์ต 80 เพื่อทำ HTTP Challenge ได้
+**Problem:** Edge Servers are often behind NAT or a firewall, preventing Let's Encrypt from reaching port 80 to complete the HTTP Challenge.
 
-**แนวทาง:** ใช้ DNS Challenge ผ่าน Cloudflare API แทน ทำให้ไม่ต้องเปิดพอร์ต 80 สู่สาธารณะ
+**Approach:** Use DNS Challenge via the Cloudflare API instead, eliminating the need to expose port 80 to the public internet.
 
-**ข้อดี:** 
-- ปลอดภัยกว่า ไม่ต้องเปิดพอร์ต
-- ทำงานได้แม้ server อยู่หลัง NAT
-- SSL certificate ต่ออายุอัตโนมัติ
+**Advantages:**
+- More secure — no port exposure required
+- Works even when the server is behind NAT
+- SSL certificates renew automatically
 
 ### External Secrets Pattern
 
-**ปัญหา:** การ hardcode Secret ในแต่ละ cluster ทำให้ยากต่อการ rotate และมีความเสี่ยงด้านความปลอดภัย
+**Problem:** Hardcoding Secrets in each cluster makes rotation difficult and introduces security risks.
 
-**แนวทาง:** ใช้ ClusterSecretStore ดึง Secret จาก `initial-secret-preset` ที่เป็น central source
+**Approach:** Use a ClusterSecretStore to pull Secrets from `initial-secret-preset` as the central source.
 
-**ข้อดี:**
-- Secret rotation ง่าย (แก้ที่เดียว sync ทุกที่)
-- ลด Secret sprawl
-- Centralized management ทำให้ควบคุมได้ง่าย
+**Advantages:**
+- Easy Secret rotation (update once, sync everywhere)
+- Reduces Secret sprawl
+- Centralized management for simplified control
 
 ### Ingress Pattern: NGINX + Cloudflare Proxy
 
-**ปัญหา:** Edge Server มี Public IP ที่เปลี่ยนแปลงได้ และต้องการซ่อน origin server
+**Problem:** Edge Servers may have dynamic Public IPs and require hiding the origin server's identity.
 
-**แนวทาง:** 
-- ใช้ NGINX Ingress กับ `hostPort` แทน LoadBalancer
-- ใช้ DDNS updater อัปเดต Cloudflare DNS อัตโนมัติ
-- ใช้ Cloudflare Proxy ซ่อน origin IP
+**Approach:**
+- Use NGINX Ingress with `hostPort` instead of a LoadBalancer
+- Use a DDNS updater to automatically update Cloudflare DNS
+- Use Cloudflare Proxy to mask the origin IP
 
-**ข้อดี:**
-- ไม่ต้องจ่ายค่า LoadBalancer
-- Origin IP ถูกซ่อนโดย Cloudflare
-- DDoS protection จาก Cloudflare
-- SSL termination ที่ Cloudflare edge
+**Advantages:**
+- No LoadBalancer costs
+- Origin IP is masked by Cloudflare
+- DDoS protection from Cloudflare
+- SSL termination at the Cloudflare edge
 
 ### Monitoring Stack Pattern
 
-**ปัญหา:** Prometheus Operator มี CRD จำนวนมาก ถ้าติดตั้งพร้อมกับ core components จะทำให้ Kubernetes API overwhelmed
+**Problem:** The Prometheus Operator ships with a large number of CRDs. Installing it alongside core components risks overwhelming the Kubernetes API server.
 
-**แนวทาง:** แยก monitoring ออกมาติดตั้งในขั้นตอนสุดท้าย พร้อมใช้ polling loop รอให้ CRD พร้อมก่อน
+**Approach:** Install monitoring separately as the final step, with a polling loop that waits for CRDs to be fully ready before proceeding.
 
-**ข้อดี:**
-- ลด race condition ระหว่างการติดตั้ง
-- Monitoring ไม่ block core platform
-- Observability ครบถ้วนด้วย Prometheus + Grafana + Loki
+**Advantages:**
+- Reduces race conditions during installation
+- Monitoring does not block core platform readiness
+- Complete observability with Prometheus + Grafana + Loki
 
 ### Local Git Server (Gitea) Pattern
 
-**ปัญหา:** Edge Server อาจอยู่ใน air-gapped environment หรือมี internet ที่ไม่เสถียร
+**Problem:** Edge Servers may operate in air-gapped environments or have unreliable internet connectivity.
 
-**แนวทาง:** รัน Gitea ภายใน cluster และใช้ git-sync-job ดึงโค้ดจาก remote มาเก็บไว้ local
+**Approach:** Run Gitea inside the cluster and use a git-sync-job to pull code from the remote and store it locally.
 
-**ข้อดี:**
-- ทำงานได้แม้ internet ขาด
-- Latency ต่ำกว่าการดึงจาก GitHub ตลอดเวลา
-- Data sovereignty - config ไม่ออกนอก cluster
-- Backup และ disaster recovery ง่ายขึ้น
+**Advantages:**
+- Operates normally even when internet connectivity is lost
+- Lower latency compared to always pulling from GitHub
+- Data sovereignty — configuration never leaves the cluster
+- Simplified backup and disaster recovery
 
 ---
 
@@ -315,79 +315,79 @@ please-deploy/
 
 ![PLSdeFW GCS Architecture](/blogs/please-deploy-framwork/deployment-workflow.png)
 
-การ bootstrap Edge Server ใหม่เป็นกระบวนการ sequential ที่แต่ละขั้นตอนมี dependency ชัดเจน:
+Bootstrapping a new Edge Server is a sequential process where each step has explicit dependencies:
 
-### ทำไมต้องเป็นลำดับนี้?
+### Why This Specific Order?
 
 **Dependency Chain:**
-1. **K3s ก่อน (`00-install-k3s.bash`)** → ไม่มี cluster ก็ไม่มีที่รัน component อื่น
-2. **Secrets ก่อน Addons (`01-initial-secrets.bash`)** → Gitea ต้องการ admin password, Cert-Manager ต้องการ Cloudflare API key
-3. **Addons ก่อน Bootstrap (`02-initial-addons.bash`)** → ArgoCD ต้องพร้อมก่อนจึงจะเชื่อม Git ได้
-4. **Bootstrap ก่อน Monitoring (`04-boot-strap.bash`)** → Monitoring ต้องการ CRD จาก Prometheus Operator ซึ่งต้องรอให้ API server พร้อม
-5. **Monitoring สุดท้าย (`03-install-monitoring.bash`)** → ติดตั้งหลังจาก core platform พร้อมแล้ว
+1. **K3s first (`00-install-k3s.bash`)** → Without a cluster, there is nowhere to run other components
+2. **Secrets before Addons (`01-initial-secrets.bash`)** → Gitea needs an admin password; Cert-Manager needs the Cloudflare API key
+3. **Addons before Bootstrap (`02-initial-addons.bash`)** → ArgoCD must be ready before it can be connected to Git
+4. **Bootstrap before Monitoring (`04-boot-strap.bash`)** → Monitoring requires CRDs from the Prometheus Operator, which must wait for the API server to be ready
+5. **Monitoring last (`03-install-monitoring.bash`)** → Installed after the core platform is fully operational
 
 **Fail-Fast Design:**
-ถ้าขั้นตอนใดล้มเหลว ขั้นตอนถัดไปจะไม่รัน ทำให้ debug ง่ายกว่าการรัน monolithic script ที่พังครึ่งทาง
+If any step fails, subsequent steps will not execute — making it far easier to debug than a monolithic script that fails halfway through.
 
 ---
 
-## Security by Design: แนวคิดความปลอดภัยที่คิดมาตั้งแต่ต้น
+## Security by Design: Security Built In from the Start
 
-Framework นี้ออกแบบ Edge platform โดยคำนึงถึง Security by Design ตั้งแต่ต้น ลด attack surface ผ่านการกำหนดค่าและ architectural decisions อย่างเป็นระบบ
+This framework designs the Edge platform with Security by Design as a foundational principle, reducing the attack surface through systematic configuration choices and deliberate architectural decisions.
 
 ### Defense in Depth Strategy
 
 **Layer 1: Network Security**
-- **ไม่เปิดพอร์ต 80 สู่สาธารณะ:** ใช้ DNS Challenge แทน HTTP Challenge
-- **จำกัดพอร์ตที่เปิด:** NGINX ใช้ `hostPort` รับ traffic เฉพาะ 80/443
-- **ซ่อน Origin IP:** ใช้ Cloudflare Proxy ป้องกันการโจมตีตรง
-- **ซ่อน Admin Interfaces:** Dashboard ทั้งหมดอยู่ที่ URL path ย่อย เช่น `/tools/argocd`
+- **No port 80 exposed to the public internet:** DNS Challenge is used instead of HTTP Challenge
+- **Minimal open ports:** NGINX uses `hostPort` to accept traffic exclusively on 80/443
+- **Origin IP masking:** Cloudflare Proxy protects against direct attacks
+- **Hidden admin interfaces:** All dashboards are accessible only via sub-path URLs, e.g., `/tools/argocd`
 
 **Layer 2: Access Control**
-- **Least Privilege RBAC:** Secret manager มีเพียง `get`, `create`, `patch` ไม่มีสิทธิ์ `delete`
-- **ปิดการสมัครสมาชิก:** Gitea ตั้ง `DISABLE_REGISTRATION: true`
-- **Namespace Isolation:** แต่ละ service รันใน namespace แยก
+- **Least Privilege RBAC:** The secret manager has only `get`, `create`, and `patch` permissions — no `delete`
+- **Registration disabled:** Gitea is configured with `DISABLE_REGISTRATION: true`
+- **Namespace Isolation:** Each service runs in its own dedicated namespace
 
 **Layer 3: Secret Management**
-- **Secret Rotation:** `refreshInterval: 1m` ทำให้ Secret อัปเดตทุกนาที
-- **Centralized Secrets:** ใช้ ClusterSecretStore เป็น single source of truth
-- **No Hardcoded Secrets:** ทุก Secret ดึงจาก External Secrets
+- **Secret Rotation:** `refreshInterval: 1m` causes Secrets to refresh every minute
+- **Centralized Secrets:** ClusterSecretStore serves as the single source of truth
+- **No Hardcoded Secrets:** All Secrets are sourced via External Secrets
 
 **Layer 4: Supply Chain Security**
-- **Git as Audit Trail:** ทุกการเปลี่ยนแปลงผ่าน Git commit
-- **Declarative Config:** ไม่มี imperative commands ที่ bypass audit
-- **Local Git Server:** ลดการพึ่งพา external services
+- **Git as Audit Trail:** Every change is tracked through Git commits
+- **Declarative Config:** No imperative commands that can bypass the audit trail
+- **Local Git Server:** Reduces dependency on external services
 
-### ข้อดีด้านความปลอดภัย
+### Security Advantages
 
-Framework นี้มอบความปลอดภัยหลายระดับ:
+This framework provides multiple layers of security:
 
 **🔐 Network Security**
-- ไม่ต้องเปิดพอร์ต 80 สู่สาธารณะ
-- จำกัดพอร์ตที่เปิดเฉพาะ 80/443
-- Origin IP ถูกซ่อนโดย Cloudflare
-- Admin interfaces ซ่อนอยู่ที่ URL path ย่อย
+- No port 80 exposed to the public internet
+- Only ports 80/443 are open
+- Origin IP is masked by Cloudflare
+- Admin interfaces are hidden behind sub-path URLs
 
 **🔑 Access Control**
 - Least Privilege RBAC
-- ปิดการสมัครสมาชิกใน Gitea
+- Gitea registration is disabled
 - Namespace Isolation
 
 **🔒 Secret Management**
-- Secret rotation อัตโนมัติทุกนาที
-- Centralized secrets ผ่าน ClusterSecretStore
-- ไม่มี hardcoded secrets ใน Git
+- Automatic Secret rotation every minute
+- Centralized secrets through ClusterSecretStore
+- No hardcoded secrets in Git
 
-**📝 Audit และ Compliance**
-- ทุกการเปลี่ยนแปลงมี Git commit history
-- Declarative config ตรวจสอบได้
-- Rollback ง่ายผ่าน Git revert
+**📝 Audit and Compliance**
+- Every change has a Git commit history
+- Declarative config is fully auditable
+- Easy rollback via `git revert`
 
 ---
 
 ## Upgrade Strategy: GitOps-Driven Change Management
 
-จุดเด่นที่ทรงพลังของการออกแบบด้วย GitOps คือกระบวนการอัปเกรดที่เป็นระบบและตรวจสอบได้
+One of the most powerful aspects of a GitOps-based design is a systematic and auditable upgrade process.
 
 ### Upgrade Workflow
 
@@ -395,18 +395,18 @@ Framework นี้มอบความปลอดภัยหลายระ�
 
 ### Branch-per-Environment Strategy
 
-กลยุทธ์สำคัญคือพารามิเตอร์ `targetRevision: "{{name}}"` ใน ApplicationSet ที่ล็อก cluster แต่ละรายไว้กับ Git branch ที่มีชื่อตรงกัน
+The key mechanism is the `targetRevision: "{{name}}"` parameter in the ApplicationSet, which locks each cluster to the Git branch that matches its name.
 
-**ตัวอย่าง Upgrade Flow:**
+**Example Upgrade Flow:**
 
 1. **Test on Staging First**
    ```bash
    git checkout staging
-   # แก้ไข version ใน addons-cert-manager.yaml
+   # Update the version in addons-cert-manager.yaml
    git commit -m "Upgrade cert-manager to 1.20.0"
    git push origin staging
    ```
-   ArgoCD จะ sync ไปยัง cluster ที่ชื่อ `staging` เท่านั้น
+   ArgoCD will sync only to the cluster named `staging`.
 
 2. **Verify and Promote to Production**
    ```bash
@@ -414,86 +414,86 @@ Framework นี้มอบความปลอดภัยหลายระ�
    git merge staging
    git push origin main
    ```
-   ArgoCD จะ sync ไปยัง cluster ที่ชื่อ `main`
+   ArgoCD will sync to the cluster named `main`.
 
 ### Rollback Strategy
 
-**Scenario 1: Rollback ผ่าน Git**
+**Scenario 1: Rollback via Git**
 ```bash
 git revert <commit-hash>
 git push
 ```
-ArgoCD จะ detect และ sync กลับไปยังเวอร์ชันเก่าอัตโนมัติ
+ArgoCD will detect the change and automatically sync back to the previous version.
 
-**Scenario 2: Rollback ผ่าน ArgoCD UI**
-- เข้า ArgoCD UI
-- เลือก Application ที่ต้องการ rollback
-- คลิก "History and Rollback"
-- เลือก revision ที่ต้องการ
+**Scenario 2: Rollback via ArgoCD UI**
+- Open the ArgoCD UI
+- Select the Application to roll back
+- Click "History and Rollback"
+- Select the desired revision
 
-### ข้อดีของ GitOps Upgrade
+### Advantages of GitOps Upgrades
 
-**✅ ข้อดีที่โดดเด่น:**
-- **Audit Trail:** ดูประวัติการ upgrade ได้ทั้งหมด
-- **Rollback ง่าย:** Git revert แล้ว sync อัตโนมัติ
-- **Staged Rollout:** Test ใน staging ก่อน promote ไป production
-- **Declarative:** บอกว่าต้องการเวอร์ชันอะไร ไม่ใช่ทำอย่างไร
-- **Zero Downtime:** ArgoCD ทำ rolling update อัตโนมัติ
-- **Consistency:** ทุก cluster ได้ version เดียวกัน
-
----
-
-## ตัวอย่างการนำ Framework ไปใช้งาน
-
-Framework นี้ไม่ได้เป็นเพียงแนวคิดทางทฤษฎี แต่รองรับโจทย์ธุรกิจจริง:
-
-1.  **แพลตฟอร์มเซนเซอร์ความปลอดภัย (Security Sensor Platform)**: รับ-ส่งข้อมูลจากเซนเซอร์ IoT ที่ติดตั้งในพื้นที่หน้างาน เพื่อประเมินภัยคุกคามแบบ real-time
-2.  **ระบบ Edge หลายสภาพแวดล้อม (Multi-environment Edge)**: แยกการตั้งค่าและ traffic ระหว่าง Dev กับ Prod อย่างชัดเจน โดยใช้ codebase ชุดเดียวกัน
+**✅ Key Benefits:**
+- **Audit Trail:** Full history of every upgrade is visible
+- **Easy Rollback:** Git revert triggers automatic sync
+- **Staged Rollout:** Test in staging before promoting to production
+- **Declarative:** Specify the desired version — not the steps to get there
+- **Zero Downtime:** ArgoCD performs rolling updates automatically
+- **Consistency:** Every cluster receives the same version
 
 ---
 
-## Lessons Learned และ Best Practices
+## Real-World Use Cases
 
-การสร้าง Framework ชุดนี้ตกผลึกเป็นบทเรียนและ best practices หลายข้อ
+This framework is not just a theoretical concept — it addresses real business requirements:
+
+1.  **Security Sensor Platform**: Ingests and transmits data from IoT sensors deployed on-site for real-time threat assessment.
+2.  **Multi-environment Edge**: Clearly separates settings and traffic between Dev and Prod using a single shared codebase.
+
+---
+
+## Lessons Learned and Best Practices
+
+Building this framework distilled into a number of key lessons and best practices.
 
 ### ✅ What Worked Well
 
 **1. Sequential Phases with Clear Boundaries**
-การแยก bootstrap เป็น sequential scripts ช่วยให้แต่ละ layer มี clear boundary และ fail-fast เมื่อมีปัญหา แทนที่จะเป็น monolithic script ที่ debug ยาก
+Splitting the bootstrap process into sequential scripts gives each layer a clear boundary and enables fail-fast behavior when issues arise, rather than having a monolithic script that is difficult to debug.
 
 **2. K3s HelmChart CRD over Helm CLI**
-การใช้ `HelmChart` Custom Resource แทนการเขียนสคริปต์ Helm CLI ช่วยให้จัดการ lifecycle ของ service หลักได้แบบ Declarative ซึ่งตรวจสอบและ rollback ได้ง่ายกว่ามาก
+Using `HelmChart` Custom Resources instead of scripted Helm CLI calls enables declarative lifecycle management of core services, making auditing and rollbacks significantly easier.
 
 **3. Local Git for Air-gapped Readiness**
-การรัน Gitea ภายในเครื่องช่วยลดการพึ่งพา external services Platform ยังทำงานได้ตามปกติแม้อินเทอร์เน็ตจะขาดหาย ซึ่งสำคัญมากสำหรับ Edge deployment
+Running Gitea in-cluster reduces dependency on external services. The platform continues to operate normally even if internet connectivity is lost — a critical requirement for Edge deployments.
 
 **4. Secrets-First Approach**
-การสร้าง Secret เป็นขั้นตอนแรกสุดช่วยป้องกัน Race Condition ที่เกิดเมื่อ component อื่นเริ่มทำงานก่อนที่ key หลักจะพร้อม
+Creating Secrets as the very first step prevents Race Conditions that occur when other components start before the primary keys are ready.
 
 **5. Separate Monitoring Installation**
-การแยก monitoring ออกมาติดตั้งต่างหาก พร้อมลูปรอความพร้อม ช่วยหลีกเลี่ยงปัญหา Kubernetes API ยังไม่พร้อมประมวลผล CRD ขนาดใหญ่
+Installing monitoring separately with a readiness polling loop avoids issues caused by the Kubernetes API not yet being ready to process large CRDs.
 
 ### 🎯 Best Practices
 
-**1. ใช้ Idempotency Pattern**
+**1. Use the Idempotency Pattern**
 ```bash
-# ✅ ทำแบบนี้
+# ✅ Do this
 kubectl apply -f config.yaml
-# หรือ
+# or
 kubectl create secret generic my-secret --dry-run=client -o yaml | kubectl apply -f -
 ```
-ทำให้สคริปต์รันซ้ำได้โดยไม่ error
+This allows scripts to be re-run without errors.
 
-**2. ใช้ Immutable Tags**
+**2. Use Immutable Tags**
 ```yaml
-# ✅ ทำแบบนี้
+# ✅ Do this
 image: nginx:1.25.3
 ```
-ทำให้ deployment reproducible และ predictable
+This makes deployments reproducible and predictable.
 
 **3. Implement Health Checks**
 ```bash
-# รอให้ component พร้อมก่อนทำงานต่อ
+# Wait for the component to be ready before proceeding
 until kubectl get secret initial-secret -n default; do
   sleep 2
 done
@@ -501,96 +501,96 @@ done
 
 **4. Document Technical Decisions**
 ```bash
-# บันทึก TODO และ Technical Debt ไว้ในโค้ด
+# Record TODOs and Technical Debt in the code
 # TODO: Use immutable tag instead of "latest"
 ```
-ทำให้ทีมรู้ว่าต้องกลับมาแก้จุดไหน
+This ensures the team knows what needs to be revisited later.
 
 **5. Use GitOps for Everything**
-ทุกการเปลี่ยนแปลงผ่าน Git เพื่อให้มี audit trail ครบถ้วน
+Every change goes through Git, ensuring a complete audit trail.
 
 ---
 
 ## Future Roadmap: Beyond Edge Deployment
 
-ทิศทางการพัฒนาในอนาคตมุ่งเน้นไปที่การขยายขีดความสามารถและเพิ่ม automation
+The development roadmap is focused on expanding capabilities and increasing automation.
 
 **1. Multi-node High Availability**
-- Framework ใช้ `--cluster-init` รองรับ etcd แล้ว
-- ขั้นถัดไปคือสคริปต์เสริมสำหรับเชื่อม server สำรองเข้ามาทำ load balancing
-- เพิ่มความน่าเชื่อถือและ uptime ของ platform
+- The framework already uses `--cluster-init` to support etcd
+- The next step is additional scripts for joining standby servers to enable load balancing
+- Improves platform reliability and uptime
 
-**2. GUI Dashboard สำหรับ Operator**
-- พัฒนาหน้าเว็บให้ผู้ใช้ที่ไม่คุ้นชิน CLI สามารถควบคุมและติดตามงาน Sync ของแอปพลิเคชันได้
-- Real-time monitoring และ alerting
-- One-click deployment และ rollback
+**2. GUI Dashboard for Operators**
+- Develop a web interface allowing users unfamiliar with the CLI to monitor and control application Sync operations
+- Real-time monitoring and alerting
+- One-click deployment and rollback
 
 **3. AI-assisted Operations**
-- ใช้ AI วิเคราะห์ log และแจ้งเตือนจาก Edge Server
-- Auto-remediation สำหรับปัญหาที่พบบ่อย
-- Predictive maintenance และ capacity planning
+- Use AI to analyze logs and surface alerts from Edge Servers
+- Auto-remediation for common recurring issues
+- Predictive maintenance and capacity planning
 
 ---
 
-## บทสรุป: จาก Manual Operations สู่ GitOps-Driven Infrastructure
+## Conclusion: From Manual Operations to GitOps-Driven Infrastructure
 
-Please Deploy Framework แก้ปัญหาที่ทีม Infrastructure เจอทุกวัน ด้วยการแปลงกระบวนการ Edge Deployment ที่เคยซับซ้อนและเสี่ยงต่อ Human Error ให้กลายเป็นระบบที่รันซ้ำได้และตรวจสอบได้ ผ่านแนวคิด GitOps ที่ใช้ Git เป็นศูนย์กลางของทุกการเปลี่ยนแปลง
+Please Deploy Framework solves the day-to-day challenges faced by Infrastructure teams by transforming a complex, Human Error-prone Edge Deployment process into a repeatable and auditable system — centered on the GitOps principle of using Git as the single hub for all changes.
 
 ### Key Takeaways
 
-**1. Sequential Phases ลด Complexity**
-การแยก bootstrap เป็น 4 phases ที่มี clear boundaries ทำให้ debug ง่ายและ fail-fast เมื่อมีปัญหา
+**1. Sequential Phases Reduce Complexity**
+Splitting the bootstrap process into 4 phases with clear boundaries makes debugging easier and enables fail-fast behavior when issues arise.
 
-**2. GitOps ให้ Audit Trail และ Rollback**
-ทุกการเปลี่ยนแปลงผ่าน Git commit ทำให้ตรวจสอบย้อนหลังได้และ rollback ง่าย
+**2. GitOps Provides Audit Trail and Rollback**
+Every change is tracked through a Git commit, making it fully auditable and easy to roll back.
 
-**3. Air-gapped Ready ด้วย Local Gitea**
-การรัน Git server ภายในเครื่องทำให้ platform ทำงานได้แม้ internet ขาด
+**3. Air-gapped Ready with Local Gitea**
+Running a Git server in-cluster keeps the platform operational even when internet connectivity is unavailable.
 
-**4. Security by Design ตั้งแต่ต้น**
-ใช้ DNS Challenge, centralized secrets, RBAC และ network isolation ลด attack surface
+**4. Security by Design from the Start**
+Using DNS Challenge, centralized secrets, RBAC, and network isolation significantly reduces the attack surface.
 
-**5. เหมาะกับทุกขนาดองค์กร**
-ไม่ว่าจะมี 1 server หรือ 100 servers Framework นี้ช่วยให้การจัดการเป็นระบบและ scale ได้ง่าย
+**5. Suitable for Organizations of Any Size**
+Whether you have 1 server or 100 servers, this framework brings systematic management and effortless scalability.
 
-### ทำไมต้องเริ่มใช้ตั้งแต่วันนี้?
+### Why Start Today?
 
-**🚀 สำหรับ Startup:**
-- เริ่มต้นด้วย automation ที่ถูกต้องตั้งแต่แรก
-- ไม่ต้องมา refactor ทีหลังเมื่อ scale
-- ประหยัดเวลาและลด Human Error
+**🚀 For Startups:**
+- Start with proper automation from day one
+- No need to refactor later when you scale
+- Save time and reduce Human Error
 
-**📈 สำหรับ Growing Company:**
-- Scale ได้ง่ายโดยไม่ต้องเปลี่ยน architecture
-- Config consistency ข้ามทุก environment
-- ทีมทำงานร่วมกันได้ง่ายผ่าน Git workflow
+**📈 For Growing Companies:**
+- Scale easily without changing the architecture
+- Config consistency across all environments
+- Easy team collaboration through Git workflow
 
-**🏢 สำหรับ Enterprise:**
-- จัดการ Edge Server หลายสิบหลายร้อยเครื่องได้อย่างมีประสิทธิภาพ
+**🏢 For Enterprises:**
+- Efficiently manage tens or hundreds of Edge Servers
 - Multi-environment support (dev, staging, production)
-- Compliance-ready ด้วย audit trail ที่ครบถ้วน
+- Compliance-ready with a complete audit trail
 
-### จาก Concept สู่ Production
+### From Concept to Production
 
-Framework นี้ไม่ได้เป็นเพียงแนวคิดทางทฤษฎี แต่ถูกใช้งานจริงใน use cases ต่างๆ:
-1. **Security Sensor Platform (IoT)** - รับ-ส่งข้อมูลจากเซนเซอร์ real-time
-2. **Multi-environment Edge** - แยก Dev/Prod อย่างชัดเจน
+This framework is not merely a theoretical concept — it has been deployed in real-world use cases:
+1. **Security Sensor Platform (IoT)** — real-time data ingestion and transmission from sensors
+2. **Multi-environment Edge** — clear separation of Dev/Prod environments
 
 ### Next Steps
 
-หากสนใจนำแนวคิดนี้ไปปรับใช้:
+If you are interested in adopting these concepts:
 
-1. **เริ่มจาก Single Server** - ทดสอบกับ server ทดสอบก่อน
-2. **ปรับแต่งตาม Context** - แต่ละองค์กรมี requirements ต่างกัน
-3. **วัดผล Metrics** - ติดตาม deployment time, error rate, MTTR
-4. **Scale Gradually** - เพิ่ม server ทีละน้อยและเรียนรู้จากประสบการณ์
+1. **Start with a Single Server** — test on a trial server first
+2. **Adapt to Your Context** — every organization has different requirements
+3. **Measure Metrics** — track deployment time, error rate, and MTTR
+4. **Scale Gradually** — add servers incrementally and learn from experience
 
-### ดูโค้ดต้นฉบับ
+### View the Source Code
 
-หากสนใจดูโค้ดต้นฉบับและ implementation details สามารถดูได้ที่:
+For the source code and implementation details, visit:
 - **Control Plane:** [github.com/wintech-thai/please-protect-rproxy](https://github.com/wintech-thai/please-protect-rproxy)
 - **Data Plane:** [github.com/wintech-thai/please-protect-rproxy-data-plane](https://github.com/wintech-thai/please-protect-rproxy-data-plane)
 
 ---
 
-**Please Deploy Framework: GitOps-Driven Edge Deployment ที่ทำให้การจัดการ Infrastructure เป็นเรื่องง่าย ไม่ว่าคุณจะมี server กี่เครื่อง**
+**Please Deploy Framework: GitOps-Driven Edge Deployment that makes Infrastructure management straightforward — no matter how many servers you have.**
