@@ -26,6 +26,14 @@ const products = [
     href: "https://please-protect.com/",
     logo: "https://please-protect.com/please-protect.svg",
   },
+  {
+    name: "Please Payment",
+    domain: "please-payment.com",
+    description: "Non-custodial QR payment gateway",
+    descriptionTh: "ระบบรับชำระเงินผ่าน QR แบบ non-custodial",
+    href: "https://please-payment.com/",
+    logo: "https://please-payment.com/logo.svg",
+  },
 ];
 
 const Navbar = () => {
