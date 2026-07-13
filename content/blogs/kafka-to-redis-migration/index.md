@@ -296,6 +296,156 @@ Keep the old (Kafka) pipeline running in parallel with the new (Redis Streams) o
 
 ---
 
+## Do you need to manually set up anything in Redis?
+
+Short answer: **no.** There is no manual step — not `XGROUP CREATE`, not pre-creating the stream, nothing. Point a fresh Redis instance at these Helm values and the whole thing bootstraps itself on first pod start.
+
+Every stage's `init =>` block calls `XGROUP CREATE ... MKSTREAM` itself, wrapped in a retry loop that treats a `BUSYGROUP` error (group already exists) as a no-op rather than a failure. That means it's safe to run on every single pod (re)start — new machine, new namespace, pod crash-restart, doesn't matter, the same code path runs and either creates the group or discovers it already exists and moves on.
+
+**Producer example — `logstash-receiver-redis/values.yaml`** (writes into `received-topic-beat`):
+
+```yaml
+logstash-beat-receiver-redis:
+  extraEnvs:
+    - name: REDIS_ETL_HOST
+      value: "redis-etl-master.redis-etl.svc.cluster.local"
+
+  logstashPipeline:
+    logstash.conf: |
+      input {
+        beats {
+          port => 5044
+          codec => "json"
+          type => "log"
+        }
+      }
+
+      filter {
+        ruby {
+          path => "/scripts/receiver-beat.rb"
+          script_params => {}
+        }
+
+        ruby {
+          init => '
+            require "redis"
+            require "json"
+
+            STREAM = "received-topic-beat"
+            GROUP  = "for-transformer"
+            MAXLEN = 180_000
+
+            def connect_with_retry(host, port)
+              attempt = 0
+              begin
+                r = Redis.new(host: host, port: port, timeout: 5, reconnect_attempts: 1)
+                r.ping
+                r
+              rescue Redis::BaseConnectionError => e
+                attempt += 1
+                raise if attempt >= 30
+                sleep [2 ** [attempt, 6].min, 30].min
+                retry
+              end
+            end
+
+            $r = connect_with_retry(ENV["REDIS_ETL_HOST"], 6379)
+
+            # idempotent — safe to run on every pod start
+            begin
+              $r.xgroup(:create, STREAM, GROUP, "$", mkstream: true)
+            rescue Redis::CommandError => e
+              raise e unless e.message.include?("BUSYGROUP")
+            end
+          '
+          code => '
+            payload = event.to_json
+            $r.xadd(STREAM, { "data" => payload }, id: "*", maxlen: MAXLEN, approximate: true)
+            event.cancel
+          '
+        }
+      }
+
+      output {}
+```
+
+**Consumer example — `logstash-transformer-redis/values.yaml`** (reads from `received-topic-beat`, writes into `transformed-topic-beat`):
+
+```yaml
+logstash-transformer-redis:
+  extraEnvs:
+    - name: REDIS_ETL_HOST
+      value: "redis-etl-master.redis-etl.svc.cluster.local"
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: metadata.name
+
+  logstashPipeline:
+    logstash.conf: |
+      input {
+        generator {
+          count => 0        # infinite tick, no real events — Redis is the real input
+        }
+      }
+
+      filter {
+        ruby {
+          init => '
+            require "redis"
+            require "json"
+
+            IN_STREAM  = "received-topic-beat"
+            IN_GROUP   = "for-transformer"
+            CONSUMER   = "transformer-#{ENV["POD_NAME"]}"   # stable name across restarts — see PEL note above
+            OUT_STREAM = "transformed-topic-beat"
+            OUT_GROUP  = "for-aggregator-ioc"
+
+            def connect_with_retry(host, port)
+              attempt = 0
+              begin
+                r = Redis.new(host: host, port: port, timeout: 5, reconnect_attempts: 1)
+                r.ping
+                r
+              rescue Redis::BaseConnectionError => e
+                attempt += 1
+                raise if attempt >= 30
+                sleep [2 ** [attempt, 6].min, 30].min
+                retry
+              end
+            end
+
+            def ensure_group(r, stream, group)
+              r.xgroup(:create, stream, group, "$", mkstream: true)
+            rescue Redis::CommandError => e
+              raise e unless e.message.include?("BUSYGROUP")
+            end
+
+            $r_in = connect_with_retry(ENV["REDIS_ETL_HOST"], 6379)
+            ensure_group($r_in, IN_STREAM, IN_GROUP)
+            ensure_group($r_in, OUT_STREAM, OUT_GROUP)
+          '
+          code => '
+            entries = $r_in.xreadgroup(IN_GROUP, CONSUMER, IN_STREAM, ">", count: 1, block: 1000)
+            if entries && entries[IN_STREAM] && !entries[IN_STREAM].empty?
+              id, fields = entries[IN_STREAM].first
+              new_ev = LogStash::Event.new(JSON.parse(fields["data"]))
+              event.overwrite(new_ev)
+              $r_in.xack(IN_STREAM, IN_GROUP, id)
+            else
+              event.cancel
+            end
+          '
+        }
+      }
+
+      output {}
+```
+
+The one thing that *is* a real operational decision (not automated) is sizing `MAXLEN` per stream and the Redis instance's own `maxmemory`/`maxmemory-policy` — that's capacity planning you do once up front, not a manual command you run per-machine.
+
+---
+
 ## Limitations of Redis Streams
 
 ### 1. Data lives in RAM primarily
