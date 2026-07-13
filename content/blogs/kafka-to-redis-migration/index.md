@@ -302,13 +302,13 @@ Short answer: **no.** There is no manual step — not `XGROUP CREATE`, not pre-c
 
 Every stage's `init =>` block calls `XGROUP CREATE ... MKSTREAM` itself, wrapped in a retry loop that treats a `BUSYGROUP` error (group already exists) as a no-op rather than a failure. That means it's safe to run on every single pod (re)start — new machine, new namespace, pod crash-restart, doesn't matter, the same code path runs and either creates the group or discovers it already exists and moves on.
 
-**Producer example — `logstash-receiver-redis/values.yaml`** (writes into `received-topic-beat`):
+**Producer example — `logstash-receiver-redis/values.yaml`** (writes into `received-topic`):
 
 ```yaml
 logstash-beat-receiver-redis:
   extraEnvs:
     - name: REDIS_ETL_HOST
-      value: "redis-etl-master.redis-etl.svc.cluster.local"
+      value: "redis-streams.internal.svc.cluster.local"
 
   logstashPipeline:
     logstash.conf: |
@@ -331,9 +331,9 @@ logstash-beat-receiver-redis:
             require "redis"
             require "json"
 
-            STREAM = "received-topic-beat"
+            STREAM = "received-topic"
             GROUP  = "for-transformer"
-            MAXLEN = 180_000
+            MAXLEN = 100_000
 
             def connect_with_retry(host, port)
               attempt = 0
@@ -369,13 +369,13 @@ logstash-beat-receiver-redis:
       output {}
 ```
 
-**Consumer example — `logstash-transformer-redis/values.yaml`** (reads from `received-topic-beat`, writes into `transformed-topic-beat`):
+**Consumer example — `logstash-transformer-redis/values.yaml`** (reads from `received-topic`, writes into `transformed-topic`):
 
 ```yaml
 logstash-transformer-redis:
   extraEnvs:
     - name: REDIS_ETL_HOST
-      value: "redis-etl-master.redis-etl.svc.cluster.local"
+      value: "redis-streams.internal.svc.cluster.local"
     - name: POD_NAME
       valueFrom:
         fieldRef:
@@ -395,11 +395,11 @@ logstash-transformer-redis:
             require "redis"
             require "json"
 
-            IN_STREAM  = "received-topic-beat"
+            IN_STREAM  = "received-topic"
             IN_GROUP   = "for-transformer"
             CONSUMER   = "transformer-#{ENV["POD_NAME"]}"   # stable name across restarts — see PEL note above
-            OUT_STREAM = "transformed-topic-beat"
-            OUT_GROUP  = "for-aggregator-ioc"
+            OUT_STREAM = "transformed-topic"
+            OUT_GROUP  = "for-aggregator"
 
             def connect_with_retry(host, port)
               attempt = 0
