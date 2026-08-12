@@ -10,6 +10,7 @@ import remarkGfm from "remark-gfm";
 import remarkRehype from "remark-rehype";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeStringify from "rehype-stringify";
+import ArticleContent from "@/components/blog/article-content";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -104,18 +105,19 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
 
         {/* Content */}
-        <article
+        <ArticleContent
+          html={contentHtml}
           className="prose prose-invert prose-blue max-w-none
             prose-headings:font-bold prose-headings:text-white
             prose-p:text-slate-300 prose-p:leading-relaxed
             prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
             prose-code:text-cyan-300 prose-code:bg-slate-800/60 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm
             prose-pre:bg-slate-800/80 prose-pre:border prose-pre:border-slate-700/50 prose-pre:rounded-xl
-            [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:rounded-none [&_pre_code]:text-inherit
+            prose-pre:whitespace-pre-wrap prose-pre:break-words prose-pre:overflow-x-hidden
+            [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:rounded-none [&_pre_code]:text-inherit [&_pre_code]:whitespace-pre-wrap [&_pre_code]:break-words
             prose-blockquote:border-blue-500 prose-blockquote:text-slate-400
             prose-strong:text-white prose-li:text-slate-300
             prose-img:rounded-lg prose-img:shadow-lg prose-img:mx-auto"
-          dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
       </main>
 
