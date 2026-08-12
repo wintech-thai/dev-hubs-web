@@ -1,7 +1,7 @@
 ---
 title: "Prometheus Operator + ServiceMonitor: Add Targets Without Touching Config"
 titleTh: "Prometheus Operator + ServiceMonitor: เพิ่ม target โดยไม่ต้องแก้ config"
-date: "2026-08-12"
+date: "2026-08-13"
 author: "DevHubs Team"
 coverImage: ""
 tags: ["Kubernetes", "Prometheus", "K3s", "Observability", "DevOps"]
@@ -238,7 +238,7 @@ helm install redis-demo bitnami/redis -n redis-demo \
   --set volumePermissions.image.repository=bitnamilegacy/os-shell
 ```
 
-> **Note:** `auth.enabled=false` is for the demo only — never set this in production. `bitnamilegacy/*` **is genuinely required for this test to work** (not "might be needed") because since late August 2025, Bitnami moved its free public images to this legacy registry. The chart will warn "Substituted images detected," but the deploy still goes through fine. The command above was tested successfully on 2026-08-12 — if you're running this well after that date, check the chart README again to see if the same flags are still required.
+> **Note:** `auth.enabled=false` is for the demo only — never set this in production. `bitnamilegacy/*` **is genuinely required for this test to work** (not "might be needed") because since late August 2025, Bitnami moved its free public images to this legacy registry. The chart will warn "Substituted images detected," but the deploy still goes through fine. The command above was tested successfully on 2026-08-13 — if you're running this well after that date, check the chart README again to see if the same flags are still required.
 
 Or, if you already cloned the example repo, run this single command instead:
 ```bash
