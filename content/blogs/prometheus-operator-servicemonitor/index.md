@@ -14,15 +14,11 @@ excerptTh: "สอน Prometheus Operator + ServiceMonitor แบบลงมื
 .prose code::after { content: none !important; }
 .prose blockquote p::before,
 .prose blockquote p::after { content: none !important; }
-.prose pre:has(code.language-text),
-.prose pre:has(code.language-json) {
-  padding: 0.75rem 1rem !important;
+.prose pre:has(code.language-text) {
   overflow-x: auto !important;
 }
-.prose pre:has(code.language-text) code,
-.prose pre:has(code.language-json) code {
-  font-size: 0.72rem !important;
-  line-height: 1.5 !important;
+.prose pre:has(code.language-text) code {
+  font-size: 0.95em !important;
   white-space: pre !important;
   word-break: normal !important;
 }
@@ -408,9 +404,29 @@ kubectl label servicemonitor redis-demo -n redis-demo release=kube-prometheus-cr
 curl -s 'http://localhost:9090/api/v1/query?query=redis_up'
 ```
 
-> **✅ actual output** (a single line of JSON — intentionally not using `jq` or any other JSON parser anywhere in this article, so it runs immediately on macOS/Linux/Windows without installing anything beyond `curl`, which you already have. Look at the last value in `"value"` — if it's `"1"`, the target is UP.)
+> **✅ actual output** (reformatted here for readability — the raw `curl` response comes back as one line, since this article intentionally never pipes through `jq` or any other JSON parser, so every command here runs immediately on macOS/Linux/Windows without installing anything beyond `curl`, which you already have. Look at the last value in `"value"` — if it's `"1"`, the target is UP.)
 > ```json
-> {"status":"success","data":{"resultType":"vector","result":[{"metric":{"__name__":"redis_up","container":"metrics","endpoint":"http-metrics","instance":"10.42.0.17:9121","job":"redis-demo-metrics","namespace":"redis-demo","pod":"redis-demo-master-0","service":"redis-demo-metrics"},"value":[1784640090.989,"1"]}]}}
+> {
+>   "status": "success",
+>   "data": {
+>     "resultType": "vector",
+>     "result": [
+>       {
+>         "metric": {
+>           "__name__": "redis_up",
+>           "container": "metrics",
+>           "endpoint": "http-metrics",
+>           "instance": "10.42.0.17:9121",
+>           "job": "redis-demo-metrics",
+>           "namespace": "redis-demo",
+>           "pod": "redis-demo-master-0",
+>           "service": "redis-demo-metrics"
+>         },
+>         "value": [1784640090.989, "1"]
+>       }
+>     ]
+>   }
+> }
 > ```
 
 The complete `prometheus-values.yaml` after the fix (combining section 2's content with this section's fix in one place, ready to use as-is):
@@ -451,9 +467,29 @@ This is the same query we just used to confirm success in the previous section �
 curl -s 'http://localhost:9090/api/v1/query?query=redis_up'
 ```
 
-**Actual output** (a single line again, since we're not piping through `jq`) — the structure reads left to right roughly like this: `status`/`resultType` tell you whether the query succeeded and what shape of result it got, while inside `result[0]`, `metric` holds all the labels for this target, and `value` is `[timestamp, the measured value]`.
+**Actual output** (reformatted here for readability — still just the raw `curl` response, since we're not piping through `jq`) — the structure reads left to right roughly like this: `status`/`resultType` tell you whether the query succeeded and what shape of result it got, while inside `result[0]`, `metric` holds all the labels for this target, and `value` is `[timestamp, the measured value]`.
 ```json
-{"status":"success","data":{"resultType":"vector","result":[{"metric":{"__name__":"redis_up","container":"metrics","endpoint":"http-metrics","instance":"10.42.0.17:9121","job":"redis-demo-metrics","namespace":"redis-demo","pod":"redis-demo-master-0","service":"redis-demo-metrics"},"value":[1784640090.989,"1"]}]}}
+{
+  "status": "success",
+  "data": {
+    "resultType": "vector",
+    "result": [
+      {
+        "metric": {
+          "__name__": "redis_up",
+          "container": "metrics",
+          "endpoint": "http-metrics",
+          "instance": "10.42.0.17:9121",
+          "job": "redis-demo-metrics",
+          "namespace": "redis-demo",
+          "pod": "redis-demo-master-0",
+          "service": "redis-demo-metrics"
+        },
+        "value": [1784640090.989, "1"]
+      }
+    ]
+  }
+}
 ```
 
 Other metrics from the same exporter (actual values pulled during this test):
