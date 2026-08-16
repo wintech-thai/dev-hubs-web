@@ -14,6 +14,18 @@ excerptTh: "สอน Prometheus Operator + ServiceMonitor แบบลงมื
 .prose code::after { content: none !important; }
 .prose blockquote p::before,
 .prose blockquote p::after { content: none !important; }
+.prose pre:has(code.language-text),
+.prose pre:has(code.language-json) {
+  padding: 0.75rem 1rem !important;
+  overflow-x: auto !important;
+}
+.prose pre:has(code.language-text) code,
+.prose pre:has(code.language-json) code {
+  font-size: 0.72rem !important;
+  line-height: 1.5 !important;
+  white-space: pre !important;
+  word-break: normal !important;
+}
 </style>
 
 A hands-on, step-by-step guide to installing Prometheus Operator and writing a ServiceMonitor on K3s.
