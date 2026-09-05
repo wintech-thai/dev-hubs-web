@@ -3,7 +3,7 @@ import path from "path";
 import matter from "gray-matter";
 
 const BLOGS_DIR = path.join(process.cwd(), "content/blogs");
-export const POSTS_PER_PAGE = 2;
+export const POSTS_PER_PAGE = 5;
 
 export type BlogPost = {
   slug: string;

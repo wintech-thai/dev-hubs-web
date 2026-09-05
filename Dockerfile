@@ -1,8 +1,8 @@
 # Step 1: Build the Next.js app
 FROM node:20-alpine AS builder
 
-# Install pnpm
-RUN npm install -g pnpm
+# Install pnpm (version pinned for reproducible builds)
+RUN npm install -g pnpm@10.18.3
 
 # Set working directory
 WORKDIR /app
@@ -24,8 +24,8 @@ RUN pnpm run build
 
 FROM node:20-alpine AS runner
 
-# Install pnpm
-RUN npm install -g pnpm
+# Install pnpm (version pinned for reproducible builds)
+RUN npm install -g pnpm@10.18.3
 
 WORKDIR /app
 

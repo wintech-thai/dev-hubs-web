@@ -25,6 +25,21 @@ type Event = {
 // Newest first
 const events: Event[] = [
   {
+    id: "ddata-devops-lifecycle-2026",
+    name: "Modern Application Development & DevOps Lifecycle — dData",
+    nameTh: "Modern Application Development & DevOps Lifecycle ให้กับ dData",
+    location: "dData, Thailand",
+    country: "Thailand",
+    flag: "🇹🇭",
+    date: "August 2026",
+    descriptionEn:
+      "DevHubs delivered an in-house talk on \"Modern Application Development & DevOps Lifecycle\" for dData on August 1, 2026, covering modern development workflows, containerization, and end-to-end DevSecOps practices for enterprise teams.",
+    descriptionTh:
+      "DevHubs ได้รับเชิญไปบรรยายหัวข้อ \"Modern Application Development & DevOps Lifecycle\" ให้กับบริษัท dData เมื่อวันที่ 1 สิงหาคม 2569 ครอบคลุมแนวทางการพัฒนาซอฟต์แวร์สมัยใหม่ Containerization และแนวปฏิบัติ DevSecOps แบบครบวงจรสำหรับทีมองค์กร",
+    tags: ["DevOps", "DevSecOps", "Enterprise", "Speaker"],
+    images: ["/events/ddata-devops-lifecycle-2026.jpg"],
+  },
+  {
     id: "gitext-morocco-2025",
     name: "GITEX Africa — Global AI & Cloud Summit",
     nameTh: "GITEX Africa — สุดยอดงาน AI & Cloud ระดับโลก",
