@@ -2,7 +2,7 @@
 title: "Deep Dive into Edge Deployment with Please Deploy Framework"
 titleTh: "เจาะลึกการทำ Edge Deployment แบบไม่ปวดหัวด้วย Please Deploy Framework"
 date: "2026-06-01"
-author: "DevHubs Team"
+author: "Phanuwat Pradabwong"
 coverImage: ""
 tags: ["DevOps", "GitOps", "Kubernetes", "K3s", "Edge Computing"]
 excerpt: "Learn how Please Deploy Framework automates K3s cluster bootstrapping on Edge Servers with GitOps through ArgoCD, reducing manual work and eliminating the need to SSH into each machine."

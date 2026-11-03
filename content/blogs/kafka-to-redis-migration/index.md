@@ -2,7 +2,7 @@
 title: "Migrating from Kafka to Redis Streams in a Logstash ETL Pipeline"
 titleTh: "ย้ายจาก Kafka มาใช้ Redis Streams ใน Logstash ETL Pipeline"
 date: "2026-07-09"
-author: "DevHubs Team"
+author: "Phanuwat Pradabwong"
 coverImage: ""
 tags: ["Kafka", "Redis", "Redis Streams", "ETL", "Logstash", "DevOps"]
 excerpt: "Why we replaced an oversized Kafka broker cluster with Redis Streams in a low-throughput ETL pipeline, keeping the same stream and consumer group semantics — architecture, command reference, and the pitfalls we hit."

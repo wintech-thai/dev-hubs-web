@@ -2,7 +2,7 @@
 title: "Prometheus Operator + ServiceMonitor: Add Targets Without Touching Config"
 titleTh: "Prometheus Operator + ServiceMonitor: เพิ่ม target โดยไม่ต้องแก้ config"
 date: "2026-08-13"
-author: "DevHubs Team"
+author: "Phanuwat Pradabwong"
 coverImage: ""
 tags: ["Kubernetes", "Prometheus", "K3s", "Observability", "DevOps"]
 excerpt: "A hands-on guide to Prometheus Operator + ServiceMonitor on K3s, including a real debugging case where a ServiceMonitor was silently ignored because of serviceMonitorSelectorNilUsesHelmValues, and the correct fix."
