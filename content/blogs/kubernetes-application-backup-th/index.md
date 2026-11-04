@@ -25,7 +25,7 @@ excerptTh: "แนวคิดและตัวอย่าง Application Back
 
 แนวทางของ Dev Hubs ให้ CronJob สร้าง Backup Pod เพื่อเก็บฐานข้อมูลและไฟล์แอป ส่งไปยัง object storage ผ่าน S3 แล้วใช้สคริปต์บนเครื่องผู้ใช้กู้ข้อมูลกลับเข้า Kubernetes ตัวอย่างใช้ WordPress และ MySQL ซึ่งมี PVC แยกกัน
 
-โค้ดและคู่มือ lab จะเปิดให้ใช้งานเมื่ออัปโหลดไฟล์ไปยัง repo ตัวอย่างแล้ว
+เริ่มที่ [Quick Start](https://github.com/devops-skill-experts/application-backup-demo#quick-start) บน Mac Apple Silicon ที่เปิด Kubernetes แบบ kubeadm ใน Docker Desktop
 
 ### เลือกอ่านตามสิ่งที่ต้องการ
 
@@ -154,7 +154,7 @@ wordpress/app-<timestamp>-<run-id>.zip.age
 
 ก่อนรันตัวอย่าง ให้เตรียม Kubernetes cluster, WordPress และ MySQL ที่มี PVC แยกกัน และ object storage ที่ Backup Pod เข้าถึงได้ จากนั้นเตรียม lab และบันทึกข้อมูลตั้งต้นตามคู่มือ
 
-[Manual walkthrough](https://github.com/devops-skill-experts/application-backup-demo/blob/main/docs/MANUAL-WALKTHROUGH.md)
+ทำขั้นที่ 1–2 ใน [Quick Start](https://github.com/devops-skill-experts/application-backup-demo#quick-start) เพื่อเตรียม lab และบันทึกข้อมูลก่อน backup
 
 <a id="run-backup"></a>
 
@@ -197,7 +197,7 @@ spec:
 
 **บนเครื่องเรา — สั่ง Job หนึ่งรอบ**
 
-ใช้คำสั่งสำหรับขั้นตอนนี้ใน [คู่มือ lab](https://github.com/devops-skill-experts/application-backup-demo/blob/main/docs/MANUAL-WALKTHROUGH.md)
+ทำขั้นที่ 3 ใน [Quick Start](https://github.com/devops-skill-experts/application-backup-demo#quick-start)
 
 **ผลที่ต้องเห็น:** Job เป็น Complete และ logs มี `BACKUP_RESULT`; เก็บ `object_key` ไว้ใช้ restore
 
@@ -215,24 +215,13 @@ spec:
 
 ในแนวทางของ Dev Hubs ตัวเรียก `run-restore-wp-sgl.bash` ตั้งค่าปลายทางแล้วเรียก `restore-wordpress.rb` จากเครื่องผู้ใช้ ตัวอย่างนี้ใช้ `restore.py` จากเครื่องผู้ใช้เช่นกัน โดยรองรับไฟล์ `.zip.age` ของ demo สคริปต์ดาวน์โหลด ถอดรหัสและตรวจไฟล์ แล้วส่ง SQL และไฟล์แอปกลับเข้า Pod ที่มีอยู่
 
-ตั้ง `object_key` ให้ตรงกับ backup ที่ทำสำเร็จ แล้วตรวจไฟล์ก่อน:
-
-**บนเครื่องเรา — ตรวจ backup ก่อนแก้ข้อมูล**
-
-```bash
-object_key="wordpress/app-<timestamp>-<run-id>.zip.age"
-python3 scripts/restore.py "$object_key" --check-only
-```
-
-**ผลที่ต้องเห็น:** `CHECK_RESULT` มี `validated: true` ให้เทียบ `object_key`, `bytes` และ `sha256` กับ `BACKUP_RESULT` ก่อนลบข้อมูล
-
-เปลี่ยนชื่อไฟล์ตัวอย่างในคำสั่งให้เป็นชื่อจริงก่อนรัน `--check-only` จะดาวน์โหลดไฟล์ ถอดรหัสด้วย `.local/age-key.txt` ตรวจ ZIP, manifest, checksum และรายการใน archive โดยยังไม่แก้ข้อมูลของแอป
+ทำขั้นที่ 4 ใน [Quick Start](https://github.com/devops-skill-experts/application-backup-demo#quick-start) บน Mac เพื่ออ่าน `object_key` จาก `.local/backup-result.json` ของ Job รอบนี้ จากนั้นสคริปต์จะดาวน์โหลด ถอดรหัส และตรวจไฟล์โดยไม่แก้ข้อมูลแอป ไปต่อเมื่อเห็น `Preflight matches this backup` เท่านั้น
 
 การทดลองลบข้อมูลต่อจากนี้ใช้กับ lab ที่สร้างไว้เท่านั้น ควรหยุดการเขียนข้อมูลอื่นและตรวจว่าไม่มี backup Job ทำงานอยู่ แล้วลบบทความกับรูปตัวอย่าง:
 
 **บนเครื่องเรา — ลบเฉพาะข้อมูลตัวอย่างใน disposable lab**
 
-ใช้คำสั่งสำหรับขั้นตอนนี้ใน [คู่มือ lab](https://github.com/devops-skill-experts/application-backup-demo/blob/main/docs/MANUAL-WALKTHROUGH.md)
+ทำขั้นที่ 5 ใน [Quick Start](https://github.com/devops-skill-experts/application-backup-demo#quick-start)
 
 **ผลที่ต้องเห็น:** สถานะ post, attachment และ image file ใน `after-delete.json` เป็นไม่มีอยู่
 
@@ -262,7 +251,7 @@ Preflight ช่วยลดโอกาสเริ่ม restore ด้วย�
 
 **บนเครื่องเรา — เทียบผลกับ baseline**
 
-ใช้คำสั่งใน [คู่มือ lab](https://github.com/devops-skill-experts/application-backup-demo/blob/main/docs/MANUAL-WALKTHROUGH.md) สำหรับขั้นตอนนี้ แล้วเทียบด้วย `diff -u .local/before-backup.json .local/after-restore.json`
+ทำขั้นที่ 6 ใน [Quick Start](https://github.com/devops-skill-experts/application-backup-demo#quick-start) เพื่อบันทึกผลหลัง restore แล้วเทียบกับ baseline
 
 **ผลที่ต้องเห็น:** `diff` ไม่แสดงความแตกต่างและจบด้วย exit code 0 เมื่อข้อมูลตรงกัน
 
@@ -300,4 +289,4 @@ Preflight ช่วยลดโอกาสเริ่ม restore ด้วย�
 
 ตัวอย่างในบทความเพิ่มขั้นตอนเข้ารหัสด้วย age ก่อนอัปโหลดจากแนวทาง backup ต้นฉบับ ส่วนวิธีติดตั้งตามระบบปฏิบัติการ การแก้ปัญหาเฉพาะ environment และหลักฐานทดสอบแยกไว้ใน README และเอกสารประกอบของ repo
 
-คู่มืออ่านต่อ: [README](https://github.com/devops-skill-experts/application-backup-demo#readme) · [Manual walkthrough](https://github.com/devops-skill-experts/application-backup-demo/blob/main/docs/MANUAL-WALKTHROUGH.md)
+คู่มืออ่านต่อ: [Quick Start](https://github.com/devops-skill-experts/application-backup-demo#quick-start) · [Manual walkthrough](https://github.com/devops-skill-experts/application-backup-demo/blob/main/docs/MANUAL-WALKTHROUGH.md)

@@ -25,7 +25,7 @@ This example recovers a post and image into the existing WordPress and MySQL dep
 
 Dev Hubs uses a Kubernetes CronJob to collect the database and application files in a backup Pod, upload them through S3, and recover them from a script on the operator’s machine. The example uses WordPress and MySQL with separate PVCs.
 
-The lab code and walkthrough will be available once the files are uploaded to the example repository.
+Start with the [Quick Start](https://github.com/devops-skill-experts/application-backup-demo#quick-start) on an Apple Silicon Mac with Docker Desktop Kubernetes in kubeadm mode.
 
 ### Choose your route
 
@@ -150,7 +150,7 @@ After the upload, the runner prints `BACKUP_RESULT` with the object key, size an
 
 The example needs a Kubernetes cluster, WordPress and MySQL with separate PVCs, and object storage reachable from the backup Pod. Follow the walkthrough to prepare the lab and record a baseline.
 
-[Manual walkthrough](https://github.com/devops-skill-experts/application-backup-demo/blob/main/docs/MANUAL-WALKTHROUGH.md)
+Follow steps 1–2 in the [Quick Start](https://github.com/devops-skill-experts/application-backup-demo#quick-start) to set up the lab and record the baseline.
 
 <a id="run-backup"></a>
 
@@ -193,7 +193,7 @@ This describes a 02:00 Bangkok schedule, initially suspended so setup does not t
 
 **On your local machine — create one backup Job**
 
-Follow this step in the [lab walkthrough](https://github.com/devops-skill-experts/application-backup-demo/blob/main/docs/MANUAL-WALKTHROUGH.md).
+Follow step 3 in the [Quick Start](https://github.com/devops-skill-experts/application-backup-demo#quick-start).
 
 **Expected result:** The Job completes and logs contain `BACKUP_RESULT`; keep its `object_key` for restore.
 
@@ -211,24 +211,13 @@ For Discord, configure `DISCORD_WEBHOOK` in the `backup-storage` Secret before c
 
 Dev Hubs runs `run-restore-wp-sgl.bash` on the operator’s machine to configure the target and invoke `restore-wordpress.rb`. The example also runs locally, using `restore.py` for the demo’s `.zip.age` files. It downloads, decrypts and validates the backup, then sends SQL and application files back to the existing Pods.
 
-Set the object key from your successful backup and run the preflight first:
-
-**On your local machine — validate before changing data**
-
-```bash
-object_key="wordpress/app-<timestamp>-<run-id>.zip.age"
-python3 scripts/restore.py "$object_key" --check-only
-```
-
-**Expected result:** `CHECK_RESULT` includes `validated: true`. Compare `object_key`, `bytes` and `sha256` with `BACKUP_RESULT` before deleting data.
-
-Replace the example value above before running it. The check downloads the encrypted object, decrypts it using `.local/age-key.txt`, verifies the ZIP and manifest, checks the payload hashes and validates archive entries. It stops before modifying application data.
+Follow step 4 in the [Quick Start](https://github.com/devops-skill-experts/application-backup-demo#quick-start) on your Mac. It reads the current Job’s `object_key` from `.local/backup-result.json`, then downloads, decrypts and validates the archive without changing application data. Continue only when you see `Preflight matches this backup`.
 
 For the recovery exercise, use only the disposable lab. Pause other writers and ensure no backup Job is active, then delete the sample post and image:
 
 **On your local machine — delete sample data in the disposable lab only**
 
-Follow this step in the [lab walkthrough](https://github.com/devops-skill-experts/application-backup-demo/blob/main/docs/MANUAL-WALKTHROUGH.md).
+Follow step 5 in the [Quick Start](https://github.com/devops-skill-experts/application-backup-demo#quick-start).
 
 **Expected result:** `after-delete.json` reports the post, attachment and image file as absent.
 
@@ -258,7 +247,7 @@ Record the restored state:
 
 **On your local machine — compare against the baseline**
 
-Use the commands in the [lab walkthrough](https://github.com/devops-skill-experts/application-backup-demo/blob/main/docs/MANUAL-WALKTHROUGH.md) for this step. Then compare with `diff -u .local/before-backup.json .local/after-restore.json`.
+Follow step 6 in the [Quick Start](https://github.com/devops-skill-experts/application-backup-demo#quick-start) to record the restored state and compare it with the baseline.
 
 **Expected result:** `diff` prints no differences and exits with code 0 when the records match.
 
@@ -294,4 +283,4 @@ A useful backup routine includes repeated restore exercises with known data. Tha
 
 The article's example adds age encryption before upload to the original backup approach. OS-specific installation, environment troubleshooting and detailed test evidence are kept in the repository README and supporting documentation.
 
-Continue with: [README](https://github.com/devops-skill-experts/application-backup-demo#readme) · [Manual walkthrough](https://github.com/devops-skill-experts/application-backup-demo/blob/main/docs/MANUAL-WALKTHROUGH.md)
+Continue with: [Quick Start](https://github.com/devops-skill-experts/application-backup-demo#quick-start) · [Manual walkthrough](https://github.com/devops-skill-experts/application-backup-demo/blob/main/docs/MANUAL-WALKTHROUGH.md)
