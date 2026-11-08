@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="660" viewBox="0 0 1000 660" role="img" aria-labelledby="title desc">
+<title id="title">Application backup and restore architecture</title>
+<desc id="desc">Database and application files are collected by a backup Pod and uploaded to object storage through S3. The backup Pod reports the outcome to Discord. A local restore script downloads and validates the backup before returning data to the application Pods.</desc>
+<defs>
+<marker id="arrow" markerWidth="8" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0 0 8 4 0 8Z" fill="#505765" /></marker>
+<style>
+text{font-family:Arial,Tahoma,sans-serif;fill:#172033;font-size:20px}
+.section{font-size:25px;font-weight:700}.name{font-size:21px;font-weight:700}.detail{font-size:18px;fill:#172033}.caption{font-size:17px;fill:#172033}.boundary{fill:none;stroke:#2e7d32;stroke-width:1}.node{stroke-width:1}.flow{fill:none;stroke:#505765;stroke-width:1.5;marker-end:url(#arrow)}
+</style>
+</defs>
+<rect width="1000" height="660" fill="#fff" />
+<text x="28" y="37" class="section">Backup</text>
+<rect x="28" y="68" width="610" height="255" class="boundary" />
+<text x="46" y="97" class="caption">Kubernetes</text>
+<rect x="48" y="118" width="200" height="72" rx="4" class="node" fill="#e8f0fe" stroke="#3154ad" />
+<text x="148" y="149" class="name" text-anchor="middle">MySQL Pod</text>
+<text x="148" y="175" class="detail" text-anchor="middle">ฐานข้อมูล · PVC</text>
+<rect x="48" y="226" width="200" height="72" rx="4" class="node" fill="#e9f7ef" stroke="#2e7d32" />
+<text x="148" y="257" class="name" text-anchor="middle">Application Pod</text>
+<text x="148" y="283" class="detail" text-anchor="middle">ไฟล์แอป · PVC</text>
+<path d="M248 154H316V184H380" class="flow" />
+<text x="305" y="138" class="caption" text-anchor="middle">SQL dump</text>
+<path d="M248 262H316V236H380" class="flow" />
+<text x="306" y="289" class="caption" text-anchor="middle">File archive</text>
+<rect x="382" y="147" width="228" height="136" rx="4" class="node" fill="#f3e8ff" stroke="#6a1b9a" />
+<text x="496" y="178" class="name" text-anchor="middle">Backup Pod</text>
+<text x="496" y="206" class="detail" text-anchor="middle">CronJob</text>
+<text x="496" y="237" class="detail" text-anchor="middle">รวม ZIP + เข้ารหัส age</text>
+<text x="496" y="264" class="detail" text-anchor="middle">ใช้เฉพาะ public key</text>
+<path d="M610 215H750" class="flow" />
+<text x="680" y="198" class="caption" text-anchor="middle">S3 upload</text>
+<rect x="752" y="173" width="220" height="84" rx="4" class="node" fill="#e0f7fa" stroke="#00838f" />
+<text x="862" y="207" class="name" text-anchor="middle">Object storage</text>
+<text x="862" y="235" class="detail" text-anchor="middle">ไฟล์เข้ารหัส .zip.age</text>
+<path d="M610 255H680V299H750" class="flow" />
+<rect x="752" y="278" width="220" height="42" rx="4" class="node" fill="#f3e8ff" stroke="#6a1b9a" />
+<text x="862" y="306" class="caption" text-anchor="middle">Discord notification</text>
+<path d="M28 354H972" stroke="#e4e4e7" />
+<text x="28" y="396" class="section">Restore</text>
+<rect x="738" y="425" width="234" height="207" class="boundary" />
+<text x="754" y="450" class="caption">Kubernetes</text>
+<rect x="48" y="495" width="200" height="84" rx="4" class="node" fill="#e0f7fa" stroke="#00838f" />
+<text x="148" y="529" class="name" text-anchor="middle">Object storage</text>
+<text x="148" y="557" class="detail" text-anchor="middle">ไฟล์สำรองที่เข้ารหัส</text>
+<path d="M248 537H380" class="flow" />
+<text x="315" y="519" class="caption" text-anchor="middle">S3 download</text>
+<rect x="382" y="474" width="228" height="126" rx="4" class="node" fill="#fff3e0" stroke="#e65100" />
+<text x="496" y="506" class="name" text-anchor="middle">สคริปต์ Restore</text>
+<text x="496" y="538" class="detail" text-anchor="middle">ถอดรหัส + ตรวจสอบ</text>
+<text x="496" y="572" class="detail" text-anchor="middle">ใช้ private key</text>
+<path d="M610 499H750" class="flow" />
+<text x="675" y="482" class="caption" text-anchor="middle">Import SQL</text>
+<path d="M610 573H750" class="flow" />
+<text x="674" y="600" class="caption" text-anchor="middle">Restore files</text>
+<rect x="752" y="470" width="206" height="60" rx="4" class="node" fill="#e8f0fe" stroke="#3154ad" />
+<text x="855" y="496" class="name" text-anchor="middle">MySQL Pod</text>
+<text x="855" y="519" class="detail" text-anchor="middle">ฐานข้อมูล · PVC</text>
+<rect x="752" y="547" width="206" height="60" rx="4" class="node" fill="#e9f7ef" stroke="#2e7d32" />
+<text x="855" y="573" class="name" text-anchor="middle">Application Pod</text>
+<text x="855" y="596" class="detail" text-anchor="middle">ไฟล์แอป · PVC</text>
+</svg>

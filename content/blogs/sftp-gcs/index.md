@@ -2,7 +2,7 @@
 title: "Running SFTP on Kubernetes with GCS as Backend Storage"
 titleTh: "Running SFTP on Kubernetes with GCS as Backend Storage"
 date: "2026-05-07"
-author: "DevOps Skill Experts"
+author: "DevOps Skill Experts & Phanuwat Pradabwong"
 coverImage: ""
 tags: ["Kubernetes", "SFTP", "GCS", "DevOps", "Cloud Storage"]
 excerpt: "A comprehensive guide to setting up an SFTP server on Kubernetes using Google Cloud Storage as the backend, eliminating the need for Persistent Volume management."
