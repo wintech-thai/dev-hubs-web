@@ -36,6 +36,7 @@ export function getAllPosts(): BlogPost[] {
       if (!fs.existsSync(filePath)) return null;
       const raw = fs.readFileSync(filePath, "utf-8");
       const { data } = matter(raw);
+      if (data.listed === false) return null;
       return {
         slug,
         title: data.title ?? "",

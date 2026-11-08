@@ -1,6 +1,7 @@
 ---
 title: "Application Backup บน Kubernetes ฉบับ Dev Hubs"
 titleTh: "Application Backup บน Kubernetes ฉบับ Dev Hubs"
+listed: false
 date: "2026-11-04"
 author: "Phanuwat Pradabwong"
 coverImage: ""
