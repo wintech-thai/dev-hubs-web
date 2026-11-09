@@ -39,7 +39,7 @@ Start with the [Quick Start](https://github.com/devops-skill-experts/application
 
 ## 1. What are we backing up?
 
-A PVC keeps data across Pod replacement, but it is still the application's working storage. The backup creates another recoverable copy, outside that working directory.
+A PVC keeps data across Pod replacement, but it is still the application's working storage. The backup creates another copy we can restore from, outside that working directory.
 
 | Component | Data in this example | How we collect it |
 | --- | --- | --- |
@@ -50,11 +50,13 @@ A PVC keeps data across Pod replacement, but it is still the application's worki
 
 We use a logical database dump instead of copying MySQL's live data directory. The dump asks MySQL to export database contents in a form that can be imported later. The application archive captures the files that must accompany those records.
 
-The data path depends on the application image. This example uses the official WordPress image and `/var/www/html`; another image or an application such as SnipeIT needs its own path and configuration review.
+WordPress is the hands-on example in this guide. We also use SnipeIT to compare file locations and the secrets needed for recovery, showing what to check when applying the same approach to another application.
+
+The WordPress example uses the official image and stores files under `/var/www/html`. For SnipeIT, check the storage directories and configuration of the image you choose. These locations depend on both the application and its image.
 
 <a id="architecture"></a>
 
-## 2. Architecture: a backup Pod coordinates the work
+## 2. Architecture: a backup Pod collects the files
 
 ![Backup and restore architecture: MySQL and WordPress send data to a backup Pod for encryption and S3 upload, followed by a Discord notification. A local script downloads, validates and restores both parts.](/blogs/kubernetes-application-backup/architecture.svg?v=4)
 
@@ -81,7 +83,7 @@ The private key stays at `.local/age-key.txt` on your machine. It is not stored 
 
 ## 3. What happens during one backup?
 
-The Dev Hubs `app-backup.rb` script coordinates the dump, archive, ZIP packaging, S3 upload and Discord notification. This example follows the same sequence and adds a checksum manifest and age encryption before upload.
+The Dev Hubs `app-backup.rb` script runs the dump, archive, ZIP and S3 upload steps in order, then sends a Discord notification. This example follows the same sequence and adds a checksum manifest and age encryption before upload.
 
 ### Export the database
 
@@ -117,7 +119,7 @@ tar -czf "$archive" -C /var/www/html .
 
 **Expected result:** An application archive at `$archive` inside the WordPress Pod.
 
-Use `kubectl cp` to bring the compressed SQL dump and application archive into the backup Pod. Creating the archive under `/tmp` keeps the output outside the directory being archived. Keep application writes quiet while collecting both parts: the database and files are collected at different times. A busy application needs a coordinated maintenance or snapshot strategy to establish one recovery point.
+Use `kubectl cp` to bring the compressed SQL dump and application archive into the backup Pod. Creating the archive under `/tmp` keeps the output outside the directory being archived. Keep application writes quiet while collecting both parts: the database dump and file archive are created at different times. A busy application needs a coordinated maintenance or snapshot strategy to capture a matching set of database records and files.
 
 For example, deleting an image after the MySQL dump but before `tar` can leave the restored database pointing to an image missing from the archive. Both checksums can pass because they verify each file’s integrity. Consistency requires coordinating writes throughout the collection of both parts.
 
@@ -125,7 +127,7 @@ For example, deleting an image after the MySQL dump but before `tar` can leave t
 
 **Runs in the Backup Pod** — package the temporary files and upload the encrypted bundle.
 
-Before creating the ZIP, the runner writes `manifest.json` with the application type, database type, data path and SHA-256 hashes of both payloads. The restore script uses it to check that the expected files are present and intact.
+Before creating the ZIP, the runner writes `manifest.json` with the application type, database type, data path and SHA-256 hashes of both payloads. The restore script uses it to check that all required files are present and their checksums match.
 
 ```text
 app-<timestamp>-<run-id>.zip
@@ -134,7 +136,11 @@ app-<timestamp>-<run-id>.zip
 └── manifest.json
 ```
 
-The ZIP is encrypted with an age public recipient before upload. The backup Pod only needs the public recipient; the private key stays on the restore machine. Store a separate copy of that private key securely, because losing it makes the encrypted backup unusable.
+We use **age**, a tool for encrypting and decrypting files, to encrypt the ZIP before upload. The resulting file ends in `.zip.age`.
+
+age uses a pair of keys. The public key, called a **recipient** in age, encrypts the file. The **private key** decrypts it. In this demo, the Backup Pod holds the public recipient, and the private key stays on the machine used for restore.
+
+Keep a separate copy of the private key somewhere safe. If it is lost, you cannot decrypt existing backups, even if the files are still in storage. See the [age website](https://age-encryption.org/) for more about the tool.
 
 The object key has this shape:
 
@@ -195,11 +201,7 @@ This describes a 02:00 Bangkok schedule, initially suspended so setup does not t
 
 Follow step 3 in the [Quick Start](https://github.com/devops-skill-experts/application-backup-demo#quick-start).
 
-**Expected result:** The Job completes and logs contain `BACKUP_RESULT`; keep its `object_key` for restore.
-
-Look for the dump, archive, encryption and upload steps, followed by `BACKUP_RESULT`. If the Job fails, inspect its logs and `kubectl describe job` before continuing.
-
-Save the `object_key` from `BACKUP_RESULT`. It identifies the stored object to use in the restore step.
+**Expected result:** The Job completes and logs contain `BACKUP_RESULT`; keep its `object_key` for restore. Look for the dump, archive, encryption and upload steps, followed by `BACKUP_RESULT`. If the Job fails, inspect its logs and `kubectl describe job` before continuing. Save the `object_key` from `BACKUP_RESULT`. It identifies the stored object to use in the restore step.
 
 Once a manual Job succeeds, test the scheduler separately by temporarily setting a short schedule and `suspend: false`, waiting for a controller-created Job, and checking its output. Restore the intended schedule and suspend it again before the restore exercise. `Forbid` prevents overlapping controller-created Jobs from the same CronJob; manually created Jobs still need coordination.
 
@@ -259,18 +261,20 @@ Also test an incorrect private key and an incomplete archive. Both should fail b
 
 ## 8. What changes before using this with a real application?
 
-The same sequence can support another application, but its recovery contract needs to be explicit.
+The same sequence can support another application, but we need to decide what must be restored and how.
 
 | Decision | What to establish |
 | --- | --- |
 | Recovery point | How much recent data can be lost, and therefore how often backups must run |
 | Consistency | How to coordinate database writes and file changes during collection |
 | Recovery time | How long download, decryption, import and file restoration actually take |
-| Application configuration | Which environment-specific files to preserve and which secrets must be recoverable, such as SnipeIT's `APP_KEY` |
-| Storage | Separate failure domain and retention rules |
+| Application configuration | Decide which destination settings to keep and which secrets to back up so the application works after restore |
+| Storage | Storage that remains available if the application machine fails, with rules for how long backups are kept |
 | Encryption keys | Secure key recovery independent of the application machine and bucket |
 | Monitoring | Detect failed Jobs, missing scheduled backups and failed notifications |
-| Restore semantics | The demo copies files over existing files; files created after the backup can remain. Exact recovery needs a deliberate clean destination strategy |
+| How files are restored | The demo copies files over existing files; files created after the backup can remain. Exact recovery needs a plan for restoring into an empty directory |
+
+SnipeIT illustrates why recovery can also depend on application secrets. Keep its original `APP_KEY` to decrypt data encrypted by the application, and include that key in the backup and recovery plan. The hands-on steps in this guide use WordPress.
 
 A useful backup routine includes repeated restore exercises with known data. That is how we establish what the backup can recover, and how long recovering it will take.
 
@@ -279,7 +283,7 @@ A useful backup routine includes repeated restore exercises with known data. Tha
 - [Example repository](https://github.com/devops-skill-experts/application-backup-demo): manifests, backup runner and restore script
 - [Dev Hubs backup approach](https://github.com/wintech-thai/onix-v2-jobs/blob/5a408fd57dba04d9a63b1e5af7ff63f74385b482/scripts-ruby/app-backup.rb): database dump, application archive and storage upload
 - [Local restore entry point](https://github.com/wintech-thai/utility-scripts/blob/fd65b2bcd2f3455e7649e81ded3d537fe4f27da1/run-restore-wp-sgl.bash): sets environment values and invokes the Ruby restore script
-- [Restore approach](https://github.com/wintech-thai/utility-scripts/blob/fd65b2bcd2f3455e7649e81ded3d537fe4f27da1/restore-wordpress.rb): returning the database and files to the application
+- [Restore approach](https://github.com/wintech-thai/utility-scripts/blob/fd65b2bcd2f3455e7649e81ded3d537fe4f27da1/restore-wordpress.rb): restoring the database and application files
 
 The article's example adds age encryption before upload to the original backup approach. OS-specific installation, environment troubleshooting and detailed test evidence are kept in the repository README and supporting documentation.
 

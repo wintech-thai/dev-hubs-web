@@ -66,3 +66,37 @@ body {
   background: #2563eb;
   color: white;
 }
+
+/* Reading rhythm for the bilingual application backup guide. */
+.backup-article {
+  line-height: 1.75;
+  overflow-wrap: break-word;
+  word-break: normal;
+  text-align: start;
+}
+.backup-article p { margin-block: 0.85em; line-height: 1.75; }
+.backup-article h2 { margin-top: 2em; margin-bottom: 0.7em; line-height: 1.4; }
+.backup-article h3 { margin-top: 1.5em; margin-bottom: 0.6em; line-height: 1.5; }
+.backup-article :not(pre) > code { padding-inline: 0.25em; }
+.backup-article :not(pre) > code::before,
+.backup-article :not(pre) > code::after { content: none; }
+.backup-article pre {
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+  word-break: normal;
+  line-height: 1.65;
+}
+.backup-article pre code {
+  white-space: pre;
+  overflow-wrap: normal;
+  word-break: normal;
+  line-height: inherit;
+}
+.backup-article th, .backup-article td { padding: 0.8em 0.65em; line-height: 1.7; }
+
+.backup-article .keep-phrase { white-space: nowrap; }
+.backup-article .code-block-wrap { margin-block: 1em; }
+.backup-article .code-block-wrap pre { margin-block: 0; }
+.backup-article p:has(+ .code-block-wrap) { margin-bottom: 0.5em; }
+.backup-article .code-block-wrap + p { margin-top: 0.6em; }
