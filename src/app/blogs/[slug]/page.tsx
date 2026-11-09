@@ -107,7 +107,7 @@ export default async function BlogPostPage({ params }: Props) {
         {/* Content */}
         <ArticleContent
           html={contentHtml}
-          className="prose prose-invert prose-blue max-w-none
+          className={`prose prose-invert prose-blue max-w-none ${slug.startsWith("kubernetes-application-backup") ? "backup-article" : ""}
             prose-headings:font-bold prose-headings:text-white
             prose-p:text-slate-300 prose-p:leading-relaxed
             prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
@@ -117,7 +117,7 @@ export default async function BlogPostPage({ params }: Props) {
             [&_pre_code]:bg-transparent [&_pre_code]:p-0 [&_pre_code]:rounded-none [&_pre_code]:text-inherit [&_pre_code]:whitespace-pre-wrap [&_pre_code]:break-words
             prose-blockquote:border-blue-500 prose-blockquote:text-slate-400
             prose-strong:text-white prose-li:text-slate-300
-            prose-img:rounded-lg prose-img:shadow-lg prose-img:mx-auto"
+            prose-img:rounded-lg prose-img:shadow-lg prose-img:mx-auto`}
         />
       </main>
 
